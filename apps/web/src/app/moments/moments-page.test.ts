@@ -75,6 +75,7 @@ describe('recommended share page', () => {
       'Dribbble',
       'LINUX DO',
       '小林面试笔记',
+      'Agent知识库这些年：从Rag到OKF0.2',
     ]);
     expect(recommendedShares.map((resource) => [resource.name, resource.avatarSrc, resource.avatarAlt])).toEqual([
       ['Superpowers', '/images/recommended-shares/superpowers-avatar.jpg', 'Superpowers GitHub 项目图标'],
@@ -105,6 +106,7 @@ describe('recommended share page', () => {
       ['Dribbble', undefined, undefined],
       ['LINUX DO', '/images/recommended-shares/linux-do-logo.svg', 'LINUX DO 网站图标'],
       ['小林面试笔记', '/images/recommended-shares/xiaolinnote-logo.png', '小林面试笔记图标'],
+      ['Agent知识库这些年：从Rag到OKF0.2', undefined, undefined],
     ]);
     expect(
       recommendedShares
@@ -142,6 +144,15 @@ describe('recommended share page', () => {
       avatarSrc: '/images/recommended-shares/xiaolinnote-logo.png',
       avatarAlt: '小林面试笔记图标',
       tags: ['AI 学习', 'AI Coding', '工程流程'],
+      stars: 5,
+    });
+    expect(recommendedShares.find((resource) => resource.name === 'Agent知识库这些年：从Rag到OKF0.2')).toMatchObject({
+      url: 'https://www.douyin.com/article/7679728760388311921',
+      logo: 'OK',
+      description: '梳理 Agent 知识库从 RAG 到 OKF 的演进，并讨论用 Markdown、frontmatter 和 Git 管理可审计、可持续演进的知识。',
+      tags: ['AI 学习', '工程流程'],
+      kind: 'article',
+      attribution: '转载自抖音，原作者：波与粒子皆存',
       stars: 5,
     });
     expect(recommendedShares.find((resource) => resource.name === '2025 Blog Public')).toMatchObject({
@@ -280,6 +291,7 @@ describe('recommended share page', () => {
     expect(data).toContain("name: 'Avoid AI Writing'");
     expect(data).toContain("name: 'LINUX DO'");
     expect(data).toContain("name: '小林面试笔记'");
+    expect(data).toContain("name: 'Agent知识库这些年：从Rag到OKF0.2'");
     expect(data).not.toContain("name: 'iLoveIMG'");
     expect(data).not.toContain("name: 'TinyPNG'");
     expect(data).not.toContain("name: 'Magic UI'");
@@ -325,10 +337,20 @@ describe('recommended share page', () => {
     expect(getRecommendedShareStars(0)).toBe(3);
   });
 
+  test('renders attributed reposted articles as a separate resource type', () => {
+    const card = readSource('src/components/RecommendationCard.tsx');
+    const grid = readSource('src/components/RecommendedShareGrid.tsx');
+
+    expect(card).toContain("article: '转载文章'");
+    expect(card).toContain('resource.attribution');
+    expect(grid).toContain("{ value: 'article', label: '转载文章' }");
+  });
+
   test('styles the share page with separate light and dark themes from the YYsuni reference layout', () => {
     const css = readGlobalStyles();
     const grid = readSource('src/components/RecommendedShareGrid.tsx');
     const responsiveCss = readSource('src/app/styles/responsive.css');
+    const editorialCss = readSource('src/app/styles/editorial.css');
 
     expect(css).toContain('.share-page');
     expect(css).toContain('.share-page__filters');
@@ -344,6 +366,8 @@ describe('recommended share page', () => {
     expect(css).toContain(":root[data-theme='summer-day'] .share-page__card");
     expect(css).toContain(":root[data-theme='summer-night'] .share-page__card");
     expect(responsiveCss).toContain('.share-page__grid');
+    expect(editorialCss).toMatch(/@media \(max-width: 767px\) \{[\s\S]*?\.resource-kind-filter \{ display: grid; grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); width: 100%; \}/);
+    expect(editorialCss).toMatch(/@media \(max-width: 767px\) \{[\s\S]*?\.resource-kind-filter button \{ min-width: 0; white-space: nowrap; \}/);
   });
 
   test('keeps filters and cards compact after search results shrink', () => {

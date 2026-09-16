@@ -17,15 +17,16 @@ describe('editorial home preserves content boundaries', () => {
 });
 
 describe('recommendation directory', () => {
-  test('preserves all 20 existing recommendations and differentiates websites from open source', () => {
-    expect(filterRecommendations(recommendedShares, '', '全部', 'all')).toHaveLength(20);
+  test('preserves recommendations and differentiates websites, open source, and reposted articles', () => {
+    expect(filterRecommendations(recommendedShares, '', '全部', 'all')).toHaveLength(21);
     expect(recommendedShares.filter(item => getRecommendationKind(item) === 'website')).toHaveLength(6);
     expect(filterRecommendations(recommendedShares, '', '全部', 'opensource')).toHaveLength(14);
+    expect(filterRecommendations(recommendedShares, '', '全部', 'article').map(item => item.name)).toEqual(['Agent知识库这些年：从Rag到OKF0.2']);
   });
   test('combines kind, category and case-insensitive search without mutating the source', () => {
     expect(filterRecommendations(recommendedShares, ' REACT ', '前端审美', 'website').map(item => item.name)).toContain('React Bits');
     expect(filterRecommendations(recommendedShares, 'react', '全部', 'opensource')).toEqual([]);
     expect(filterRecommendations(recommendedShares, '不存在的资源', '全部', 'all')).toEqual([]);
-    expect(recommendedShares).toHaveLength(20);
+    expect(recommendedShares).toHaveLength(21);
   });
 });

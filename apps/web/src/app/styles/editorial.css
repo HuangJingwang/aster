@@ -126,6 +126,7 @@
 .resource-card__kind { margin-left: auto; font-size: 11px; color: var(--journal-muted); }
 .resource-card__top > svg { color: var(--journal-muted); }
 .resource-card > strong { font-size: 23px; letter-spacing: -.035em; font-weight: 650; line-height: 1.4; margin-bottom: 13px; }
+.resource-card__attribution { color: var(--journal-muted); font-size: 11px; line-height: 1.55; margin: -7px 0 13px; }
 .resource-card__description { font-size: 13px; line-height: 1.85; color: var(--journal-muted); margin-bottom: 25px; }
 .resource-card__tags { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: auto; }
 .resource-card__tags > span { display: inline-flex; padding: 4px 8px; border: 1px solid var(--journal-line); border-radius: 999px; color: var(--journal-muted); font-size: 10px; line-height: 1.4; }
@@ -250,6 +251,8 @@
   .resource-grid { grid-template-columns: 1fr; gap: 12px; }
   .resource-card { padding: 22px; }
   .resource-card__description { margin-bottom: 20px; }
+  .resource-kind-filter { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .resource-kind-filter button { min-width: 0; white-space: nowrap; }
   .editorial-home { padding-bottom: 65px; }
   .editorial-about-hero { min-height: auto; flex-direction: column; align-items: stretch; }
   .editorial-about-hero .editorial-character { position: static; width: 240px; align-self: center; }

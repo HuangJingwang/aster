@@ -1,3 +1,5 @@
+export type RecommendedShareKind = 'website' | 'opensource' | 'article';
+
 export interface RecommendedShare {
   name: string;
   url: string;
@@ -8,6 +10,8 @@ export interface RecommendedShare {
   tags: string[];
   stars: number;
   githubStars?: number;
+  kind?: RecommendedShareKind;
+  attribution?: string;
 }
 
 export const categoryOrder = ['全部', '开源项目', 'AI Coding', '前端审美', '工程流程', 'AI 学习', '技术社区'];
@@ -229,6 +233,16 @@ export const recommendedShares: RecommendedShare[] = [
     avatarAlt: '小林面试笔记图标',
     description: '用图解方式整理 Agent、RAG、LLM 和大模型工程高频面试题，适合作为 AI 应用开发面试前的系统复习入口。',
     tags: ['AI 学习', 'AI Coding', '工程流程'],
+    stars: 5,
+  },
+  {
+    name: 'Agent知识库这些年：从Rag到OKF0.2',
+    url: 'https://www.douyin.com/article/7679728760388311921',
+    logo: 'OK',
+    description: '梳理 Agent 知识库从 RAG 到 OKF 的演进，并讨论用 Markdown、frontmatter 和 Git 管理可审计、可持续演进的知识。',
+    tags: ['AI 学习', '工程流程'],
+    kind: 'article',
+    attribution: '转载自抖音，原作者：波与粒子皆存',
     stars: 5,
   },
 ];

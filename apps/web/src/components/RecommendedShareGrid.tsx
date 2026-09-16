@@ -23,7 +23,7 @@ export function RecommendedShareGrid({ resources }: { resources: RecommendedShar
       const params = new URLSearchParams(window.location.search);
       const kind = params.get('kind');
       const tag = params.get('tag') ?? '全部';
-      setFilters({ query: params.get('q') ?? '', tag: availableTags.includes(tag) ? tag : '全部', kind: kind === 'website' || kind === 'opensource' ? kind : 'all' });
+      setFilters({ query: params.get('q') ?? '', tag: availableTags.includes(tag) ? tag : '全部', kind: kind === 'website' || kind === 'opensource' || kind === 'article' ? kind : 'all' });
     }
     restore();
     window.addEventListener('popstate', restore);
@@ -42,7 +42,7 @@ export function RecommendedShareGrid({ resources }: { resources: RecommendedShar
   return <LayoutGroup id={motionId}><section className="share-page__panel reader-filter-motion" aria-label="推荐资源">
     <div className="share-page__filters">
       <label className="share-page__search"><span>搜索资源</span><input type="search" value={filters.query} placeholder="搜索名称、标签或简介" onChange={event => update({ query: event.currentTarget.value })} /></label>
-      <div className="resource-kind-filter" aria-label="资源类型">{([{ value: 'all', label: '全部资源' }, { value: 'website', label: '网站' }, { value: 'opensource', label: '开源项目' }] as const).map(item => <button key={item.value} type="button" aria-pressed={filters.kind === item.value} onClick={() => update({ kind: item.value })}>{filters.kind === item.value && <motion.span aria-hidden="true" className="reader-kind-indicator" layoutId={reduced ? undefined : 'selected-kind'} initial={false} transition={{ type: 'spring', stiffness: 420, damping: 36 }} />}{item.label}</button>)}</div>
+      <div className="resource-kind-filter" aria-label="资源类型">{([{ value: 'all', label: '全部资源' }, { value: 'website', label: '网站' }, { value: 'opensource', label: '开源项目' }, { value: 'article', label: '转载文章' }] as const).map(item => <button key={item.value} type="button" aria-pressed={filters.kind === item.value} onClick={() => update({ kind: item.value })}>{filters.kind === item.value && <motion.span aria-hidden="true" className="reader-kind-indicator" layoutId={reduced ? undefined : 'selected-kind'} initial={false} transition={{ type: 'spring', stiffness: 420, damping: 36 }} />}{item.label}</button>)}</div>
       <div className="share-page__tag-list" aria-label="资源分类">{availableTags.map(tag => <button key={tag} type="button" aria-pressed={filters.tag === tag} onClick={() => update({ tag })}>{tag}</button>)}</div>
     </div>
     <p className="resource-results" role="status">{results.length} 项资源</p>
