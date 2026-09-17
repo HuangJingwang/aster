@@ -3,6 +3,14 @@ import { describe, expect, test } from 'vitest';
 import { extractMarkdownHeadings, renderMarkdown } from './render';
 
 describe('Markdown rendering', () => {
+  test('renders comparison tables with links and emphasis', async () => {
+    const html = await renderMarkdown('| 方案 | 说明 |\n| --- | --- |\n| **RAG** | [原文](https://example.com) |');
+    expect(html).toContain('<table>');
+    expect(html).toContain('<th>方案</th>');
+    expect(html).toContain('<td><strong>RAG</strong></td>');
+    expect(html).toContain('href="https://example.com"');
+  });
+
   test('renders headings and paragraphs', async () => {
     const html = await renderMarkdown('# Hello\n\nWorld');
 

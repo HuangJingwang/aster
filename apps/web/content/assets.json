@@ -38,5 +38,245 @@
     "usage": "background",
     "altText": "Starry Summer night archive background",
     "createdAt": "2026-06-13T17:30:37.000Z"
+  },
+  {
+    "id": "rag-to-okf-14-graphrag-insert-sequence",
+    "storageKey": "images/rag-to-okf/14-graphrag-insert-sequence.png",
+    "publicUrl": "/images/rag-to-okf/14-graphrag-insert-sequence.png",
+    "mimeType": "image/png",
+    "byteSize": 1113007,
+    "usage": "content",
+    "altText": "14-graphrag-insert-sequence",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-13-lightrag-incremental",
+    "storageKey": "images/rag-to-okf/13-lightrag-incremental.png",
+    "publicUrl": "/images/rag-to-okf/13-lightrag-incremental.png",
+    "mimeType": "image/png",
+    "byteSize": 1459779,
+    "usage": "content",
+    "altText": "13-lightrag-incremental",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-06-graphrag-build",
+    "storageKey": "images/rag-to-okf/06-graphrag-build.png",
+    "publicUrl": "/images/rag-to-okf/06-graphrag-build.png",
+    "mimeType": "image/png",
+    "byteSize": 1511036,
+    "usage": "content",
+    "altText": "06-graphrag-build",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-16-lightrag-insert-sequence",
+    "storageKey": "images/rag-to-okf/16-lightrag-insert-sequence.png",
+    "publicUrl": "/images/rag-to-okf/16-lightrag-insert-sequence.png",
+    "mimeType": "image/png",
+    "byteSize": 1140614,
+    "usage": "content",
+    "altText": "16-lightrag-insert-sequence",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-11-okf-bundle-flow",
+    "storageKey": "images/rag-to-okf/11-okf-bundle-flow.png",
+    "publicUrl": "/images/rag-to-okf/11-okf-bundle-flow.png",
+    "mimeType": "image/png",
+    "byteSize": 1305134,
+    "usage": "content",
+    "altText": "11-okf-bundle-flow",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-01-rag",
+    "storageKey": "images/rag-to-okf/01-rag.png",
+    "publicUrl": "/images/rag-to-okf/01-rag.png",
+    "mimeType": "image/png",
+    "byteSize": 1962870,
+    "usage": "content",
+    "altText": "01-rag",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-08-pageindex-flow",
+    "storageKey": "images/rag-to-okf/08-pageindex-flow.png",
+    "publicUrl": "/images/rag-to-okf/08-pageindex-flow.png",
+    "mimeType": "image/png",
+    "byteSize": 1328096,
+    "usage": "content",
+    "altText": "08-pageindex-flow",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-02-graphrag",
+    "storageKey": "images/rag-to-okf/02-graphrag.png",
+    "publicUrl": "/images/rag-to-okf/02-graphrag.png",
+    "mimeType": "image/png",
+    "byteSize": 1980391,
+    "usage": "content",
+    "altText": "02-graphrag",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-12-okf-computation-flow",
+    "storageKey": "images/rag-to-okf/12-okf-computation-flow.png",
+    "publicUrl": "/images/rag-to-okf/12-okf-computation-flow.png",
+    "mimeType": "image/png",
+    "byteSize": 1437852,
+    "usage": "content",
+    "altText": "12-okf-computation-flow",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-15-graphrag-query-sequence",
+    "storageKey": "images/rag-to-okf/15-graphrag-query-sequence.png",
+    "publicUrl": "/images/rag-to-okf/15-graphrag-query-sequence.png",
+    "mimeType": "image/png",
+    "byteSize": 1190730,
+    "usage": "content",
+    "altText": "15-graphrag-query-sequence",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-09-agentic-rag-flow",
+    "storageKey": "images/rag-to-okf/09-agentic-rag-flow.png",
+    "publicUrl": "/images/rag-to-okf/09-agentic-rag-flow.png",
+    "mimeType": "image/png",
+    "byteSize": 1262049,
+    "usage": "content",
+    "altText": "09-agentic-rag-flow",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-05-lightrag",
+    "storageKey": "images/rag-to-okf/05-lightrag.png",
+    "publicUrl": "/images/rag-to-okf/05-lightrag.png",
+    "mimeType": "image/png",
+    "byteSize": 1343927,
+    "usage": "content",
+    "altText": "05-lightrag",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-cover-part-2",
+    "storageKey": "images/rag-to-okf/cover-part-2.png",
+    "publicUrl": "/images/rag-to-okf/cover-part-2.png",
+    "mimeType": "image/png",
+    "byteSize": 1407690,
+    "usage": "cover",
+    "altText": "cover-part-2",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-10-llm-wiki-flow",
+    "storageKey": "images/rag-to-okf/10-llm-wiki-flow.png",
+    "publicUrl": "/images/rag-to-okf/10-llm-wiki-flow.png",
+    "mimeType": "image/png",
+    "byteSize": 1386662,
+    "usage": "content",
+    "altText": "10-llm-wiki-flow",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-18-cost-comparison",
+    "storageKey": "images/rag-to-okf/18-cost-comparison.png",
+    "publicUrl": "/images/rag-to-okf/18-cost-comparison.png",
+    "mimeType": "image/png",
+    "byteSize": 804480,
+    "usage": "content",
+    "altText": "18-cost-comparison",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-cover-part-3",
+    "storageKey": "images/rag-to-okf/cover-part-3.png",
+    "publicUrl": "/images/rag-to-okf/cover-part-3.png",
+    "mimeType": "image/png",
+    "byteSize": 2107568,
+    "usage": "cover",
+    "altText": "cover-part-3",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-cover-part-1",
+    "storageKey": "images/rag-to-okf/cover-part-1.png",
+    "publicUrl": "/images/rag-to-okf/cover-part-1.png",
+    "mimeType": "image/png",
+    "byteSize": 1970391,
+    "usage": "cover",
+    "altText": "cover-part-1",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-03-weknora",
+    "storageKey": "images/rag-to-okf/03-weknora.png",
+    "publicUrl": "/images/rag-to-okf/03-weknora.png",
+    "mimeType": "image/png",
+    "byteSize": 1280271,
+    "usage": "content",
+    "altText": "03-weknora",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-04-graphrag-example",
+    "storageKey": "images/rag-to-okf/04-graphrag-example.png",
+    "publicUrl": "/images/rag-to-okf/04-graphrag-example.png",
+    "mimeType": "image/png",
+    "byteSize": 1436594,
+    "usage": "content",
+    "altText": "04-graphrag-example",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-07-temporal-flow",
+    "storageKey": "images/rag-to-okf/07-temporal-flow.png",
+    "publicUrl": "/images/rag-to-okf/07-temporal-flow.png",
+    "mimeType": "image/png",
+    "byteSize": 1329273,
+    "usage": "content",
+    "altText": "07-temporal-flow",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-17-lightrag-query-sequence",
+    "storageKey": "images/rag-to-okf/17-lightrag-query-sequence.png",
+    "publicUrl": "/images/rag-to-okf/17-lightrag-query-sequence.png",
+    "mimeType": "image/png",
+    "byteSize": 1146919,
+    "usage": "content",
+    "altText": "17-lightrag-query-sequence",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-rag-knowledge-tom-02-temporal-history",
+    "storageKey": "images/rag-to-okf/rag-knowledge-tom/02-temporal-history.png",
+    "publicUrl": "/images/rag-to-okf/rag-knowledge-tom/02-temporal-history.png",
+    "mimeType": "image/png",
+    "byteSize": 1265553,
+    "usage": "content",
+    "altText": "02-temporal-history",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-rag-knowledge-tom-01-pageindex",
+    "storageKey": "images/rag-to-okf/rag-knowledge-tom/01-pageindex.png",
+    "publicUrl": "/images/rag-to-okf/rag-knowledge-tom/01-pageindex.png",
+    "mimeType": "image/png",
+    "byteSize": 1407690,
+    "usage": "content",
+    "altText": "01-pageindex",
+    "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "rag-to-okf-rag-knowledge-tom-03-graph-retrieval-comparison",
+    "storageKey": "images/rag-to-okf/rag-knowledge-tom/03-graph-retrieval-comparison.png",
+    "publicUrl": "/images/rag-to-okf/rag-knowledge-tom/03-graph-retrieval-comparison.png",
+    "mimeType": "image/png",
+    "byteSize": 1970391,
+    "usage": "content",
+    "altText": "03-graph-retrieval-comparison",
+    "createdAt": "2026-09-17T10:55:00+08:00"
   }
 ]
