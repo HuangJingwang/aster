@@ -22,8 +22,7 @@ const adminNavigation: NavigationItem[] = [
     href: '/admin/comments',
     label: '互动',
     children: [
-      { href: '/admin/comments', label: '评论与留言' },
-      { href: '/admin/guestbook', label: '留言管理' },
+      { href: '/admin/comments', label: '评论' },
     ],
   },
   {

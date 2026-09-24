@@ -40,7 +40,6 @@ const adminLinks: AdminLink[] = [
   { href: '/admin/projects', label: '项目管理', detail: '作品记录', icon: FolderKanban },
   { href: '/admin/assets', label: '素材库', detail: '图片资产', icon: Image },
   { href: '/admin/comments', label: '评论审核', detail: '互动', icon: MessageSquareText },
-  { href: '/admin/guestbook', label: '留言板', detail: '访客反馈', icon: MessageSquareText },
   { href: '/admin/study', label: '刷题任务', detail: '新题复习', icon: Sparkles },
 ];
 

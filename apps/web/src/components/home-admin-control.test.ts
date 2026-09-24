@@ -42,7 +42,7 @@ describe('HomeAdminControl', () => {
     expect(source).toContain("href: '/admin/projects'");
     expect(source).toContain("href: '/admin/assets'");
     expect(source).toContain("href: '/admin/comments'");
-    expect(source).toContain("href: '/admin/guestbook'");
+    expect(source).not.toContain("href: '/admin/guestbook'");
     expect(source).toContain("href: '/admin/study'");
     expect(source).toContain("href: '/admin/settings'");
     expect(source).toContain("href: '/admin/taxonomy'");

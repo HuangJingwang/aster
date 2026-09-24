@@ -126,7 +126,6 @@ export default async function AboutPage() {
           <section className={styles.buildCopy} aria-labelledby="about-building">
             <h2 id="about-building">这个网站怎么搭的</h2>
             <p>页面用 Next.js 和 React 搭建，文章用 Markdown 保存，代码和内容一起放在 GitHub 仓库里，部署在 Vercel。以后要修改、备份或迁移，都有文件可查。</p>
-            <Link href="/guestbook" className={styles.guestbook}>有想法，留个言<ArrowUpRight size={18} aria-hidden="true" /></Link>
           </section>
           <div className="about-note__meta">
             <h3>技术栈</h3>

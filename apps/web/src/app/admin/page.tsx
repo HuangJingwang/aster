@@ -11,14 +11,10 @@ export default async function AdminPage() {
     cookieHeader: '',
   };
   const { items } = await loadRepositoryAdminContentItems();
-  const [pendingComments, pendingGuestbook] = await Promise.all([
-    loadAdminModerationCount('comments', 'pending', adminInteractionRequestOptions),
-    loadAdminModerationCount('guestbook', 'pending', adminInteractionRequestOptions),
-  ]);
+  const pendingComments = await loadAdminModerationCount('comments', 'pending', adminInteractionRequestOptions);
   const overview = buildAdminOverviewSnapshot(items);
   const moderationCards = [
     { label: '待处理评论', value: pendingComments, href: '/admin/comments' },
-    { label: '待处理留言', value: pendingGuestbook, href: '/admin/guestbook' },
   ];
   const continueItems = overview.draftQueue.length > 0 ? overview.draftQueue : overview.recentUpdates;
   const quickCreateCards = [

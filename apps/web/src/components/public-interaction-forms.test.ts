@@ -303,9 +303,11 @@ describe('public interaction forms', () => {
     }
   });
 
-  test('keeps public guestbook disabled while preserving admin guestbook management', () => {
+  test('keeps public guestbook disabled without exposing guestbook entry points', () => {
     const guestbookPage = readFileSync(join(process.cwd(), 'src/app/guestbook/page.tsx'), 'utf8');
     const navigation = readFileSync(join(process.cwd(), 'src/lib/navigation.ts'), 'utf8');
+    const adminOverview = readFileSync(join(process.cwd(), 'src/app/admin/page.tsx'), 'utf8');
+    const aboutPage = readFileSync(join(process.cwd(), 'src/app/about/page.tsx'), 'utf8');
 
     expect(guestbookPage).toContain('留言功能已关闭');
     expect(guestbookPage).toContain('className="page-main guestbook-page guestbook-page--disabled"');
@@ -314,8 +316,10 @@ describe('public interaction forms', () => {
     expect(guestbookPage).not.toContain("description: '读者留言和站点交流，需要 GitHub 登录后发布。'");
     expect(guestbookPage).not.toContain('审核队列');
     expect(guestbookPage).not.toContain('审核通过');
-    expect(navigation).toContain("{ href: '/admin/guestbook', label: '留言管理' }");
+    expect(navigation).not.toContain("href: '/admin/guestbook'");
     expect(navigation).not.toContain("{ href: '/guestbook', label: '留言' }");
     expect(navigation).not.toContain('留言审核');
+    expect(adminOverview).not.toContain("'/admin/guestbook'");
+    expect(aboutPage).not.toContain('href="/guestbook"');
   });
 });

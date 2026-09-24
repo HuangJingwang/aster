@@ -41,11 +41,10 @@ describe('admin navigation helpers', () => {
       {
         href: '/admin/comments',
         label: '互动',
-      children: [
-        { href: '/admin/comments', label: '评论与留言' },
-        { href: '/admin/guestbook', label: '留言管理' },
-      ],
-    },
+        children: [
+          { href: '/admin/comments', label: '评论' },
+        ],
+      },
       {
         href: '/admin/settings',
         label: '站点',
