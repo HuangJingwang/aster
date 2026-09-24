@@ -20,6 +20,15 @@ test('the editorial theme toggle keeps its hit area aligned with the visible con
   expect(css).toMatch(/\.editorial-header \.theme-toggle button\s*\{[^}]*width:\s*44px;[^}]*height:\s*44px;/);
 });
 
+test('the shortcut navigation is hidden on desktop and sticks below the mobile header', () => {
+  expect(css).toMatch(/\.editorial-dock\s*\{[^}]*display:\s*none;/);
+  const mobileDock = css.match(/@media \(max-width: 767px\)\s*\{[\s\S]*?\.editorial-dock\s*\{([^}]*)\}/)?.[1];
+  expect(mobileDock).toContain('display: flex;');
+  expect(mobileDock).toContain('position: sticky;');
+  expect(mobileDock).toContain('top: 0;');
+  expect(css).toMatch(/@media \(max-width: 767px\)\s*\{[\s\S]*?\.journal-chrome\s*\{\s*height:\s*64px;/);
+});
+
 test('art lettering stays self-hosted, lightweight and limited to display headings', () => {
   const face = css.match(/@font-face\s*\{[^}]*Aster Display[^}]*\}/)?.[0];
   expect(face).toContain("url('/fonts/aster-display.woff2')");

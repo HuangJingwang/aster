@@ -49,16 +49,10 @@ test('admin routes never receive the public redesign controls', async () => {
   expect(host.querySelector('nav')).toBeNull();
 });
 
-test('only content detail routes use the unobtrusive reading navigation', async () => {
-  for (const pathname of ['/posts/story', '/notes/note', '/projects/project', '/moments/moment']) {
+test('all public routes retain the mobile-only shortcut navigation', async () => {
+  for (const pathname of ['/', '/posts', '/posts/story', '/notes/note', '/projects', '/projects/project', '/moments', '/moments/moment', '/about', '/tags/example']) {
     location.pathname = pathname;
     await render();
-    expect(host.querySelector('.journal-chrome--reading')).not.toBeNull();
     expect(host.querySelectorAll('.editorial-dock a')).toHaveLength(5);
-  }
-  for (const pathname of ['/', '/posts', '/projects', '/moments', '/about', '/tags/example']) {
-    location.pathname = pathname;
-    await render();
-    expect(host.querySelector('.journal-chrome--reading')).toBeNull();
   }
 });
