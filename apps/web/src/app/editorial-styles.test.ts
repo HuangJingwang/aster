@@ -15,6 +15,11 @@ test('the new home and resource system keeps theme, accessibility and responsive
   expect(css).not.toMatch(/(?:^|\n)\s*(?:body|input|button)\s*\{/);
 });
 
+test('the editorial theme toggle keeps its hit area aligned with the visible control', () => {
+  expect(css).toMatch(/\.editorial-header \.theme-toggle\s*\{[^}]*width:\s*44px;[^}]*height:\s*44px;/);
+  expect(css).toMatch(/\.editorial-header \.theme-toggle button\s*\{[^}]*width:\s*44px;[^}]*height:\s*44px;/);
+});
+
 test('art lettering stays self-hosted, lightweight and limited to display headings', () => {
   const face = css.match(/@font-face\s*\{[^}]*Aster Display[^}]*\}/)?.[0];
   expect(face).toContain("url('/fonts/aster-display.woff2')");

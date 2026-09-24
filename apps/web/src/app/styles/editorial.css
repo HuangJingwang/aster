@@ -32,7 +32,7 @@
 .editorial-brand svg { color: var(--journal-accent); }
 .editorial-header__tools { display: flex; align-items: center; gap: 26px; font-size: 12px; }
 .editorial-header__tools > a { min-height: 44px; display: grid; place-items: center; }
-.editorial-header .theme-toggle { position: static; display: block; }
+.editorial-header .theme-toggle { position: static; display: block; width: 44px; height: 44px; }
 .editorial-header .theme-toggle button { width: 44px; height: 44px; border: 1px solid var(--journal-line); border-radius: 50%; background: transparent; color: var(--journal-ink); box-shadow: none; display: grid; place-items: center; padding: 0; }
 .editorial-dock { position: fixed; bottom: max(18px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); display: flex; gap: 8px; padding: 9px 13px; background: color-mix(in srgb, var(--journal-surface) 92%, transparent); backdrop-filter: blur(20px); border: 1px solid var(--journal-line); border-radius: 24px; box-shadow: 0 10px 40px rgb(4 18 25 / .18), inset 0 1px 0 var(--journal-line); }
 .editorial-dock a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 62px; min-height: 55px; font-size: 10px; color: var(--journal-muted); border-radius: 13px; }
