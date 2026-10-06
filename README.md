@@ -4,33 +4,33 @@ Aster 是 Aster.H 的个人博客，记录技术、项目与日常，也收集�
 
 [访问网站](https://www.asterh.me/) · [GitHub 仓库](https://github.com/HuangJingwang/aster)
 
-代码、文章、配置和素材保存在同一个仓库，通过 Git 管理版本并由 Vercel 部署。网站支持明暗主题，首页保留卡通形象与交互动效，文章页以阅读为主。
+代码、文章、配置和素材保存在同一个仓库，通过 Git 管理版本并由 Vercel 部署。首页用 Aster 字标和卡通形象呈现个人介绍，向下浏览最近文章、个人项目和推荐资源。公开页面支持明暗主题，移动端提供顶部快捷导航，文章页提供目录和阅读进度。
 
 首页构图与交互参考了 [MotionSites](https://motionsites.ai/?prompt=3d-jack-portfolio-hero) 和 [React Bits Dock](https://reactbits.dev/components/dock)。早期布局参考了 [yysuni.com](https://www.yysuni.com/) 及其开源项目 [YYsuni/2025-blog-public](https://github.com/YYsuni/2025-blog-public)。
 
 ## 预览
 
-当前效果见 [在线站点](https://www.asterh.me/)。以下保留的是 Starry Summer 时期的历史截图，不代表当前界面。
-
-首页夜间主题：
-
-![Starry Summer 首页夜间主题](docs/screenshots/latest-home-running.png)
+以下截图采集自 [在线站点](https://www.asterh.me/)，更新于 2026 年 10 月 6 日（Asia/Shanghai），桌面视口为 1440 × 1000。页面内容会随发布继续更新。
 
 首页白天主题：
 
-![Starry Summer 首页白天主题](docs/screenshots/latest-home-running-day.png)
+![Aster 首页白天主题](docs/screenshots/aster-home-light.jpg)
 
-内容列表：
+首页夜间主题：
 
-![Starry Summer 内容列表](docs/screenshots/posts.png)
+![Aster 首页夜间主题](docs/screenshots/aster-home-dark.jpg)
 
-后台写作：
+文章列表，按年份浏览，支持最新／热门排序、搜索和分类标签筛选：
 
-![Starry Summer 后台写作](docs/screenshots/admin-writing.png)
+![Aster 文章列表](docs/screenshots/aster-posts-light.jpg)
 
-完整首页预览：
+文章阅读页，包含封面、分类标签、阅读进度与章节目录：
 
-![Starry Summer 首页](docs/screenshots/home.png)
+![Aster 文章阅读页](docs/screenshots/aster-article-light.jpg)
+
+推荐分享，收藏网站、开源项目和学习资料：
+
+![Aster 推荐分享](docs/screenshots/aster-recommendations-light.jpg)
 
 ## 项目定位
 
@@ -40,18 +40,19 @@ Aster 按单人维护的方式组织内容：
 - 仓库保留中文后台界面；默认静态模式通过仓库文件维护和发布内容，不开放后台写入。
 - 内容、配置和小型素材优先落在仓库中，方便审阅、备份、迁移和回滚。
 - GitHub 保存代码与内容，Vercel 负责部署，必要的互动数据可以接入 Worker/KV/D1。
-- 两套公开主题并存：白天采用浅灰底色，夜间采用深灰底色与青色点缀，兼顾动效和阅读。
+- 两套公开主题并存：白天采用浅灰底色与深色文字，夜间采用近黑底色与浅色文字，以青色点缀。
 
 项目原名 Starry Summer，现用名称为 Aster，GitHub 仓库为 `HuangJingwang/aster`。内部 npm 包名、备份目录前缀和历史文章中的旧名保留，避免改名影响已有命令和内容链接。
 
 ## 当前能力
 
-- 写作与发布：文章、笔记、片刻、项目记录和推荐分享。
-- 内容组织：分类、标签、系列、归档、搜索和 RSS。
-- 公开互动：留言板、评论入口、点赞和浏览量模型。
-- 后台界面：内容浏览、Markdown 编辑器与素材管理组件；默认静态模式禁用写入。
+- 内容展示：文章、笔记、项目记录；推荐分享页收藏网站、开源项目和学习资料。
+- 内容组织：分类、标签、专题、归档、搜索和 RSS；文章列表支持按年份浏览、最新／热门排序、筛选和分页。
+- 阅读体验：Markdown 正文、代码与插图、章节目录、阅读进度、相邻文章和明暗主题。
+- 公开互动：保留留言板、评论、点赞和浏览量接口；运行时互动需要配置独立 Worker，默认仓库内容仍可直接阅读。
+- 后台界面：中文内容工作台、Markdown 草稿编辑与预览、素材管理组件；默认静态模式禁用在线写入，发布通过 Git 提交完成。
 - 刷题日记：LeetCode 仪表盘、每日推荐、今日任务、复习轮次和题目笔记。
-- 静态友好：内容文件、站点设置和素材索引可随 Git 一起提交。
+- 内容工具：内容文件、站点设置和素材索引随 Git 管理，提供掘金文章导入与 LeetCode 数据同步脚本。
 - 运维工具：备份、恢复、健康检查、生产 smoke、部署反馈跟踪。
 
 ## 架构
@@ -81,15 +82,14 @@ apps/web/content/public-content.json
 apps/web/content/site-settings.json
 apps/web/content/assets.json
 apps/web/content/leetcode/dashboard.json
-apps/web/content/**/*.md
 apps/web/public/images/**
 ```
 
 ## 技术栈
 
-- Web：Next.js、React、TypeScript
+- Web：Next.js 16（App Router）、React 19、TypeScript
 - 内容：JSON、Markdown、仓库文件
-- UI：明暗主题、中文后台界面
+- UI：CSS 主题变量、Framer Motion 动效、Lucide 图标、中文后台界面
 - 工作区：npm workspaces
 - 内部包：`@starry-summer/shared`、`@starry-summer/markdown`
 - 部署与运维：Vercel、GitHub、Shell 检查脚本，可选 Cloudflare Worker
@@ -135,6 +135,16 @@ npm run typecheck
 npm run build
 ```
 
+内容更新入口：
+
+- 文章与笔记：`apps/web/content/public-content.json`，正文保存在记录的 `bodyMarkdown` 字段中。
+- 站点与社交设置：`apps/web/content/site-settings.json`。
+- 推荐资源：`apps/web/src/lib/recommended-shares.ts`。
+- 刷题数据：`apps/web/content/leetcode/dashboard.json`，可通过 `npm run sync:leetcode` 同步。
+- 掘金导入：`npm run import:juejin -- --dry-run` 预览待导入文章，确认后运行 `npm run import:juejin`；可加 `--download-images` 将图片保存到仓库。
+
+修改后运行相关检查，提交并推送，由 Vercel 重新构建发布。
+
 ## 配置
 
 默认静态站模式不需要后台账号密码，也不需要在 Vercel 中保存 GitHub 内容写入 token。内容和设置通过仓库文件维护，提交后由部署流程发布。
@@ -151,6 +161,8 @@ npm run auth:interaction-secret
 PUBLIC_SITE_URL=https://your-domain.example
 INTERACTION_HASH_SECRET=generated-interaction-secret # 可选，仅互动 Worker 需要
 ```
+
+互动服务地址通过 `NEXT_PUBLIC_INTERACTION_BASE_URL`（浏览器）和 `INTERACTION_BASE_URL`（服务端）配置。Worker 当前保留基础实现，接入前请阅读 [Worker 说明](workers/interactions-worker/README.md)。
 
 更多配置见 [部署说明](docs/deployment.md) 和 [安全说明](docs/security.md)。
 
