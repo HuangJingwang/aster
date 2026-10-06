@@ -1,133 +1,98 @@
 # Aster
 
-Aster 是 Aster.H 的个人博客，记录技术、项目与日常，也收集值得再打开的网站、开源项目和学习资料。
+Aster.H 的个人博客。写技术实践和项目复盘，记下日常，也收藏会反复打开的工具、网站与学习资料。
 
-[访问网站](https://www.asterh.me/) · [GitHub 仓库](https://github.com/HuangJingwang/aster)
-
-代码、文章、配置和素材保存在同一个仓库，通过 Git 管理版本并由 Vercel 部署。首页用 Aster 字标和卡通形象呈现个人介绍，向下浏览最近文章、个人项目和推荐资源。公开页面支持明暗主题，移动端提供顶部快捷导航，文章页提供目录和阅读进度。
-
-首页构图与交互参考了 [MotionSites](https://motionsites.ai/?prompt=3d-jack-portfolio-hero) 和 [React Bits Dock](https://reactbits.dev/components/dock)。早期布局参考了 [yysuni.com](https://www.yysuni.com/) 及其开源项目 [YYsuni/2025-blog-public](https://github.com/YYsuni/2025-blog-public)。
-
-## 预览
-
-以下截图采集自 [在线站点](https://www.asterh.me/)，更新于 2026 年 10 月 6 日（Asia/Shanghai），桌面视口为 1440 × 1000。页面内容会随发布继续更新。
-
-首页白天主题：
+[访问博客](https://www.asterh.me/) · [订阅 RSS](https://www.asterh.me/rss.xml) · [GitHub 仓库](https://github.com/HuangJingwang/aster)
 
 ![Aster 首页白天主题](docs/screenshots/aster-home-light.jpg)
 
-首页夜间主题：
+## 在这里读什么
+
+- **文章与笔记**：技术实践、原理探索和阶段性总结，按年份浏览，也可以通过分类、标签、专题或搜索找到内容。
+- **个人项目**：记录项目的用途、技术选择和进展，保留源码与相关链接。
+- **推荐分享**：收藏网站、开源项目和文章，支持搜索与分类筛选。
+- **刷题日记**：展示 LeetCode 进度、每日推荐、今日任务、复习轮次和题目笔记。
+
+首页从个人介绍展开，接着是最近文章、个人项目和推荐资源。阅读页提供章节目录、阅读进度和相邻文章入口；文章列表支持最新／热门排序、筛选和分页。公开页面都有明暗主题，移动端通过顶部快捷导航切换主要栏目。
+
+## 页面预览
+
+截图采集自线上站点，更新于 2026 年 10 月 6 日（Asia/Shanghai），桌面视口为 1440 × 1000。
+
+<details>
+<summary>首页 · 夜间主题</summary>
 
 ![Aster 首页夜间主题](docs/screenshots/aster-home-dark.jpg)
 
-文章列表，按年份浏览，支持最新／热门排序、搜索和分类标签筛选：
+</details>
+
+<details>
+<summary>文章列表</summary>
 
 ![Aster 文章列表](docs/screenshots/aster-posts-light.jpg)
 
-文章阅读页，包含封面、分类标签、阅读进度与章节目录：
+</details>
+
+<details>
+<summary>文章阅读页</summary>
 
 ![Aster 文章阅读页](docs/screenshots/aster-article-light.jpg)
 
-推荐分享，收藏网站、开源项目和学习资料：
+</details>
+
+<details>
+<summary>推荐分享</summary>
 
 ![Aster 推荐分享](docs/screenshots/aster-recommendations-light.jpg)
 
-## 项目定位
+</details>
 
-Aster 按单人维护的方式组织内容：
+## 内容如何发布
 
-- 公开站点负责阅读体验、搜索、归档、RSS、推荐分享、刷题日记、留言和轻互动。
-- 仓库保留中文后台界面；默认静态模式通过仓库文件维护和发布内容，不开放后台写入。
-- 内容、配置和小型素材优先落在仓库中，方便审阅、备份、迁移和回滚。
-- GitHub 保存代码与内容，Vercel 负责部署，必要的互动数据可以接入 Worker/KV/D1。
-- 两套公开主题并存：白天采用浅灰底色与深色文字，夜间采用近黑底色与浅色文字，以青色点缀。
+Aster 由一人维护，内容、站点设置和图片跟代码一起放在仓库里。修改文件、提交到 GitHub，Vercel 会重新构建并发布网站。文章的修改记录、备份和回滚也沿用 Git 的流程。
 
-项目原名 Starry Summer，现用名称为 Aster，GitHub 仓库为 `HuangJingwang/aster`。内部 npm 包名、备份目录前缀和历史文章中的旧名保留，避免改名影响已有命令和内容链接。
-
-## 当前能力
-
-- 内容展示：文章、笔记、项目记录；推荐分享页收藏网站、开源项目和学习资料。
-- 内容组织：分类、标签、专题、归档、搜索和 RSS；文章列表支持按年份浏览、最新／热门排序、筛选和分页。
-- 阅读体验：Markdown 正文、代码与插图、章节目录、阅读进度、相邻文章和明暗主题。
-- 公开互动：保留留言板、评论、点赞和浏览量接口；运行时互动需要配置独立 Worker，默认仓库内容仍可直接阅读。
-- 后台界面：中文内容工作台、Markdown 草稿编辑与预览、素材管理组件；默认静态模式禁用在线写入，发布通过 Git 提交完成。
-- 刷题日记：LeetCode 仪表盘、每日推荐、今日任务、复习轮次和题目笔记。
-- 内容工具：内容文件、站点设置和素材索引随 Git 管理，提供掘金文章导入与 LeetCode 数据同步脚本。
-- 运维工具：备份、恢复、健康检查、生产 smoke、部署反馈跟踪。
-
-## 架构
-
-Aster 采用仓库驱动的内容管理方式：
+仓库保留中文后台工作台，可以浏览内容、编辑和预览本地草稿。默认静态模式不开放在线保存，也不通过后台提交 GitHub 内容，因此不需要后台账号密码或 GitHub 内容写入 token。
 
 ![Aster 仓库驱动内容流](docs/diagrams/repository-content-flow.svg)
 
-```text
-apps/
-  web/                 Next.js public site, admin UI, route handlers
-  web/content/         repository-backed public content and settings
-  web/public/          images and static assets
-packages/
-  shared/              shared domain types and helpers
-  markdown/            Markdown parsing and rendering helpers
-workers/
-  interactions-worker/ optional hosted interaction worker
-scripts/               env, smoke, backup, restore, hygiene checks
-docs/                  deployment, security, migration notes, screenshots
+| 要修改的内容 | 文件位置 |
+| --- | --- |
+| 文章、笔记与项目记录 | `apps/web/content/public-content.json`，正文使用 `bodyMarkdown` 字段 |
+| 站点信息与社交链接 | `apps/web/content/site-settings.json` |
+| 推荐资源 | `apps/web/src/lib/recommended-shares.ts` |
+| 刷题进度与学习记录 | `apps/web/content/leetcode/dashboard.json` |
+| 素材索引 | `apps/web/content/assets.json` |
+| 图片 | `apps/web/public/images/` |
+
+仓库还提供两项内容工具：
+
+```bash
+# 预览尚未导入的掘金文章
+npm run import:juejin -- --dry-run
+
+# 导入文章，并将图片保存到仓库
+npm run import:juejin -- --download-images
+
+# 同步配置账号的 LeetCode 进度
+npm run sync:leetcode
 ```
 
-主要内容入口：
+掘金导入脚本使用仓库中配置的作者账号。LeetCode 同步读取刷题数据中的 `settings.leetcodeUsername`，也可以传入 `--username <userSlug>`。运行后检查文件变化，再提交发布。
 
-```text
-apps/web/content/public-content.json
-apps/web/content/site-settings.json
-apps/web/content/assets.json
-apps/web/content/leetcode/dashboard.json
-apps/web/public/images/**
-```
+## 本地开发
 
-## 技术栈
-
-- Web：Next.js 16（App Router）、React 19、TypeScript
-- 内容：JSON、Markdown、仓库文件
-- UI：CSS 主题变量、Framer Motion 动效、Lucide 图标、中文后台界面
-- 工作区：npm workspaces
-- 内部包：`@starry-summer/shared`、`@starry-summer/markdown`
-- 部署与运维：Vercel、GitHub、Shell 检查脚本，可选 Cloudflare Worker
-
-## 本地运行
-
-需要：
-
-- Node.js 22+
-- npm 10+
-
-克隆仓库并安装依赖：
+需要 Node.js 22+ 和 npm 10+。
 
 ```bash
 git clone https://github.com/HuangJingwang/aster.git
 cd aster
-npm install
-```
-
-已有本地仓库只需更新远程地址，不必重命名本地目录：
-
-```bash
-git remote set-url origin git@github.com:HuangJingwang/aster.git
-```
-
-启动 Web：
-
-```bash
+npm ci
 npm run dev:web
 ```
 
-默认地址：
+打开 [http://127.0.0.1:3000](http://127.0.0.1:3000) 查看网站，中文内容工作台位于 `/admin/content`。
 
-```text
-http://127.0.0.1:3000
-```
-
-常用检查：
+常用检查在仓库根目录运行：
 
 ```bash
 npm test
@@ -135,44 +100,22 @@ npm run typecheck
 npm run build
 ```
 
-内容更新入口：
-
-- 文章与笔记：`apps/web/content/public-content.json`，正文保存在记录的 `bodyMarkdown` 字段中。
-- 站点与社交设置：`apps/web/content/site-settings.json`。
-- 推荐资源：`apps/web/src/lib/recommended-shares.ts`。
-- 刷题数据：`apps/web/content/leetcode/dashboard.json`，可通过 `npm run sync:leetcode` 同步。
-- 掘金导入：`npm run import:juejin -- --dry-run` 预览待导入文章，确认后运行 `npm run import:juejin`；可加 `--download-images` 将图片保存到仓库。
-
-修改后运行相关检查，提交并推送，由 Vercel 重新构建发布。
-
-## 配置
-
-默认静态站模式不需要后台账号密码，也不需要在 Vercel 中保存 GitHub 内容写入 token。内容和设置通过仓库文件维护，提交后由部署流程发布。
-
-如果启用互动 Worker，可以生成互动签名密钥：
-
-```bash
-npm run auth:interaction-secret
-```
-
-生产环境变量：
+技术栈为 Next.js 16（App Router）、React 19 和 TypeScript，使用 CSS 主题变量、Framer Motion 动效与 Lucide 图标。工作区由 npm workspaces 管理，共享类型和 Markdown 处理分别放在 `packages/shared` 与 `packages/markdown`。
 
 ```text
-PUBLIC_SITE_URL=https://your-domain.example
-INTERACTION_HASH_SECRET=generated-interaction-secret # 可选，仅互动 Worker 需要
+apps/web/                    公开页面、后台界面与路由处理
+apps/web/content/            内容、设置与素材索引
+apps/web/public/             图片、字体等静态资源
+packages/shared/             共享类型与工具
+packages/markdown/           Markdown 解析与渲染
+workers/interactions-worker/ 可选互动服务
+scripts/                     导入、同步、检查与备份工具
+docs/                        部署、安全、迁移记录与截图
 ```
 
-互动服务地址通过 `NEXT_PUBLIC_INTERACTION_BASE_URL`（浏览器）和 `INTERACTION_BASE_URL`（服务端）配置。Worker 当前保留基础实现，接入前请阅读 [Worker 说明](workers/interactions-worker/README.md)。
+## 部署与互动
 
-更多配置见 [部署说明](docs/deployment.md) 和 [安全说明](docs/security.md)。
-
-## 部署
-
-默认生产路线是 GitHub + Vercel + 自定义域名：
-
-![Aster 部署与反馈流](docs/diagrams/deployment-feedback-flow.svg)
-
-Vercel 项目建议：
+当前生产部署使用 GitHub + Vercel + 自定义域名。Vercel 项目使用以下设置：
 
 ```text
 Root Directory: apps/web
@@ -181,52 +124,46 @@ Build Command: cd ../.. && npm run build
 Output Directory: Next.js default
 ```
 
-这里需要 `cd ../..`，因为 Vercel 进入 `apps/web` 后，要回到仓库根目录安装依赖并构建 workspace。
+安装与构建命令回到仓库根目录执行，让共享包先完成构建。生产环境设置 `PUBLIC_SITE_URL` 为实际网站地址，其他配置见 [部署说明](docs/deployment.md)。
 
-部署后可以检查：
+评论、留言、点赞和浏览量保留独立的互动接口。接入运行时互动需要配置 Worker 地址：
 
 ```text
-https://your-domain.example
-https://your-domain.example/health
-https://your-domain.example/admin/content
+NEXT_PUBLIC_INTERACTION_BASE_URL=https://your-worker.example
+INTERACTION_BASE_URL=https://your-worker.example
 ```
 
-或运行：
+前者供浏览器使用，后者供服务端使用。Worker 当前为基础实现，接入前请阅读 [Worker 说明](workers/interactions-worker/README.md) 和 [安全说明](docs/security.md)。需要互动签名密钥时，运行 `npm run auth:interaction-secret` 生成并配置 `INTERACTION_HASH_SECRET`。
+
+部署后检查首页、`/health` 和 `/admin/content`，也可以运行：
 
 ```bash
 npm run ops:smoke -- https://your-domain.example
 ```
 
-## 备份与恢复
+## 维护与备份
 
-备份静态内容和图片：
+| 命令 | 用途 |
+| --- | --- |
+| `npm run ops:doctor` | 检查本地运行环境与配置 |
+| `npm run ops:smoke` | 检查本地站点主要入口 |
+| `npm run ops:backup` | 备份仓库内容与图片 |
 
-```bash
-npm run ops:backup
-```
-
-恢复时需要显式确认：
-
-```bash
-RESTORE_CONFIRM=YES npm run ops:restore -- backups/starry-summer-static-YYYY-MM-DD
-```
-
-本地健康检查：
+备份默认写入带时间戳的 `backups/starry-summer-static-*` 目录。恢复会替换内容与图片目录，执行时指定实际备份路径并显式确认：
 
 ```bash
-npm run ops:doctor
-npm run ops:smoke
+RESTORE_CONFIRM=YES npm run ops:restore -- backups/starry-summer-static-YYYY-MM-DD-HHMMSS
 ```
 
-## Codex post-push watcher
+本地部署反馈工具的使用方式见 [Codex post-push watcher](docs/ops/codex-post-push-watcher.md)。
 
-这个仓库带有一套本地 **Codex post-push watcher**：当 Codex 执行 `git push` 后，本地 hook 会短暂启动 watcher，通过 `gh` 跟踪 GitHub checks、PR 状态和 Vercel 部署结果，并把状态写入 `.codex/local/post-push-status.jsonl`。
-
-它的目标是保留本地可见的部署反馈，不依赖常驻任务，也不要求在 GitHub Actions 中配置 OpenAI API key。说明见 [docs/ops/codex-post-push-watcher.md](docs/ops/codex-post-push-watcher.md)。
-
-## 相关文档
+## 文档与参考
 
 - [部署说明](docs/deployment.md)
 - [安全说明](docs/security.md)
 - [静态托管迁移记录](docs/static-hosting-migration.md)
-- [Codex post-push watcher](docs/ops/codex-post-push-watcher.md)
+- [部署与反馈流程图](docs/diagrams/deployment-feedback-flow.svg)
+
+首页构图与交互参考了 [MotionSites](https://motionsites.ai/?prompt=3d-jack-portfolio-hero) 和 [React Bits Dock](https://reactbits.dev/components/dock)。早期布局参考了 [yysuni.com](https://www.yysuni.com/) 及其开源项目 [YYsuni/2025-blog-public](https://github.com/YYsuni/2025-blog-public)。
+
+项目原名 Starry Summer，现用名称为 Aster。内部 npm 包名、备份目录前缀和历史文章中的旧名继续保留。
