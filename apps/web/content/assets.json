@@ -278,5 +278,85 @@
     "usage": "content",
     "altText": "03-graph-retrieval-comparison",
     "createdAt": "2026-09-17T10:55:00+08:00"
+  },
+  {
+    "id": "voice-agent-practice-01-model-integration-01-model-paths-classified",
+    "storageKey": "images/voice-agent-practice-01-model-integration/01-model-paths-classified.png",
+    "publicUrl": "/images/voice-agent-practice-01-model-integration/01-model-paths-classified.png",
+    "mimeType": "image/png",
+    "byteSize": 1939692,
+    "usage": "cover",
+    "altText": "级联经过 ASR、LLM 和 TTS，原生实时模型直接处理语音输入输出",
+    "createdAt": "2026-10-19T12:00:00+08:00"
+  },
+  {
+    "id": "voice-agent-practice-01-model-integration-07-livekit-pipelines-zh",
+    "storageKey": "images/voice-agent-practice-01-model-integration/07-livekit-pipelines-zh.jpg",
+    "publicUrl": "/images/voice-agent-practice-01-model-integration/07-livekit-pipelines-zh.jpg",
+    "mimeType": "image/jpeg",
+    "byteSize": 67588,
+    "usage": "content",
+    "altText": "LiveKit 官方语音架构对比表的中文译制：级联、轮次式实时模型与全双工实时模型",
+    "createdAt": "2026-10-19T12:00:00+08:00"
+  },
+  {
+    "id": "voice-agent-practice-01-model-integration-02-agent-loop",
+    "storageKey": "images/voice-agent-practice-01-model-integration/02-agent-loop.png",
+    "publicUrl": "/images/voice-agent-practice-01-model-integration/02-agent-loop.png",
+    "mimeType": "image/png",
+    "byteSize": 2200519,
+    "usage": "content",
+    "altText": "级联由应用组织模型与工具循环，实时模式由应用与持续模型会话配合",
+    "createdAt": "2026-10-19T12:00:00+08:00"
+  },
+  {
+    "id": "voice-agent-practice-01-model-integration-08-litellm-models-dashboard",
+    "storageKey": "images/voice-agent-practice-01-model-integration/08-litellm-models-dashboard.png",
+    "publicUrl": "/images/voice-agent-practice-01-model-integration/08-litellm-models-dashboard.png",
+    "mimeType": "image/png",
+    "byteSize": 224572,
+    "usage": "content",
+    "altText": "LiteLLM 管理界面中的模型列表",
+    "createdAt": "2026-10-19T12:00:00+08:00"
+  },
+  {
+    "id": "voice-agent-practice-01-model-integration-03-model-gateway",
+    "storageKey": "images/voice-agent-practice-01-model-integration/03-model-gateway.png",
+    "publicUrl": "/images/voice-agent-practice-01-model-integration/03-model-gateway.png",
+    "mimeType": "image/png",
+    "byteSize": 1886012,
+    "usage": "content",
+    "altText": "客户端通过 Java 校验身份并领取凭证，随后直连 LiteLLM 调用模型",
+    "createdAt": "2026-10-19T12:00:00+08:00"
+  },
+  {
+    "id": "voice-agent-practice-01-model-integration-04-qwen-cascade",
+    "storageKey": "images/voice-agent-practice-01-model-integration/04-qwen-cascade.png",
+    "publicUrl": "/images/voice-agent-practice-01-model-integration/04-qwen-cascade.png",
+    "mimeType": "image/png",
+    "byteSize": 1968723,
+    "usage": "content",
+    "altText": "Qwen 级联架构，ASR、对话模型和 TTS 分开，应用负责执行视觉及业务工具",
+    "createdAt": "2026-10-19T12:00:00+08:00"
+  },
+  {
+    "id": "voice-agent-practice-01-model-integration-05-qwen-realtime-native-vision",
+    "storageKey": "images/voice-agent-practice-01-model-integration/05-qwen-realtime-native-vision.png",
+    "publicUrl": "/images/voice-agent-practice-01-model-integration/05-qwen-realtime-native-vision.png",
+    "mimeType": "image/png",
+    "byteSize": 1793411,
+    "usage": "content",
+    "altText": "Qwen Realtime 目标架构，音频和共享屏幕帧直接进入实时会话，应用执行业务工具",
+    "createdAt": "2026-10-19T12:00:00+08:00"
+  },
+  {
+    "id": "voice-agent-practice-01-model-integration-06-doubao-realtime",
+    "storageKey": "images/voice-agent-practice-01-model-integration/06-doubao-realtime.png",
+    "publicUrl": "/images/voice-agent-practice-01-model-integration/06-doubao-realtime.png",
+    "mimeType": "image/png",
+    "byteSize": 1876006,
+    "usage": "content",
+    "altText": "豆包通过应用调用屏幕理解工具，由 Qwen 分析当前画面并返回观察结果",
+    "createdAt": "2026-10-19T12:00:00+08:00"
   }
 ]
