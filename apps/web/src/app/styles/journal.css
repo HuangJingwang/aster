@@ -275,7 +275,22 @@
 :root[data-theme] .journal-shell .detail-toc a[aria-current='location'] { color: var(--journal-accent); }
 :root[data-theme] .journal-shell .detail-toc__item--depth-3 { margin-left: 0; padding-left: 12px; }
 .journal-reading-label { display: flex; justify-content: space-between; font: 9px var(--journal-mono); color: var(--journal-muted); margin: 0 0 18px; }
-.journal-reading-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: var(--journal-accent); transform-origin: left; z-index: 120; pointer-events: none; }
+/* Portaled above page entrance animations; journal-chrome supplies both palettes.
+   Direct scroll feedback has no trailing transition or looping glow animation. */
+.journal-chrome.journal-reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--journal-accent) 65%, color-mix(in srgb, var(--journal-accent) 70%, white));
+  box-shadow: 0 0 6px color-mix(in srgb, var(--journal-accent) 65%, transparent),
+    0 0 16px color-mix(in srgb, var(--journal-accent) 35%, transparent);
+  border-radius: 0 2px 2px 0;
+  transform-origin: left;
+  z-index: 120;
+  pointer-events: none;
+}
 .journal-mobile-toc { display: none; }
 :root[data-theme] .journal-shell .project-meta { background: var(--journal-surface); border: 1px solid var(--journal-line); border-radius: 12px; padding: 25px; margin-bottom: 40px; }
 :root[data-theme] .journal-shell .adjacent-content { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 70px 0 0; border-top: 1px solid var(--journal-line); padding-top: 25px; }
