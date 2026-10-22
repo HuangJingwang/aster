@@ -275,17 +275,18 @@
 :root[data-theme] .journal-shell .detail-toc a[aria-current='location'] { color: var(--journal-accent); }
 :root[data-theme] .journal-shell .detail-toc__item--depth-3 { margin-left: 0; padding-left: 12px; }
 .journal-reading-label { display: flex; justify-content: space-between; font: 9px var(--journal-mono); color: var(--journal-muted); margin: 0 0 18px; }
-/* Portaled above page entrance animations; journal-chrome supplies both palettes.
+/* Portaled above page entrance animations; the reading color stays consistent in both themes.
    Direct scroll feedback has no trailing transition or looping glow animation. */
 .journal-chrome.journal-reading-progress {
+  --journal-reading-color: #00e676;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--journal-accent) 65%, color-mix(in srgb, var(--journal-accent) 70%, white));
-  box-shadow: 0 0 6px color-mix(in srgb, var(--journal-accent) 65%, transparent),
-    0 0 16px color-mix(in srgb, var(--journal-accent) 35%, transparent);
+  background: var(--journal-reading-color);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--journal-reading-color) 45%, transparent),
+    0 0 12px color-mix(in srgb, var(--journal-reading-color) 20%, transparent);
   border-radius: 0 2px 2px 0;
   transform-origin: left;
   z-index: 120;
