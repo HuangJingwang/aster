@@ -2,8 +2,30 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, test, vi } from 'vitest';
 import { EditorialHome } from './EditorialHome';
+import { selectEditorialHome } from '@/lib/editorial-home';
 
-vi.mock('./EditorialMotion', () => ({ HeroCharacter: () => null }));
+vi.mock('./EditorialMotion', () => ({ HeroCharacter: () => null, TiltMedia: ({ children }: { children: React.ReactNode }) => children }));
+
+test('homepage exposes the video after the hero as one accessible link without loading the MP4', () => {
+  const model = selectEditorialHome([{ id: 'moment-mina-meeting-video', slug: 'mina-meeting-video', title: 'Mina 会议视频', type: 'post', status: 'published', visibility: 'public', publishedAt: '2026-11-12' }]);
+  const document = new DOMParser().parseFromString(renderToStaticMarkup(<EditorialHome {...model} />), 'text/html');
+  const feature = document.querySelector('.editorial-video-feature');
+  const link = feature?.querySelector('a');
+  expect(link?.getAttribute('href')).toBe('/posts/mina-meeting-video');
+  expect(link?.getAttribute('aria-label')).toContain('Mina 会议视频');
+  expect(feature?.textContent).toContain('2 分 20 秒');
+  expect(feature?.textContent).toContain('播放视频');
+  expect(link?.querySelector('img')?.getAttribute('src')).toBe('/images/mina-meeting-video.webp');
+  expect(feature?.previousElementSibling?.classList.contains('editorial-hero')).toBe(true);
+  expect(feature?.nextElementSibling?.id).toBe('latest');
+  expect(feature?.querySelectorAll('a')).toHaveLength(1);
+  expect(feature?.querySelector('video')).toBeNull();
+});
+
+test('homepage omits the video feature when no public video is selected', () => {
+  const html = renderToStaticMarkup(<EditorialHome {...selectEditorialHome([])} />);
+  expect(html).not.toContain('editorial-video-feature');
+});
 
 test('homepage renders configured social profiles as safe external links beside reading', () => {
   const html = renderToStaticMarkup(<EditorialHome articles={[]} projects={[]} socialLinks={[

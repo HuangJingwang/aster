@@ -56,6 +56,24 @@
 :root[data-theme='summer-day'] .editorial-social__icon--github { filter: brightness(0); }
 .editorial-social a:hover { color: var(--journal-accent); }
 .editorial-social a:focus-visible { outline: 2px solid var(--journal-accent); outline-offset: 4px; border-radius: 4px; }
+.editorial-video-feature { margin: 32px 0 10px; }
+.editorial-video-feature__link { display: flex; align-items: center; gap: 28px; padding: 20px; border: 1px solid var(--journal-line); border-radius: 20px; background: var(--journal-surface); color: var(--journal-ink); }
+.editorial-video-feature__link:hover { border-color: var(--journal-accent); }
+.editorial-video-feature__link:focus-visible { outline: 2px solid var(--journal-accent); outline-offset: 5px; }
+.editorial-video-feature__poster { position: relative; display: block; flex: 0 0 224px; overflow: hidden; border-radius: 12px; aspect-ratio: 16 / 9; background: var(--journal-raised); }
+.editorial-video-feature__poster img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.editorial-video-feature__play { position: absolute; inset: 0; margin: auto; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgb(255 255 255 / .6); border-radius: 50%; background: rgb(0 0 0 / .7); color: #fff; }
+.editorial-video-feature__copy { display: grid; gap: 10px; min-width: 0; }
+.editorial-video-feature__meta { color: var(--journal-muted); font-size: 12px; }
+.editorial-video-feature__copy strong { font-size: clamp(18px, 2.3vw, 28px); line-height: 1.4; overflow-wrap: anywhere; }
+.editorial-video-feature__cta { display: flex; align-items: center; gap: 10px; color: var(--journal-accent); font-size: 13px; }
+@media (max-width: 767px) {
+  .editorial-video-feature { margin-top: 32px; }
+  .editorial-video-feature__link { gap: 16px; padding: 14px; border-radius: 16px; }
+  .editorial-video-feature__poster { flex-basis: 112px; border-radius: 8px; }
+  .editorial-video-feature__copy { gap: 7px; }
+  .editorial-video-feature__meta { font-size: 11px; }
+}
 .editorial-section { padding: 55px 0; }
 .editorial-section__heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 35px; }
 .editorial-section__heading h2 { margin: 0; font: oblique 400 clamp(30px, 3.4vw, 46px)/1.3 var(--journal-art); letter-spacing: .015em; font-synthesis: none; padding-right: .12em; }

@@ -13,7 +13,18 @@ describe('editorial home preserves content boundaries', () => {
     expect(model.projects.map(item => item.id)).toEqual(['project']);
     expect(model.articles.some(item => ['draft', 'private'].includes(item.id))).toBe(false);
   });
-  test('empty collections remain empty', () => expect(selectEditorialHome([])).toEqual({ articles: [], projects: [] }));
+  test('empty collections remain empty', () => expect(selectEditorialHome([])).toEqual({ articles: [], projects: [], featuredVideo: null }));
+  test('features the published Mina video article while preserving the article feed', () => {
+    const video: SiteContentItem = { id: 'moment-mina-meeting-video', slug: 'mina-meeting-video', title: 'Mina 会议视频', type: 'post', status: 'published', visibility: 'public', publishedAt: '2026-11-12' };
+    const home = selectEditorialHome([video]);
+    expect(home.featuredVideo?.item).toEqual(video);
+    expect(home.featuredVideo?.durationLabel).toBe('2 分 20 秒');
+    expect(home.articles).toEqual([video]);
+    expect(home.projects).toEqual([]);
+    expect(selectEditorialHome([{ ...video, status: 'draft' }]).featuredVideo).toBeNull();
+    expect(selectEditorialHome([{ ...video, visibility: 'private' }]).featuredVideo).toBeNull();
+    expect(selectEditorialHome([{ ...video, id: 'another-moment' }]).featuredVideo).toBeNull();
+  });
 });
 
 describe('recommendation directory', () => {
