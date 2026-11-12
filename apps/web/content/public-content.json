@@ -1,5 +1,25 @@
 [
   {
+    "id": "moment-mina-meeting-video",
+    "title": "Mina 会议视频",
+    "type": "moment",
+    "status": "published",
+    "visibility": "public",
+    "publishedAt": "2026-11-12",
+    "updatedAt": "2026-11-12",
+    "summary": "一段 2 分 20 秒的 Mina 会议视频。",
+    "bodyMarkdown": "[Mina 会议视频](/videos/mina-animatic-v1.mp4)",
+    "slug": "mina-meeting-video",
+    "categories": [
+      "Daily"
+    ],
+    "tags": [
+      "Mina",
+      "视频"
+    ],
+    "allowComments": false
+  },
+  {
     "id": "voice-model-comparison-202610",
     "title": "2026 年 10 月 Voice 模型对比",
     "type": "post",

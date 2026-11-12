@@ -358,5 +358,15 @@
     "usage": "content",
     "altText": "豆包通过应用调用屏幕理解工具，由 Qwen 分析当前画面并返回观察结果",
     "createdAt": "2026-10-19T12:00:00+08:00"
+  },
+  {
+    "id": "asset-mina-animatic-v1",
+    "storageKey": "videos/mina-animatic-v1.mp4",
+    "publicUrl": "/videos/mina-animatic-v1.mp4",
+    "mimeType": "video/mp4",
+    "byteSize": 5245603,
+    "usage": "content",
+    "altText": "Mina 会议视频",
+    "createdAt": "2026-11-12T18:00:00+08:00"
   }
 ]

@@ -24,6 +24,9 @@ const allowedTags = sanitizeHtml.defaults.allowedTags.concat([
   'pre',
   'code',
   'span',
+  'figure',
+  'figcaption',
+  'video',
 ]);
 
 const allowedAttributes: sanitizeHtml.IOptions['allowedAttributes'] = {
@@ -40,6 +43,8 @@ const allowedAttributes: sanitizeHtml.IOptions['allowedAttributes'] = {
   div: ['class'],
   button: ['type', 'class', 'data-copy-code', 'aria-label', 'aria-live'],
   span: ['class'],
+  figure: ['class'],
+  video: ['src', 'controls', 'playsinline', 'preload', 'aria-label'],
 };
 
 export async function renderMarkdown(markdown: string): Promise<string> {
@@ -50,6 +55,7 @@ export async function renderMarkdown(markdown: string): Promise<string> {
     .use(rehypeHeadingIds)
     .use(rehypeCodeBlocks)
     .use(rehypeXmindLinks)
+    .use(rehypeVideoLinks)
     .use(rehypeStringify)
     .process(markdown);
 
@@ -65,6 +71,67 @@ export async function renderMarkdown(markdown: string): Promise<string> {
       }),
     },
   });
+}
+
+// A paragraph containing only a video link opts into inline playback. Keep raw
+// HTML disabled and build the player from nodes so labels stay escaped.
+function rehypeVideoLinks() {
+  return (tree: MarkdownNode) => {
+    replaceChildren(tree, (node) => {
+      if (node.type !== 'element' || node.tagName !== 'p' || node.children?.length !== 1) {
+        return node;
+      }
+
+      const link = node.children[0];
+      if (!link) {
+        return node;
+      }
+      const href = link.properties?.href;
+      if (link.type !== 'element' || link.tagName !== 'a' || typeof href !== 'string' || !isVideoHref(href)) {
+        return node;
+      }
+
+      const label = collectText(link).trim() || '视频';
+      return {
+        type: 'element',
+        tagName: 'figure',
+        properties: { className: ['markdown-video'] },
+        children: [
+          {
+            type: 'element',
+            tagName: 'video',
+            properties: { src: href, controls: true, playsInline: true, preload: 'metadata', ariaLabel: label },
+            children: [{ type: 'text', value: '浏览器无法播放此视频，请使用下方链接打开。' }],
+          },
+          {
+            type: 'element',
+            tagName: 'figcaption',
+            children: [{
+              type: 'element',
+              tagName: 'a',
+              properties: { href },
+              children: [{ type: 'text', value: `${label} · 打开视频` }],
+            }],
+          },
+        ],
+      };
+    });
+  };
+}
+
+function isVideoHref(href: string): boolean {
+  // Accept site-root paths and explicit HTTP(S) URLs, never local files,
+  // protocol-relative URLs, data URLs, or script schemes.
+  if (!/^(?:\/(?![\/\\])|https?:\/\/)/i.test(href) || /[\\\u0000-\u0020]/.test(href)) {
+    return false;
+  }
+
+  try {
+    const url = new URL(href, 'https://video.invalid');
+    return /\.(?:mp4|webm|ogv)$/i.test(url.pathname) && !url.username && !url.password;
+  } catch {
+    return false;
+  }
 }
 
 function rehypeXmindLinks() {

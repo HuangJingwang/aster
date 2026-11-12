@@ -3,6 +3,52 @@ import { describe, expect, test } from 'vitest';
 import { extractMarkdownHeadings, renderMarkdown } from './render';
 
 describe('Markdown rendering', () => {
+  test('renders standalone video links with native controls and a visible fallback link', async () => {
+    const html = await renderMarkdown('[Mina 会议视频](/videos/mina-animatic-v1.mp4)');
+
+    expect(html).toContain('<figure class="markdown-video">');
+    expect(html).toContain('<video src="/videos/mina-animatic-v1.mp4"');
+    expect(html).toContain('controls');
+    expect(html).toContain('playsinline');
+    expect(html).toContain('preload="metadata"');
+    expect(html).toContain('aria-label="Mina 会议视频"');
+    expect(html).toMatch(/<figcaption>.*href="\/videos\/mina-animatic-v1.mp4"/);
+    expect(html).not.toMatch(/autoplay|loop|muted/);
+  });
+
+  test.each([
+    '/videos/clip.MP4?download=1#t=5',
+    'https://media.example.com/clip.webm?signature=abc&expires=123',
+    '/videos/clip.ogv',
+  ])('recognizes video URL path extensions: %s', async (url) => {
+    expect(await renderMarkdown(`[视频](${url})`)).toContain('<video ');
+  });
+
+  test.each([
+    '请看 [视频](/videos/clip.mp4)。',
+    '[视频](/videos/clip.mp4) [说明](/posts/intro)',
+    '`[视频](/videos/clip.mp4)`',
+    '![图片](/images/photo.png)',
+    '[附件](/files/notes.pdf)',
+    '[网页](https://example.com/watch?file=clip.mp4)',
+    '[视频](javascript:clip.mp4)',
+    '[视频](data:video/mp4;base64,AAAA)',
+    '[视频](file:///private/clip.mp4)',
+    '[视频](//example.com/clip.mp4)',
+    '<video src="/videos/clip.mp4" autoplay onerror="alert(1)"></video>',
+  ])('preserves non-embed content and rejects unsafe video sources: %s', async (markdown) => {
+    const html = await renderMarkdown(markdown);
+    expect(html).not.toContain('<video');
+    expect(html).not.toMatch(/onerror|javascript:|<script/);
+  });
+
+  test('keeps inline video links clickable and escapes video labels', async () => {
+    expect(await renderMarkdown('下载 [视频](/videos/clip.mp4)。')).toContain('href="/videos/clip.mp4"');
+    const html = await renderMarkdown('[A & B "会议"](/videos/clip.mp4)');
+    expect(html).toContain('aria-label="A &amp; B &quot;会议&quot;"');
+    expect(html).toContain('A &amp; B "会议"');
+  });
+
   test('renders comparison tables with links and emphasis', async () => {
     const html = await renderMarkdown('| 方案 | 说明 |\n| --- | --- |\n| **RAG** | [原文](https://example.com) |');
     expect(html).toContain('<table>');
