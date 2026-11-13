@@ -13,7 +13,7 @@ test('homepage exposes the video after the hero as one accessible link without l
   const link = feature?.querySelector('a');
   expect(link?.getAttribute('href')).toBe('/posts/mina-meeting-video');
   expect(link?.getAttribute('aria-label')).toContain('Mina 会议视频');
-  expect(feature?.textContent).toContain('2 分 20 秒');
+  expect(feature?.textContent).toContain('1 分 35 秒');
   expect(feature?.textContent).toContain('播放视频');
   expect(link?.querySelector('img')?.getAttribute('src')).toBe('/images/mina-meeting-video.webp');
   expect(feature?.previousElementSibling?.classList.contains('editorial-hero')).toBe(true);

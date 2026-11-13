@@ -360,13 +360,13 @@
     "createdAt": "2026-10-19T12:00:00+08:00"
   },
   {
-    "id": "asset-mina-animatic-v1",
-    "storageKey": "videos/mina-animatic-v1.mp4",
-    "publicUrl": "/videos/mina-animatic-v1.mp4",
+    "id": "asset-mina-false-ending-office-v8",
+    "storageKey": "videos/mina-false-ending-office-v8.mp4",
+    "publicUrl": "/videos/mina-false-ending-office-v8.mp4",
     "mimeType": "video/mp4",
-    "byteSize": 5245603,
+    "byteSize": 46946929,
     "usage": "content",
-    "altText": "Mina 会议视频",
-    "createdAt": "2026-11-12T18:00:00+08:00"
+    "altText": "Mina 演示视频 V8",
+    "createdAt": "2026-11-13T09:30:00+08:00"
   }
 ]

@@ -68,7 +68,7 @@ Aster 由一人维护，内容、站点设置和图片跟代码一起放在仓�
 正文中独占一个段落的 MP4、WebM 或 OGV 链接会显示为视频播放器，例如：
 
 ```markdown
-[Mina 会议视频](/videos/mina-animatic-v1.mp4)
+[Mina 会议视频](/videos/mina-false-ending-office-v8.mp4)
 ```
 
 播放器提供浏览器原生播放、进度、音量和全屏控件，默认不自动播放，仅预加载元数据，并保留下方的打开视频链接。也支持 HTTP(S) 视频直链（线上 HTTPS 页面请使用 HTTPS 地址）；同一段落中混有文字的链接仍显示为普通链接。视频编码需由访客浏览器支持，MP4 推荐使用 H.264 视频和 AAC 音频。正文继续禁用原始 HTML，无需手写 `<video>`。

@@ -18,7 +18,7 @@ describe('editorial home preserves content boundaries', () => {
     const video: SiteContentItem = { id: 'moment-mina-meeting-video', slug: 'mina-meeting-video', title: 'Mina 会议视频', type: 'post', status: 'published', visibility: 'public', publishedAt: '2026-11-12' };
     const home = selectEditorialHome([video]);
     expect(home.featuredVideo?.item).toEqual(video);
-    expect(home.featuredVideo?.durationLabel).toBe('2 分 20 秒');
+    expect(home.featuredVideo?.durationLabel).toBe('1 分 35 秒');
     expect(home.articles).toEqual([video]);
     expect(home.projects).toEqual([]);
     expect(selectEditorialHome([{ ...video, status: 'draft' }]).featuredVideo).toBeNull();

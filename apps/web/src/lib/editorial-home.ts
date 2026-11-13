@@ -13,7 +13,7 @@ export function selectEditorialHome(content: SiteContentItem[]) {
   const featuredVideo: HomeVideoFeature | null = video ? {
     item: video,
     posterUrl: '/images/mina-meeting-video.webp',
-    durationLabel: '2 分 20 秒',
+    durationLabel: '1 分 35 秒',
   } : null;
   return {
     articles: visible.filter(item => item.type === 'post' || item.type === 'note').slice(0, 4),
