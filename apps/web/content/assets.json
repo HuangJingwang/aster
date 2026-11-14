@@ -438,5 +438,35 @@
     "usage": "cover",
     "altText": "Voice Agent 第二篇封面：麦克风、对话气泡与日历工具串起从唤醒到多轮对话的过程",
     "createdAt": "2026-11-14T20:42:13+08:00"
+  },
+  {
+    "id": "voice-agent-practice-03-background-memory-00-cover-voice-agent",
+    "storageKey": "images/voice-agent-practice-03-background-memory/00-cover-voice-agent.png",
+    "publicUrl": "/images/voice-agent-practice-03-background-memory/00-cover-voice-agent.png",
+    "mimeType": "image/png",
+    "byteSize": 2956020,
+    "usage": "cover",
+    "altText": "Voice Agent 第三篇封面：对话气泡、后台任务卡片与记忆笔记本通过纸带相连",
+    "createdAt": "2026-11-15T00:58:48+08:00"
+  },
+  {
+    "id": "voice-agent-practice-03-background-memory-01-collaboration-craft",
+    "storageKey": "images/voice-agent-practice-03-background-memory/01-collaboration-craft.png",
+    "publicUrl": "/images/voice-agent-practice-03-background-memory/01-collaboration-craft.png",
+    "mimeType": "image/png",
+    "byteSize": 2398912,
+    "usage": "content",
+    "altText": "前台通过请求协调层委托和修改任务，后台调用工具并回传进度与结果，执行状态和播报状态分别维护",
+    "createdAt": "2026-11-15T00:58:48+08:00"
+  },
+  {
+    "id": "voice-agent-practice-03-background-memory-02-memory-sync-craft",
+    "storageKey": "images/voice-agent-practice-03-background-memory/02-memory-sync-craft.png",
+    "publicUrl": "/images/voice-agent-practice-03-background-memory/02-memory-sync-craft.png",
+    "mimeType": "image/png",
+    "byteSize": 2474957,
+    "usage": "content",
+    "altText": "应用从对话历史选取前台语境和后台任务快照，将请求状态提供给前台，并让后台按需读取业务资料与长期偏好",
+    "createdAt": "2026-11-15T00:58:48+08:00"
   }
 ]
