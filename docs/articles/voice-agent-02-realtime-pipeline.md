@@ -36,14 +36,11 @@ Pipecat 通过 Frame 承载音频、文本和控制信号，由 Processor 沿 Pi
 
 Mina 当前使用 Agora 和自定义 Qwen 适配；LiveKit Agents 用于对照会话编排。
 
-以“查询下一场会议”为例，逻辑链路如下：
+下图区分音频主路径、响应控制和工具调用循环：
 
-```text
-采集与上传 → 持续输入模型 → 轮次确认与响应控制
-→ 生成工具调用 → 执行业务查询 → 回传结果并续答 → 音频下发与播放
-```
+![语音链路：客户端经应用输入 Qwen，模型直接输出音频或请求应用执行工具后续答](assets/voice-agent-02-realtime-pipeline/01-voice-pipeline.png)
 
-采集、上传和模型接收持续重叠；无需等整句话录完才开始传输。
+采集、上传和模型接收持续重叠；工具结果回传后，模型继续回答或发起下一次调用。
 
 ## 三、音频输入：格式适配与队列
 
@@ -83,6 +80,12 @@ Mina 保留 Qwen 服务端 VAD，同时关闭自动响应和自动打断，相�
 ## 五、工具调用：协议、执行与续答
 
 模型无法从当前上下文获得会议安排时，需要查询业务服务。应用先通过 `session.update` 注册工具，再处理模型返回的调用请求。
+
+下面按应用控制响应的方式，展示一次查询的协议时序：
+
+![Qwen 工具调用时序：配置会话、输入音频、触发响应、校验执行、回传结果并续答，包含拒绝执行和查询失败](assets/voice-agent-02-realtime-pipeline/02-tool-call-sequence.png)
+
+工具调用循环以 `call_id` 关联请求与结果；拒绝执行或查询失败也需要返回明确状态。
 
 Qwen 使用 `response.function_call_arguments.done` 返回完整的名称、参数和 `call_id`。以下为示意事件，省略了其他响应元数据：
 
@@ -238,4 +241,10 @@ Grafana 建议保留三组视图：端到端 P50/P95 与失败率、各阶段耗
 | 8 | 统一指标定义、埋点边界和统计限制 |
 | 9 | 按瓶颈选择优化措施与验证指标 |
 
-配图计划：第二章绘制组件关系图，第五章绘制工具调用时序图，第八章使用实际 trace 绘制单轮耗时图。前两张以接口与代码为依据，耗时图注明样本和测量口径。当前未生成图片文件。
+已完成第二章链路图和第五章工具调用时序图，正文引用 PNG，可编辑 SVG 与生成脚本保存在同一目录：
+
+- [链路图 SVG](assets/voice-agent-02-realtime-pipeline/01-voice-pipeline.svg)
+- [工具调用时序图 SVG](assets/voice-agent-02-realtime-pipeline/02-tool-call-sequence.svg)
+- [重绘脚本](assets/voice-agent-02-realtime-pipeline/render_diagrams.py)
+
+两图依据本文引用的 Qwen 协议与应用实现，使用统一配色区分客户端、应用、模型和业务服务。第八章单轮耗时图待实际 trace 补充，并需注明样本和测量口径。

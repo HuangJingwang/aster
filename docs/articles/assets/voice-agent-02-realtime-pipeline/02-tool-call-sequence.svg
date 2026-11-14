@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1660" viewBox="0 0 1440 1660" role="img" aria-labelledby="title desc">
+<title id="title">一次 Qwen 工具调用如何完成</title><desc id="desc">应用配置会话并持续输入音频，轮次准入后触发响应。模型请求工具，应用校验权限，执行查询或构造拒绝结果，按 call_id 回传并请求续答，最后流式播放音频。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#52647b"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<g font-family="PingFang SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" fill="#18283f">
+<text x="50" y="60" font-size="36" text-anchor="start" fill="#18283f" font-weight="650">一次 Qwen 工具调用如何完成</text>
+<text x="50" y="99" font-size="22" text-anchor="start" fill="#53657a" font-weight="400">应用控制响应的查询示例 · 时间从上到下</text>
+<rect x="20" y="140" width="200" height="66" rx="12" fill="#f0f3f7" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="120" y="181" font-size="24" text-anchor="middle" fill="#18283f" font-weight="600">客户端</text>
+<path d="M 120 206 L 120 1555" fill="none" stroke="#c3cedb" stroke-width="1.5" stroke-dasharray="8 6"/>
+<rect x="300" y="140" width="200" height="66" rx="12" fill="#eaf3ff" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="400" y="181" font-size="24" text-anchor="middle" fill="#18283f" font-weight="600">应用 / Agent</text>
+<path d="M 400 206 L 400 1555" fill="none" stroke="#c3cedb" stroke-width="1.5" stroke-dasharray="8 6"/>
+<rect x="840" y="140" width="200" height="66" rx="12" fill="#f1edff" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="940" y="181" font-size="24" text-anchor="middle" fill="#18283f" font-weight="600">Qwen Realtime</text>
+<path d="M 940 206 L 940 1555" fill="none" stroke="#c3cedb" stroke-width="1.5" stroke-dasharray="8 6"/>
+<rect x="1220" y="140" width="200" height="66" rx="12" fill="#fff3e3" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="1320" y="181" font-size="24" text-anchor="middle" fill="#18283f" font-weight="600">业务服务</text>
+<path d="M 1320 206 L 1320 1555" fill="none" stroke="#c3cedb" stroke-width="1.5" stroke-dasharray="8 6"/>
+<path d="M 400 270 L 940 270" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="670.0" y="234" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400" font-family="SFMono-Regular, Consolas, monospace">session.update</text>
+<text x="670.0" y="260" font-size="19" text-anchor="middle" fill="#53657a" font-weight="400">声明 tools 与轮次策略</text>
+<path d="M 940 325 L 400 325" fill="none" stroke="#52647b" stroke-width="2.2" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="670.0" y="312" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400" font-family="SFMono-Regular, Consolas, monospace">session.updated</text>
+<rect x="45" y="355" width="970" height="160" rx="5" fill="none" stroke="#b8c9dc" stroke-width="1.7"/>
+<rect x="45" y="355" width="270" height="32" rx="4" fill="#f1f6fc" stroke="#b8c9dc" stroke-width="1.7"/>
+<text x="57" y="378" font-size="18" text-anchor="start" fill="#53657a" font-weight="600">loop 持续输入音频</text>
+<path d="M 120 420 L 400 420" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="260.0" y="407" font-size="22" text-anchor="middle" fill="#18283f" font-weight="400">音频帧（RTC）</text>
+<path d="M 400 480 L 940 480" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="670.0" y="467" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400" font-family="SFMono-Regular, Consolas, monospace">input_audio_buffer.append</text>
+<path d="M 940 560 L 400 560" fill="none" stroke="#52647b" stroke-width="2.2" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="670.0" y="547" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400" font-family="SFMono-Regular, Consolas, monospace">input_audio_buffer.speech_stopped</text>
+<rect x="255" y="590" width="290" height="54" rx="12" fill="#eaf3ff" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="400" y="625" font-size="22" text-anchor="middle" fill="#18283f" font-weight="400">轮次确认与应用准入</text>
+<path d="M 400 690 L 940 690" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="670.0" y="677" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400" font-family="SFMono-Regular, Consolas, monospace">response.create</text>
+<rect x="285" y="730" width="1090" height="650" rx="5" fill="none" stroke="#b8c9dc" stroke-width="1.7"/>
+<rect x="285" y="730" width="270" height="32" rx="4" fill="#f1f6fc" stroke="#b8c9dc" stroke-width="1.7"/>
+<text x="297" y="753" font-size="18" text-anchor="start" fill="#53657a" font-weight="600">loop 模型请求工具时重复</text>
+<path d="M 940 820 L 400 820" fill="none" stroke="#52647b" stroke-width="2.2" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="670.0" y="784" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400" font-family="SFMono-Regular, Consolas, monospace">response.function_call_arguments.done</text>
+<text x="670.0" y="810" font-size="19" text-anchor="middle" fill="#53657a" font-weight="400">name / arguments / call_id</text>
+<rect x="285" y="845" width="570" height="54" rx="12" fill="#eaf3ff" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="570" y="880" font-size="22" text-anchor="middle" fill="#18283f" font-weight="400">收齐响应，校验参数、权限与轮次有效性</text>
+<rect x="310" y="925" width="1040" height="280" rx="5" fill="none" stroke="#b8c9dc" stroke-width="1.7"/>
+<rect x="310" y="925" width="270" height="32" rx="4" fill="#f1f6fc" stroke="#b8c9dc" stroke-width="1.7"/>
+<text x="322" y="948" font-size="18" text-anchor="start" fill="#53657a" font-weight="600">alt 允许执行</text>
+<path d="M 400 985 L 1320 985" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="860.0" y="972" font-size="22" text-anchor="middle" fill="#18283f" font-weight="400">执行业务查询</text>
+<path d="M 1320 1045 L 400 1045" fill="none" stroke="#52647b" stroke-width="2.2" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="860.0" y="1032" font-size="22" text-anchor="middle" fill="#18283f" font-weight="400">返回查询结果或错误</text>
+<path d="M 310 1070 L 1350 1070" fill="none" stroke="#b8c9dc" stroke-width="1.5" stroke-dasharray="8 6"/>
+<text x="323" y="1098" font-size="18" text-anchor="start" fill="#53657a" font-weight="600">else 拒绝执行</text>
+<path d="M 400 1130 L 455 1130 L 455 1170 L 400 1170" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="477" y="1157" font-size="22" text-anchor="start" fill="#18283f" font-weight="400">构造拒绝结果，不调用业务服务</text>
+<path d="M 400 1280 L 940 1280" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="670.0" y="1244" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400" font-family="SFMono-Regular, Consolas, monospace">conversation.item.create</text>
+<text x="670.0" y="1270" font-size="19" text-anchor="middle" fill="#53657a" font-weight="400">function_call_output · 保留原 call_id</text>
+<path d="M 400 1350 L 940 1350" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="670.0" y="1337" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400" font-family="SFMono-Regular, Consolas, monospace">response.create</text>
+<rect x="45" y="1410" width="970" height="145" rx="5" fill="none" stroke="#b8c9dc" stroke-width="1.7"/>
+<rect x="45" y="1410" width="270" height="32" rx="4" fill="#f1f6fc" stroke="#b8c9dc" stroke-width="1.7"/>
+<text x="57" y="1433" font-size="18" text-anchor="start" fill="#53657a" font-weight="600">loop 流式输出音频</text>
+<path d="M 940 1475 L 400 1475" fill="none" stroke="#52647b" stroke-width="2.2" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="670.0" y="1462" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400" font-family="SFMono-Regular, Consolas, monospace">response.audio.delta</text>
+<path d="M 400 1535 L 120 1535" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="260.0" y="1522" font-size="22" text-anchor="middle" fill="#18283f" font-weight="400">音频下发与播放</text>
+<text x="50" y="1610" font-size="20" text-anchor="start" fill="#53657a" font-weight="400">实线：应用发送 / 执行请求；虚线箭头：服务端事件 / 返回结果。</text>
+<text x="50" y="1639" font-size="18" text-anchor="start" fill="#53657a" font-weight="400">查询超时由应用构造错误结果，再按原 call_id 回传。</text>
+</g></svg>

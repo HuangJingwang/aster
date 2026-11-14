@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="840" viewBox="0 0 1440 840" role="img" aria-labelledby="title desc">
+<title id="title">语音请求如何经过模型与工具</title><desc id="desc">客户端采集经应用输入 Qwen。应用控制响应，Qwen 可直接返回音频，也可请求应用执行工具；工具调用业务服务后将结果回传模型。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#52647b"/></marker></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<g font-family="PingFang SC, Noto Sans CJK SC, Microsoft YaHei, sans-serif" fill="#18283f">
+<text x="50" y="65" font-size="36" text-anchor="start" fill="#18283f" font-weight="650">语音请求如何经过模型与工具</text>
+<text x="50" y="105" font-size="22" text-anchor="start" fill="#53657a" font-weight="400">应用经 WebSocket 接入 Qwen 的原生续答路径</text>
+<rect x="50" y="240" width="230" height="120" rx="12" fill="#f0f3f7" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="165.0" y="287" font-size="26" text-anchor="middle" fill="#18283f" font-weight="600">客户端采集</text>
+<text x="165.0" y="323" font-size="20" text-anchor="middle" fill="#53657a" font-weight="400">采集、分帧与上传</text>
+<rect x="350" y="240" width="300" height="120" rx="12" fill="#eaf3ff" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="500.0" y="287" font-size="26" text-anchor="middle" fill="#18283f" font-weight="600">应用接入</text>
+<text x="500.0" y="323" font-size="20" text-anchor="middle" fill="#53657a" font-weight="400">音频适配与响应控制</text>
+<rect x="780" y="240" width="300" height="120" rx="12" fill="#f1edff" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="930.0" y="287" font-size="26" text-anchor="middle" fill="#18283f" font-weight="600">Qwen Realtime</text>
+<text x="930.0" y="323" font-size="20" text-anchor="middle" fill="#53657a" font-weight="400">语音理解与响应生成</text>
+<rect x="1180" y="240" width="210" height="120" rx="12" fill="#f0f3f7" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="1285.0" y="287" font-size="26" text-anchor="middle" fill="#18283f" font-weight="600">输出与播放</text>
+<text x="1285.0" y="323" font-size="20" text-anchor="middle" fill="#53657a" font-weight="400">下发、缓冲与播放</text>
+<rect x="780" y="555" width="300" height="120" rx="12" fill="#eaf3ff" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="930.0" y="602" font-size="26" text-anchor="middle" fill="#18283f" font-weight="600">应用工具执行</text>
+<text x="930.0" y="638" font-size="20" text-anchor="middle" fill="#53657a" font-weight="400">参数校验与权限检查</text>
+<rect x="1180" y="555" width="210" height="120" rx="12" fill="#fff3e3" stroke="#c8d4e1" stroke-width="1.7"/>
+<text x="1285.0" y="602" font-size="26" text-anchor="middle" fill="#18283f" font-weight="600">业务服务</text>
+<text x="1285.0" y="638" font-size="20" text-anchor="middle" fill="#53657a" font-weight="400">查询日历等数据</text>
+<path d="M 280 300 L 350 300" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="315" y="282" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400">RTC</text>
+<path d="M 650 280 L 780 280" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="715" y="264" font-size="20" text-anchor="middle" fill="#18283f" font-weight="400">流式音频</text>
+<path d="M 650 335 L 780 335" fill="none" stroke="#52647b" stroke-width="2.2" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="715" y="319" font-size="20" text-anchor="middle" fill="#18283f" font-weight="400">触发响应</text>
+<path d="M 930 240 L 930 177 L 500 177 L 500 240" fill="none" stroke="#52647b" stroke-width="2.2" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="715" y="161" font-size="20" text-anchor="middle" fill="#53657a" font-weight="400">轮次事件</text>
+<path d="M 1080 300 L 1180 300" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="1130" y="282" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400">音频分块</text>
+<path d="M 860 360 L 860 555" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="842" y="436" font-size="22" text-anchor="end" fill="#18283f" font-weight="400">调用请求</text>
+<text x="842" y="466" font-size="19" text-anchor="end" fill="#53657a" font-weight="400">名称、参数、call_id</text>
+<path d="M 1000 555 L 1000 360" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="1018" y="436" font-size="22" text-anchor="start" fill="#18283f" font-weight="400">回传结果</text>
+<text x="1018" y="466" font-size="19" text-anchor="start" fill="#53657a" font-weight="400">同一 call_id</text>
+<path d="M 1080 590 L 1180 590" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="1130" y="574" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400">业务查询</text>
+<path d="M 1180 650 L 1080 650" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="1130" y="632" font-size="19" text-anchor="middle" fill="#18283f" font-weight="400">结果</text>
+<text x="50" y="430" font-size="22" text-anchor="start" fill="#18283f" font-weight="400">直接回答：生成音频后进入播放链路。</text>
+<text x="50" y="466" font-size="22" text-anchor="start" fill="#18283f" font-weight="400">工具回答：执行、回传，再生成回答或继续调用。</text>
+<rect x="50" y="730" width="1340" height="68" rx="12" fill="#f8fafc" stroke="#e3e9f0" stroke-width="1.7"/>
+<path d="M 76 764 L 135 764" fill="none" stroke="#52647b" stroke-width="2.2" marker-end="url(#arrow)"/>
+<text x="150" y="771" font-size="19" text-anchor="start" fill="#53657a" font-weight="400">音频 / 工具数据</text>
+<path d="M 390 764 L 449 764" fill="none" stroke="#52647b" stroke-width="2.2" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="465" y="771" font-size="19" text-anchor="start" fill="#53657a" font-weight="400">轮次 / 响应控制</text>
+<text x="760" y="771" font-size="19" text-anchor="start" fill="#53657a" font-weight="400">Mina 的后台委托与独立 TTS 分支见第七章</text>
+</g></svg>
