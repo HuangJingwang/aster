@@ -408,5 +408,25 @@
     "usage": "content",
     "altText": "Tom 将项目评审与谁参加两个标签系在一起，说明追问需要关联上一轮确认的会议",
     "createdAt": "2026-11-14T18:31:23+08:00"
+  },
+  {
+    "id": "voice-agent-practice-02-realtime-pipeline-05-doubao-tool-loop",
+    "storageKey": "images/voice-agent-practice-02-realtime-pipeline/05-doubao-tool-loop.png",
+    "publicUrl": "/images/voice-agent-practice-02-realtime-pipeline/05-doubao-tool-loop.png",
+    "mimeType": "image/png",
+    "byteSize": 2024334,
+    "usage": "content",
+    "altText": "豆包 Seeduplex 工具链：应用执行业务，按 call_id 聚合回传结果，模型自动续答",
+    "createdAt": "2026-11-14T19:12:13+08:00"
+  },
+  {
+    "id": "voice-agent-practice-02-realtime-pipeline-06-openai-tool-loop",
+    "storageKey": "images/voice-agent-practice-02-realtime-pipeline/06-openai-tool-loop.png",
+    "publicUrl": "/images/voice-agent-practice-02-realtime-pipeline/06-openai-tool-loop.png",
+    "mimeType": "image/png",
+    "byteSize": 2153848,
+    "usage": "content",
+    "altText": "OpenAI Realtime 工具链：从完成响应取得函数请求，应用执行并回传结果，再显式触发续答",
+    "createdAt": "2026-11-14T19:12:13+08:00"
   }
 ]

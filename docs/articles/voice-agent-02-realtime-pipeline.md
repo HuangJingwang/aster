@@ -1,24 +1,60 @@
 # Voice Agent 实践与落地（二）：从唤醒到多轮对话，拆解实时语音链路
 
-上一篇讲了模型接入。连上 Realtime 以后，模型已经能听、能说。把它放进会议里，还需要处理唤醒、停顿、业务查询和用户改口，才能完成一段连续的对话。
+上一篇讲了模型接入。这一篇继续处理接入之后的问题：从用户开口，到助手执行工具、返回答案，再到下一轮追问，中间需要哪些环节。
 
-这一篇沿着一次会议查询往下看。每个阶段解决一个具体问题，再把它们接成多轮对话。模型侧以 Mina 的 Qwen Realtime 接入为主，Pipecat、TEN、LiveKit 和豆包放在对应环节比较。
+文章先讲通用机制，再对照框架与模型接口，最后回到我们自己的实现 Mina，说明每个选择的依据。
+
+## 背景：先选实时语音路线，再看能否落地
+
+我们要做的是能参与会议的助手。它既要自然地接话、等待补充和接受打断，也要查询日历、调用业务工具。选模型时，需要同时看两类能力：
+
+- **语音交互**：听懂输入、控制接话时机，并持续生成自然的语音。
+- **业务执行**：生成可靠的调用参数，让应用完成查询，再根据结果继续回答。
+
+### 语音榜单为什么让我们优先看 Realtime
+
+适合参考的是 Speech-to-Speech 榜单，而不只是比较音色的 TTS 榜单。Artificial Analysis 将语音推理、交互节奏、Agent 任务表现和响应速度分别展示。
+
+截至 2026 年 11 月 14 日，StepAudio 3 Realtime 与 Qwen Audio 3.0 Realtime Plus 位于语音推理和交互节奏前列。这支持我们**优先考察面向语音输入输出的原生实时模型**。榜单衡量的能力不同，不能把某个单项排名直接解释成所有业务场景下都最好。[Artificial Analysis Speech-to-Speech 榜单](https://artificialanalysis.ai/speech-to-speech/)
+
+| 我们关心的能力 | 对应的评测信息 | 对会议助手的意义 |
+|---|---|---|
+| 听懂并回答 | 语音推理 | 查询条件能否理解正确 |
+| 自然接话 | 交互节奏、停顿与打断 | 是否容易抢答或误打断 |
+| 完成业务 | Agent 任务表现 | 工具调用能否推进任务 |
+| 等待与成本 | 首音延迟、调用价格 | 能否持续用于实际对话 |
+
+原生实时路线让模型直接处理声音。另一条常见路线是级联：分别经过语音识别、文本模型和语音合成，适合需要独立选择这些组件的系统。两种路线都可以流式运行；本文沿原生 Realtime 路线展开。
+
+### 国内选型还要区分 App 体验与 API 版本
+
+豆包 App 已上线的音视频全双工模型叫 **SeedRealtime**，它与火山引擎公开文档中的 **Seeduplex（实时语音模型 3.0）** 需要分别看待。[SeedRealtime 官方介绍](https://seed.bytedance.com/zh/SeedRealtime)
+
+| 对象 | 本次能确认的接入信息 |
+|---|---|
+| SeedRealtime | 官方介绍和模型目录提供豆包 App 体验入口；本次未确认到可直接等同于 App 新版本能力的公开 API 入口 |
+| Seeduplex | 火山引擎已有公开 API 文档和工具调用协议，本文按 `session.model=1.2.6.1` 讲解 |
+| Qwen-Omni-Realtime | 百炼提供公开接入与事件文档，本文以 `qwen3.8-omni-flash-realtime` 的 WebSocket Function Calling 路径为例 |
+
+**App 已上线，不等于相同能力已能通过 API 接入。** 公开文档中还出现了 `Doubao-Seed-Realtime-1.0` 的说明；它是否对应 App 同一版本，本次尚未确认。选型时应以实际可开通的接口和能力为准。
+
+因此，我们的选型顺序是：**先用语音评测筛选路线，再用实际可接入性和工具控制能力确定落地方案**。文末再说明这些条件怎样落到 Mina。
 
 ## 从一次唤醒进入两轮对话
 
 先用一段示意对话说明我们要完成的交互。*以下会议信息为示例。*
 
-> **用户：** 米娜，查一下今天的会议……下午最近的一场。
+> **用户：** 小助手，查一下今天的会议……下午最近的一场。
 >
-> **Mina：** 下午三点有一场项目评审。
+> **助手：** 下午三点有一场项目评审。
 >
 > **用户：** 都有谁参加？
 >
-> **Mina：** 我查一下这场会议的参会名单。
+> **助手：** 我查一下这场会议的参会名单。
 
 这段对话需要处理以下几个环节：
 
-1. **唤醒**：识别“米娜”，确认用户正在向助手发起请求。
+1. **唤醒**：识别“小助手”，确认用户正在向助手发起请求。
 2. **轮次判断**：用户说完“今天的会议”后停了一下，需要等“下午最近的一场”补充完整，再开始回答。
 3. **工具调用**：根据用户给出的条件查询日历，拿到真实的会议安排。
 4. **多轮衔接**：用户追问“都有谁参加”时，关联上一轮查到的会议，继续查询参会名单。
@@ -34,27 +70,23 @@
 
 *虚线表示应用触发响应；实线表示音频或工具数据。*
 
-语音接入有两种常见路线：
+这里先分清框架、模型和应用的职责：
 
-- **原生 Realtime**：直接向模型输入音频，并接收模型生成的音频，本文采用这条路线。
-- **级联**：分别经过语音识别、文本模型和语音合成。
+| 层次 | 典型对象 | 负责什么 |
+|---|---|---|
+| 编排框架 | Pipecat、LiveKit Agents、TEN Framework | 组织音频、模型服务、工具及控制事件 |
+| 实时模型服务 | Qwen Realtime、OpenAI Realtime、豆包 Seeduplex | 理解音频、生成工具请求与回答 |
+| 业务应用 | 使用上述能力构建的会议助手等产品 | 决定交互规则、业务权限和实际工具实现 |
 
-两种路线都能流式运行，也都需要处理下面这些交互环节。
-
-Mina 选择 Qwen，是因为它的音频输入输出、会话控制和工具调用能力能够接入现有业务。本文对应代码默认的 `qwen3.8-omni-flash-realtime`，通过 WebSocket 接入；客户端与 Agent 之间使用 Agora 传音频。
-
-框架可以承担其中一部分编排：
-
-- **Pipecat** 把音频、文本和控制信号组织成 Frame，沿处理管线流转。
-- **LiveKit Agents** 通过 `AgentSession` 管理输入、模型与输出。
+Pipecat 用 Frame 与 Processor 组织处理管线；LiveKit Agents 通过 `AgentSession` 管理会话；TEN Framework 用 Extension 与 Graph 组合处理能力。它们与模型服务处于不同层次。
 
 LiveKit 的音视频传输也能单独供 Pipecat 使用，传输层与 Agent 框架可以分别选择。
 
 ## 唤醒：先确认这句话是在叫助手
 
-会议中一直有人说话。Mina 如果对每句话都回应，很快就会打断正常讨论。唤醒的作用，就是给交互一个明确的入口。
+会议中一直有人说话。助手如果对每句话都回应，很快就会打断正常讨论。唤醒的作用，就是给交互一个明确的入口。
 
-说“米娜”是一种入口，点击语音按钮、按快捷键也是。后两种由用户直接启动；采用唤醒词时，系统需要从持续输入的声音里找到约定的名字。
+说“小助手”是一种入口，点击语音按钮、按快捷键也是。后两种由用户直接启动；采用唤醒词时，系统需要从持续输入的声音里找到约定的名字。
 
 常见的检测方法有两种：
 
@@ -66,13 +98,11 @@ LiveKit 的音视频传输也能单独供 Pipecat 使用，传输层与 Agent �
 - **客户端检测**：可以先判断是否唤醒，再连接后端。
 - **服务端检测**：声音已经经过网络传输，检测器再决定是否进入后续交互。
 
-Mina 使用 `sherpa_onnx.KeywordSpotter`，在 Agent 所在机器上分别处理参会人的音轨。检测到“米娜”以后，才放行后面的交互音频到 Realtime。
-
 ### 唤醒时，首句往往已经开始了
 
-用户通常会连着说“米娜，查一下今天的会议”，不会特意等系统准备好。检测器确认命中需要时间，这期间的“查一下”也必须保留下来。
+用户通常会连着说“小助手，查一下今天的会议”，不会特意等系统准备好。检测器确认命中需要时间，这期间的“查一下”也必须保留下来。
 
-Mina 按以下顺序保住首句：
+采用唤醒词时，可以通过音频缓存保住首句：
 
 1. **检测期间**，持续缓存近期音频。
 2. **唤醒命中后**，补送检测期间已经说出的部分。
@@ -86,12 +116,11 @@ Mina 按以下顺序保住首句：
 |---|---|
 | Pipecat `WakePhraseUserTurnStartStrategy` | 在最终转写里匹配短语，命中后开启交互窗口 |
 | LiveKit `livekit-wakeword` | 在客户端运行 ONNX 唤醒词模型，官方示例在命中后连接房间 |
-| Mina | 音频经过 RTC 到达 Agent，再由关键词检测器判断是否唤醒 |
 | Codex Voice | 公开文档确认按钮与配置的快捷键入口，内部检测模型未披露 |
 
 ## 会话准备：让后续输入有明确的归属
 
-“米娜”被识别出来以后，系统要记住是谁在发起请求。否则旁边的人接了一句话，也可能被拼进“查会议”的指令里。
+“小助手”被识别出来以后，系统要记住是谁在发起请求。否则旁边的人接了一句话，也可能被拼进“查会议”的指令里。
 
 会话准备包含两方面工作：
 
@@ -112,7 +141,7 @@ Mina 按以下顺序保住首句：
 
 处理按音频块持续推进。用户还在说“下午最近的一场”时，前面的声音已经可以到达模型。
 
-这里最容易混淆的是音频格式。RTC 的媒体编码与模型接口接受的格式可能不同，中间需要解码或重采样。Mina 当前向 Qwen 输入 16 kHz 单声道 PCM，通过 `input_audio_buffer.append` 持续发送；输出按 24 kHz PCM 处理。
+这里最容易混淆的是音频格式。RTC 的媒体编码与模型接口接受的格式可能不同，中间需要解码或重采样。以本文的 Qwen WebSocket 配置为例，输入采用 16 kHz 单声道 PCM，通过 `input_audio_buffer.append` 持续发送；输出采用 24 kHz PCM。
 
 让这条输入链路保持流畅，主要看两件事：
 
@@ -132,7 +161,7 @@ VAD，也就是语音活动检测，负责发现这种变化。它持续区分�
 - **时间短**：反应快，但容易被短暂停顿触发。
 - **时间长**：边界更稳定，等待也会增加。
 
-Mina 的 Qwen 路径使用服务端 VAD。TEN VAD 则是可以自行接入的语音活动检测组件。它们在这个阶段提供的是停声信号；用户是否已经表达完整，留给下一步判断。
+Qwen 提供服务端 VAD；TEN VAD 则是可以自行接入的语音活动检测组件。它们在这个阶段提供的是停声信号；用户是否已经表达完整，留给下一步判断。
 
 ## 轮次结束：给补充条件留出时间
 
@@ -181,7 +210,7 @@ Mina 的 Qwen 路径使用服务端 VAD。TEN VAD 则是可以自行接入的语
 
 当前没有用到的会议历史和业务工具，可以先不加入。这样模型要处理的内容更集中，工具之间也更容易区分。
 
-Mina 在 Qwen 路径上保留服务端 VAD，关闭自动响应和自动打断。响应由应用触发：
+以应用控制响应的接法为例，可以保留 Qwen 服务端 VAD，关闭自动响应，将回应时机交给应用：
 
 1. 接收检测事件，完成轮次判断。
 2. 确认输入属于当前发言人，且这一轮可以回应。
@@ -192,6 +221,46 @@ Realtime 在接收音频时已经可以处理输入，这里说的是生成响�
 ## 工具执行：把查询意图变成一次业务调用
 
 模型知道用户要查会议，却不能凭对话猜出日历里的真实安排。应用需要先在会话中提供工具描述，例如查询最近会议需要日期、时间范围和时区。模型据此生成调用请求，应用再执行查询。
+
+### 先声明工具，再处理调用
+
+工具声明包含名称、用途和参数结构。以 Qwen 为例，下面是 `session.update` 中的工具配置片段，省略了音频等其他会话参数：
+
+```json
+{
+  "type": "session.update",
+  "session": {
+    "tools": [{
+      "type": "function",
+      "function": {
+        "name": "get_next_meeting",
+        "description": "查询指定日期和时间范围内最近的一场会议",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "date": {"type": "string", "description": "日期，格式 YYYY-MM-DD"},
+            "period": {"type": "string", "enum": ["morning", "afternoon"]},
+            "timezone": {"type": "string"}
+          },
+          "required": ["date", "period", "timezone"]
+        }
+      }
+    }]
+  }
+}
+```
+
+三家的定义不能原样互换：
+
+| 服务 | `tools` 中的自定义函数结构 |
+|---|---|
+| Qwen | `type=function`，名称、描述和参数放在嵌套的 `function` 对象里 |
+| OpenAI Realtime | `type=function`，`name`、`description`、`parameters` 与 `type` 同级 |
+| 豆包 Seeduplex | 公开示例采用 `type=function`，名称、描述和参数同级 |
+
+本节统一讨论由应用执行的 **Function Calling**。供应商托管的远程 MCP 工具由服务端调用，执行责任不同，不混入下面的时序图。
+
+### 收到请求后，由应用执行
 
 Qwen 用 `response.function_call_arguments.done` 交付完整参数。下面省略了其他元数据，工具名与参数为本文示例：
 
@@ -220,7 +289,7 @@ Qwen 用 `response.function_call_arguments.done` 交付完整参数。下面省�
 
 ### 工具执行很久时，先返回明确的任务状态
 
-查一次日历通常可以在本轮完成。对于较长的业务，Mina 会委托后台 `MeetingAgent` 执行，前台先反馈“已受理”。之后用户追问进度时，继续查询同一个任务。
+查一次日历通常可以在本轮完成。较长的业务可以交给后台任务，前台先反馈“已受理”。用户追问进度时，通过任务 ID 查询同一个任务，避免重复发起。
 
 应用需要保留任务 ID，并将执行状态明确返回给模型：
 
@@ -234,6 +303,8 @@ Qwen 用 `response.function_call_arguments.done` 交付完整参数。下面省�
 ## 结果回传与续答：让模型根据查询结果回答
 
 日历服务返回了下午三点的项目评审。查询虽然已经完成，用户还没听到答案。应用要把这条记录交回模型，模型才能把它组织成一句自然的回复。
+
+### Qwen：回传结果，再显式触发续答
 
 回传结果中有两种不同用途的标识：
 
@@ -262,27 +333,63 @@ Qwen 的原生工具续答分两步完成：
 
 *校验通过才调用业务服务；拒绝和超时也要生成对应结果。*
 
-### 豆包的差别在续答触发方式
+### 豆包 Seeduplex：收齐这一批结果后自动续答
 
-Mina 接入的豆包全双工 JSON 协议，在收齐工具结果后会自动续答。应用需要在回传前准备好相关指令和状态；Qwen 则可以在回传之后、发送 `response.create` 之前完成这部分准备。
+这里使用公开 JSON 协议的 `session.model=1.2.6.1`。应用在 `session.update.tools` 中声明函数，随后按以下链路处理：
 
-这会直接影响适配器的实现。不能只把两个服务的事件名称换一下，就认为调用链路相同。下面比较的是 Qwen Realtime 与豆包文档指定的 `session.model=1.2.6.1`，不包含豆包旧版 S2S 二进制协议。
+1. 接收 `response.function_call_arguments.done`，逐项读取 `items` 中的调用及 `call_id`。
+2. 校验并执行工具，分别保存每个调用的结果。
+3. 聚合该批结果，通过 `conversation.item.create` 回传。
+4. 服务端收齐结果后继续生成回答，这条路径无需另发 `response.create`。
 
-| 环节 | Qwen Realtime | 豆包全双工 JSON 协议 |
+豆包的回传项使用 `role=tool` 和 `content`，与 Qwen 的 `function_call_output` 结构不同。下面是一个调用的结果示例：
+
+```json
+{
+  "type": "conversation.item.create",
+  "items": [{
+    "role": "tool",
+    "call_id": "call_example",
+    "content": [{
+      "type": "input_text",
+      "text": "{\"status\":\"ok\",\"event_id\":\"evt_example\",\"title\":\"项目评审\",\"start_at\":\"2026-11-14T15:00:00+08:00\"}"
+    }]
+  }]
+}
+```
+
+![豆包 Seeduplex 工具链：应用执行业务，按 call_id 聚合回传结果，模型自动续答](assets/voice-agent-02-realtime-pipeline/model-tools/05-doubao-tool-loop.png)
+
+*该图对应公开 Seeduplex 协议，不代表豆包 App 新模型 SeedRealtime 的接入方式。*
+
+一批中有调用被拒绝或执行失败，也要回传对应结果。业务执行能否并行，仍取决于调用之间是否存在依赖。
+
+### OpenAI Realtime：应用执行函数，结果写回会话
+
+OpenAI Realtime 同样支持应用自定义函数。工具可通过 `session.update` 配置到会话，也可通过 `response.create` 只配置到一次响应。
+
+以完成响应后处理工具的接法为例：
+
+1. 收到 `response.done`，遍历 `response.output`，找到 `type=function_call` 的项目。
+2. 读取 `name`、完整 `arguments` 和 `call_id`，校验后执行业务。
+3. 发送 `conversation.item.create`，写入 `type=function_call_output`、原 `call_id` 和字符串形式的 `output`。
+4. 再发送 `response.create`，请求模型结合结果继续回答。
+
+第 3 步的工具结果结构与前面的 Qwen 示例相同。但函数声明的层级不同，WebSocket 音频事件也不同，不能据此认为两套协议完全兼容。
+
+![OpenAI Realtime 工具链：从完成响应取得函数请求，应用执行并回传结果，再显式触发续答](assets/voice-agent-02-realtime-pipeline/model-tools/06-openai-tool-loop.png)
+
+*图中采用 `response.done` 收集完整调用；它是本文选择的处理边界，不表示其他工具事件不可用。*
+
+### 对比时，重点看回传格式与续答责任
+
+| 服务 | 应用回传的结果结构 | 续答由谁触发 |
 |---|---|---|
-| 完整调用参数 | `response.function_call_arguments.done` 的 `name`、`arguments`、`call_id` 描述一次调用 | 同名事件中的 `items` 可包含多个调用，各有 `call_id` |
-| 结果格式 | `conversation.item.create` 中使用 `item.type=function_call_output`，结果放在 `output` 字符串里 | 同名事件使用 `items`，每项包含 `role=tool`、`call_id` 和 `content` |
-| 续答 | 回传后显式发送 `response.create` | 聚合该批工具结果回传后自动续答 |
+| Qwen | `item.type=function_call_output`，携带 `call_id` 与 `output` | 应用发送 `response.create` |
+| 豆包 Seeduplex | `items[]` 中放 `role=tool`、`call_id` 与 `content` | 服务端收齐该批结果后继续生成 |
+| OpenAI Realtime | `item.type=function_call_output`，携带 `call_id` 与 `output` | 应用发送 `response.create` |
 
-豆包要分别处理这一批中的各个调用，拒绝或失败也应返回对应结果，避免一直等不到某一项。Qwen 单个事件描述一次调用，同样可能在一轮里产生多个工具调用。
-
-自动响应的差异也出现在首轮。豆包服务端会自行生成回复，Mina 的适配器需要控制这些事件的交付：
-
-1. 暂存尚未通过发言准入检查的模型事件。
-2. 通过检查后，放行并交付这些事件。
-3. 若事件涉及工具调用，在执行前再次检查轮次是否有效。
-
-应用等待放行的时间，要和模型生成时间分开观察。
+因此，适配器至少要分别处理工具声明、调用事件、结果封装和续答触发。对自动续答的路径，应在回传结果前完成本轮状态准备。
 
 ## 流式播放：让用户尽早听到答案
 
@@ -299,15 +406,23 @@ Mina 接入的豆包全双工 JSON 协议，在收齐工具结果后会自动续
 
 采用流式播放时，可以边生成边交付，并按实际网络状况保留适量缓冲。
 
-Qwen 的音频事件是 `response.audio.delta`，本文使用的豆包协议则是 `response.output_audio.delta`。适配层将它们转换成后续输出链路能处理的音频，客户端再按播放节奏消费。
+三家在本文 WebSocket 路径下的音频事件如下：
 
-Mina 也保留了独立的语音合成分支，用于部分控制反馈、受理反馈和已经确定的结果。这些文本可以直接合成为语音，无需让 Qwen 再改写一次。
+| 服务 | 音频分块事件 |
+|---|---|
+| Qwen | `response.audio.delta` |
+| 豆包 Seeduplex | `response.output_audio.delta` |
+| OpenAI Realtime | `response.output_audio.delta` |
+
+适配层将事件转换成后续输出链路能处理的音频，客户端再按播放节奏消费。
+
+应用也可以为控制反馈、受理反馈和已确定的结果保留独立语音合成分支。已有文本直接合成为语音，能够省去再次由模型组织措辞的过程。
 
 **听到反馈与拿到结果，是两个不同的时间点。** “我查一下”让用户知道请求已被接收，“下午三点有项目评审”才提供查询结果。后面的耗时分析会分别记录首声和有效回答。
 
 ## 打断：接收改口，同时停下旧回答
 
-现在给示例增加一种情况：Mina 刚开始播报，用户插入一句：
+现在给示例增加一种情况：助手刚开始播报，用户插入一句：
 
 > 等等，只看我主持的。
 
@@ -338,7 +453,7 @@ Mina 也保留了独立的语音合成分支，用于部分控制反馈、受理
 
 回到正常完成第一轮的情况。用户听完会议时间，接着追问：
 
-> **Mina：** 下午三点有一场项目评审。
+> **助手：** 下午三点有一场项目评审。
 >
 > **用户：** 都有谁参加？
 
@@ -348,10 +463,10 @@ Mina 也保留了独立的语音合成分支，用于部分控制反馈、受理
 
 *会议 ID 让追问落到具体对象，对话历史帮助模型理解省略的条件。*
 
-除了理解追问，系统还要管理收听状态，让用户不用每说一句都重新喊“米娜”。Mina 的交互窗口按以下规则运行：
+除了理解追问，系统还要管理收听状态，让用户不用每说一句都重新喊“小助手”。一种可采用的交互窗口策略是：
 
 - **窗口有效时**：同一发言人可以直接继续输入。
-- **思考和播报期间**：`ConversationState` 暂停静默计时，避免查询或回复尚未结束就退出交互。
+- **思考和播报期间**：暂停静默计时，避免查询或回复尚未结束就退出交互。
 - **回到收听后**：重新开始计时，超时后再回到等待唤醒。
 
 到这里，持续对话实际依赖三类状态：
@@ -401,7 +516,7 @@ Mina 也保留了独立的语音合成分支，用于部分控制反馈、受理
 | 结果续答 | 结果发送完成 → 首块结果音频到达 |
 | 播放准备 | 首块结果音频到达应用 → 客户端开始播放 |
 
-例如，Mina 的自定义适配会收齐完整响应后再执行工具，所以参数就绪与实际执行之间还存在调度等待。再如，应用拿到音频后，客户端可能还在缓冲。把这些边界分开，才能解释“查询很快，听到答案却很慢”。
+例如，参数就绪后，工具可能还在排队等待执行；应用拿到音频后，客户端也可能还在缓冲。把这些边界分开，才能解释“查询很快，听到答案却很慢”。
 
 不同接入方式可以利用不同的埋点位置：
 
@@ -436,10 +551,46 @@ Mina 也保留了独立的语音合成分支，用于部分控制反馈、受理
 
 调整后用同一组请求复测，同时抽检是否更容易抢答、漏条件或误打断，确认缩短等待后仍能完整处理用户请求。
 
+## 我们的选择：把这些能力组合成 Mina
+
+Mina 是我们自己的会议助手实现。前面的框架和模型提供基础能力，我们再按会议场景决定唤醒、发言归属、工具执行和任务生命周期。
+
+### 为什么最终选择 Qwen
+
+这次选择主要考虑三点：
+
+1. **先选原生实时路线**：语音榜单里，这类模型在语音推理与自然交互上表现突出，符合我们对接话、追问和打断的需求。
+2. **优先采用实际可接入的服务**：国内落地时，我们没有把等待豆包 App 新模型能力开放作为接入前提，先使用公开 API 和工具协议明确的 Qwen。Seeduplex 已有公开接口，仍可作为独立候选评估。
+3. **保留应用的控制位置**：Qwen 的会话配置、Function Calling 和显式续答，让我们能在业务校验完成后再放行回应。
+
+当前代码默认使用 `qwen3.8-omni-flash-realtime`。它与榜单中的 Qwen Audio 3.0 Realtime Plus 并非同一个型号；榜单帮助确定考察方向，具体型号仍要用会议样本验证。
+
+### Mina 的具体组合
+
+| 环节 | 当前实现与取舍 |
+|---|---|
+| 音频传输 | 使用 Agora 将参会人音轨送到 Agent，沿用现有会议接入 |
+| 唤醒 | 在 Agent 服务端使用 `sherpa_onnx.KeywordSpotter` 分音轨检测；缓存并补送唤醒期间的声音，保住首句 |
+| 发言准入 | 绑定当前发言人和交互窗口，避免其他人的讨论混入请求 |
+| Qwen 响应 | 保留服务端 VAD，关闭自动响应和自动打断，由应用完成检查后发送 `response.create` |
+| 工具调度 | 自定义适配收齐完整响应后执行工具，将参数就绪后的等待单独计入调度耗时 |
+| 长任务 | 委托后台 `MeetingAgent`，语音前台反馈受理状态，并通过任务 ID 查询后续进度 |
+| 多轮状态 | `ConversationState` 在思考与播报时暂停静默计时，回到收听后恢复计时 |
+| 固定反馈 | 部分控制反馈、受理反馈和已确定结果使用独立语音合成分支 |
+
+Mina 也保留豆包适配。由于服务端会自动响应，适配器暂存尚未准入的模型事件，放行后再交付，并在执行工具前检查轮次有效性。这是我们为会议交互加入的控制策略，不是框架或模型的统一默认行为。
+
+后续比较模型时，我们会用同一组会议请求检查有效回答时间、工具成功率、漏条件和误打断，再决定是否调整这套组合。
+
 ## 参考资料
 
 - [Qwen Realtime：实时多模态](https://help.aliyun.com/zh/model-studio/omni-realtime-api)
-- [Qwen Function Calling](https://docs.modelstudio.console.alibabacloud.com/en/model-studio/qwen-function-calling)
+- [Qwen Realtime 客户端事件：工具定义与结果回传](https://help.aliyun.com/zh/model-studio/client-events)
+- [Qwen Realtime 服务端事件：函数调用参数与音频](https://help.aliyun.com/zh/model-studio/server-events)
+- [OpenAI Realtime：工具与 MCP](https://developers.openai.com/api/docs/guides/realtime-mcp)
+- [OpenAI Realtime：会话、函数调用与音频输出](https://developers.openai.com/api/docs/guides/realtime-conversations)
+- [豆包 Seeduplex API：工具字段与结果回传](https://docs.volcengine.com/docs/doubao-voice/end-to-end-real-time-voice-full-duplex-version?lang=zh)
+- [ByteDance Seed 模型目录](https://seed.bytedance.com/zh/models)
 - [Pipecat Frames](https://github.com/pipecat-ai/docs/blob/main/api-reference/server/frames/overview.mdx)
 - [Pipecat LiveKit Transport](https://docs.pipecat.ai/api-reference/server/services/transport/livekit)
 - [Pipecat LLM Service 与工具调用接口](https://reference-server.pipecat.ai/en/stable/api/pipecat.services.llm_service.html)
@@ -448,6 +599,7 @@ Mina 也保留了独立的语音合成分支，用于部分控制反馈、受理
 - [LiveKit Turn Detection](https://docs.livekit.io/agents/logic/turns/)
 - [Pipecat User Turn Strategies](https://docs.pipecat.ai/api-reference/server/utilities/turn-management/user-turn-strategies)
 - [Pipecat Smart Turn](https://github.com/pipecat-ai/smart-turn)
+- [TEN Framework：Extension 与 Graph](https://theten.ai/docs/ten_framework/concept_overview)
 - [TEN Turn Detection](https://github.com/TEN-framework/ten-turn-detection)
 - [LiveKit Wakeword Detection](https://docs.livekit.io/agents/multimodality/audio/wakeword/)
 - [LiveKit 音频与文本轮次模型](https://docs.livekit.io/agents/logic/turns/turn-detector/)
@@ -457,7 +609,7 @@ Mina 也保留了独立的语音合成分支，用于部分控制反馈、受理
 
 ## 摘要与标签
 
-以两轮会议查询为例，逐阶段讲解唤醒、音频输入、轮次判断、工具执行、续答、播放和打断，并说明多轮上下文与延迟观测。
+以会议查询为例，拆解从唤醒到多轮对话的语音链路，对比 Qwen、豆包与 OpenAI 的工具调用协议，并说明 Mina 的模型选型与实现取舍。
 
 建议标签：Voice Agent、Qwen、Pipecat、LiveKit、可观测性。
 
@@ -465,7 +617,7 @@ Mina 也保留了独立的语音合成分支，用于部分控制反馈、受理
 
 *以下为编辑材料，不属于发布正文。*
 
-本稿采用 practical-tech-writing `7671ad9`。结构图使用 baoyu-infographic / craft-handmade，正文隐喻图使用 Visual IP 的 Tom 路线。图片均通过内置 imagegen 生成，保留原始位图与完整提示词；旧 SVG 只作历史资产保存，正文不再引用。
+本稿采用 practical-tech-writing `452ad4f`。结构图使用 baoyu-infographic / craft-handmade，正文隐喻图使用 Visual IP 的 Tom 路线。图片均通过内置 imagegen 生成，保留原始位图与完整提示词；旧 SVG 只作历史资产保存，正文不再引用。
 
 - [配图分析与版本记录](assets/voice-agent-02-realtime-pipeline/analysis.md)
 - [结构说明](assets/voice-agent-02-realtime-pipeline/structured-content.md)
@@ -475,3 +627,7 @@ Mina 也保留了独立的语音合成分支，用于部分控制反馈、受理
 - [多轮上下文插图提示词](assets/voice-agent-02-realtime-pipeline-tom/prompts/04-followup-context-tom.md)
 
 Tom 路由的维护状态为 `gated-authorized`，来源与边界依 visual-ip-illustrations 的 `references/ips/tom/rights.md` 记录；该状态不表示版权方授权，本次未向上游样例目录发布图片。
+
+- [三家工具链补图与事实核验](assets/voice-agent-02-realtime-pipeline/model-tools/research.md)
+- [豆包工具链提示词](assets/voice-agent-02-realtime-pipeline/model-tools/prompts/05-doubao-tool-loop.md)
+- [OpenAI 工具链提示词](assets/voice-agent-02-realtime-pipeline/model-tools/prompts/06-openai-tool-loop.md)
