@@ -368,5 +368,45 @@
     "usage": "content",
     "altText": "Mina 演示视频 V8",
     "createdAt": "2026-11-13T09:30:00+08:00"
+  },
+  {
+    "id": "voice-agent-practice-02-realtime-pipeline-01-pipeline-craft",
+    "storageKey": "images/voice-agent-practice-02-realtime-pipeline/01-pipeline-craft.png",
+    "publicUrl": "/images/voice-agent-practice-02-realtime-pipeline/01-pipeline-craft.png",
+    "mimeType": "image/png",
+    "byteSize": 2363657,
+    "usage": "cover",
+    "altText": "Qwen 语音链路：应用控制音频输入与响应，工具由应用调用业务服务，结果回传模型续答",
+    "createdAt": "2026-11-14T18:31:23+08:00"
+  },
+  {
+    "id": "voice-agent-practice-02-realtime-pipeline-02-pause-is-not-end",
+    "storageKey": "images/voice-agent-practice-02-realtime-pipeline/02-pause-is-not-end.png",
+    "publicUrl": "/images/voice-agent-practice-02-realtime-pipeline/02-pause-is-not-end.png",
+    "mimeType": "image/png",
+    "byteSize": 1471390,
+    "usage": "content",
+    "altText": "Tom 把剪刀停在语音带的空白处，等待后续内容，说明停顿不等于轮次结束",
+    "createdAt": "2026-11-14T18:31:23+08:00"
+  },
+  {
+    "id": "voice-agent-practice-02-realtime-pipeline-03-tool-sequence-craft",
+    "storageKey": "images/voice-agent-practice-02-realtime-pipeline/03-tool-sequence-craft.png",
+    "publicUrl": "/images/voice-agent-practice-02-realtime-pipeline/03-tool-sequence-craft.png",
+    "mimeType": "image/png",
+    "byteSize": 2353539,
+    "usage": "content",
+    "altText": "Qwen 工具时序：应用接收调用参数，校验后查询业务，按 call_id 回传结果，再发送 response.create 续答",
+    "createdAt": "2026-11-14T18:31:23+08:00"
+  },
+  {
+    "id": "voice-agent-practice-02-realtime-pipeline-04-followup-context",
+    "storageKey": "images/voice-agent-practice-02-realtime-pipeline/04-followup-context.png",
+    "publicUrl": "/images/voice-agent-practice-02-realtime-pipeline/04-followup-context.png",
+    "mimeType": "image/png",
+    "byteSize": 1394367,
+    "usage": "content",
+    "altText": "Tom 将项目评审与谁参加两个标签系在一起，说明追问需要关联上一轮确认的会议",
+    "createdAt": "2026-11-14T18:31:23+08:00"
   }
 ]
