@@ -43,11 +43,11 @@ class SVG:
         subprocess.run(['node', '-e', "const sharp=require('sharp'); sharp(process.argv[1],{density:144}).png().toFile(process.argv[2]).catch(e=>{console.error(e);process.exit(1)});", str(target), str(target.with_suffix('.png'))], check=True)
 
 
-flow = SVG(1440, 840, '语音请求如何经过模型与工具', '客户端采集经应用输入 Qwen。应用控制响应，Qwen 可直接返回音频，也可请求应用执行工具；工具调用业务服务后将结果回传模型。')
+flow = SVG(1440, 840, '语音请求如何经过模型与工具', '客户端音频经 RTC 到达应用，在 Agent 本地通过唤醒门控后输入 Qwen。应用控制响应，Qwen 可直接返回音频，也可请求应用执行工具；工具调用业务服务后将结果回传模型。')
 flow.text(50, 65, '语音请求如何经过模型与工具', 36, weight=650)
 flow.text(50, 105, '应用经 WebSocket 接入 Qwen 的原生续答路径', 22, color=MUTED)
 flow.node(50, 240, 230, 120, '客户端采集', '采集、分帧与上传', GRAY)
-flow.node(350, 240, 300, 120, '应用接入', '音频适配与响应控制', BLUE)
+flow.node(350, 240, 300, 120, '应用接入与响应控制', '音频适配、唤醒与准入', BLUE)
 flow.node(780, 240, 300, 120, 'Qwen Realtime', '语音理解与响应生成', PURPLE)
 flow.node(1180, 240, 210, 120, '输出与播放', '下发、缓冲与播放', GRAY)
 flow.node(780, 555, 300, 120, '应用工具执行', '参数校验与权限检查', BLUE)
@@ -74,6 +74,10 @@ flow.path('M 1180 650 L 1080 650')
 flow.text(1130, 632, '结果', 19, 'middle')
 flow.text(50, 430, '直接回答：生成音频后进入播放链路。', 22)
 flow.text(50, 466, '工具回答：执行、回传，再生成回答或继续调用。', 22)
+flow.rect(50, 535, 620, 140, BLUE)
+flow.text(76, 571, '唤醒门控（Mina · Agent 本地 KWS）', 23, weight=600)
+flow.text(76, 611, '未命中：继续检测，不向 Realtime 送音频。', 20)
+flow.text(76, 644, '命中：绑定发言人，补送缓冲音频，再持续输入。', 20)
 flow.rect(50, 730, 1340, 68, '#f8fafc', '#e3e9f0')
 flow.path('M 76 764 L 135 764')
 flow.text(150, 771, '音频 / 工具数据', 19, color=MUTED)
@@ -84,7 +88,7 @@ flow.write('01-voice-pipeline')
 
 seq = SVG(1440, 1660, '一次 Qwen 工具调用如何完成', '应用配置会话并持续输入音频，轮次准入后触发响应。模型请求工具，应用校验权限，执行查询或构造拒绝结果，按 call_id 回传并请求续答，最后流式播放音频。')
 seq.text(50, 60, '一次 Qwen 工具调用如何完成', 36, weight=650)
-seq.text(50, 99, '应用控制响应的查询示例 · 时间从上到下', 22, color=MUTED)
+seq.text(50, 99, '已唤醒的会话 · 应用控制响应的查询示例 · 时间从上到下', 22, color=MUTED)
 actors = [('客户端',120,GRAY),('应用 / Agent',400,BLUE),('Qwen Realtime',940,PURPLE),('业务服务',1320,ORANGE)]
 for title, x, fill in actors:
     seq.rect(x-100, 140, 200, 66, fill)
