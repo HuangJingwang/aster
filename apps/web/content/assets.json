@@ -468,5 +468,25 @@
     "usage": "content",
     "altText": "应用从对话历史选取前台语境和后台任务快照，将请求状态提供给前台，并让后台按需读取业务资料与长期偏好",
     "createdAt": "2026-11-15T00:58:48+08:00"
+  },
+  {
+    "id": "voice-agent-practice-03-background-memory-01-fast-slow-collaboration-v2",
+    "storageKey": "images/voice-agent-practice-03-background-memory/01-fast-slow-collaboration-v2.png",
+    "publicUrl": "/images/voice-agent-practice-03-background-memory/01-fast-slow-collaboration-v2.png",
+    "mimeType": "image/png",
+    "byteSize": 2393725,
+    "usage": "content",
+    "altText": "Fast path 负责交互与轻量路由，经请求协调层把任务和修改交给 Slow path；慢路径调用工具，进度与结果经版本校验回到快路径",
+    "createdAt": "2026-11-15T01:21:33+08:00"
+  },
+  {
+    "id": "voice-agent-practice-03-background-memory-02-memory-sync-v2",
+    "storageKey": "images/voice-agent-practice-03-background-memory/02-memory-sync-v2.png",
+    "publicUrl": "/images/voice-agent-practice-03-background-memory/02-memory-sync-v2.png",
+    "mimeType": "image/png",
+    "byteSize": 2474819,
+    "usage": "content",
+    "altText": "创建请求时由历史与原话形成慢路径快照；执行期间工具回执更新请求状态并供快路径读取；交付后将结果引用和播放状态写入对话历史",
+    "createdAt": "2026-11-15T01:21:33+08:00"
   }
 ]

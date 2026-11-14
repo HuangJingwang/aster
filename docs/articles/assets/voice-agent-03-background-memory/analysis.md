@@ -1,5 +1,16 @@
 # 第三篇配图规划
 
+## 当前版本：Fast path / Slow path
+
+2026-11-15 按文章主线重绘两张结构图，使用内置 imagegen，画风仍为 craft-handmade。正文与网站当前引用：
+
+- `01-fast-slow-collaboration-v2.png`：快路径、请求协调与慢路径的协作，保留工具调用和回执方向。
+- `02-memory-sync-v2.png`：受理时传快照，执行时读状态，交付后更新历史。
+
+两张原图均为 1448 × 1086。详见 `structured-content-v2.md`、`source-v2.md` 和 `prompts/` 下对应 v2 提示词。已核对中文标签和箭头关系；旧版资产保留作版本记录。现有封面仍对应前后台分离与记忆管理主题。
+
+## 初版记录
+
 依据：../../voice-agent-03-background-memory.md，2026-11-15 版本。
 读者：了解语音链路、希望理解异步业务和上下文管理的开发者。
 生成方式：baoyu-infographic，内置 imagegen；中文、4:3、craft-handmade。
