@@ -54,5 +54,5 @@
 <text x="150" y="771" font-size="19" text-anchor="start" fill="#53657a" font-weight="400">音频 / 工具数据</text>
 <path d="M 390 764 L 449 764" fill="none" stroke="#52647b" stroke-width="2.2" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
 <text x="465" y="771" font-size="19" text-anchor="start" fill="#53657a" font-weight="400">轮次 / 响应控制</text>
-<text x="760" y="771" font-size="19" text-anchor="start" fill="#53657a" font-weight="400">Mina 的后台委托与独立 TTS 分支见第七章</text>
+<text x="760" y="771" font-size="19" text-anchor="start" fill="#53657a" font-weight="400">工具执行见第八章，语音输出见第十章</text>
 </g></svg>

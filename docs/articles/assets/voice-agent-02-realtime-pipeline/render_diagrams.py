@@ -83,7 +83,7 @@ flow.path('M 76 764 L 135 764')
 flow.text(150, 771, '音频 / 工具数据', 19, color=MUTED)
 flow.path('M 390 764 L 449 764', dashed=True)
 flow.text(465, 771, '轮次 / 响应控制', 19, color=MUTED)
-flow.text(760, 771, 'Mina 的后台委托与独立 TTS 分支见第七章', 19, color=MUTED)
+flow.text(760, 771, '工具执行见第八章，语音输出见第十章', 19, color=MUTED)
 flow.write('01-voice-pipeline')
 
 seq = SVG(1440, 1660, '一次 Qwen 工具调用如何完成', '应用配置会话并持续输入音频，轮次准入后触发响应。模型请求工具，应用校验权限，执行查询或构造拒绝结果，按 call_id 回传并请求续答，最后流式播放音频。')
