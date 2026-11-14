@@ -19,9 +19,9 @@
 - 后台实际完成了哪些操作。
 - 哪些结果已经告诉了用户。
 
-Pipecat 和 LiveKit 都提供了让对话与后台工作协作的能力。下面先梳理分工方案，再讨论记忆的保存与同步，最后看 Mina 根据会议场景做出的选择。
+Pipecat 和 LiveKit 提供了让对话与后台工作协作的框架能力，Codex 的开源代码展示了语音入口与已有执行 Agent 的衔接。下面先梳理这些方案与实现，再讨论记忆的保存和同步，最后看 Mina 根据会议场景做出的选择。
 
-*框架文档与 Mina 源码核对于 2026 年 11 月 14 日。本文中的“前台”和“后台”指助手内部的交互与执行职责。*
+*框架文档与 Mina 源码核对于 2026 年 11 月 14 日，Codex 源码核对于 11 月 15 日。本文中的“前台”和“后台”指助手内部的交互与执行职责。*
 
 ## 为什么让对话和业务分别推进
 
@@ -144,21 +144,77 @@ LiveKit 还有两类常见的工作流机制：
 
 LiveKit 用 `chat_ctx` 保存模型对话上下文，用 `session.userdata` 保存应用自定义的会话数据。切换 Agent 时，需要显式决定传递原历史、截取近期消息，还是传入摘要。跨会话保存的数据，则需要应用接入自己的存储。
 
+## Codex：把语音入口接到已有执行 Agent
+
+Codex 提供了一个具体的应用案例：实时模型负责语音交互，执行侧继续处理工具调用与产物生成。这里分析 `openai/codex` 开源仓库的 `65a5410` 提交，范围是其中公开的 Realtime 与核心执行链路。
+
+### 委托进入原有会话，后续输入继续修改任务
+
+语音侧产生 `HandoffRequested` 后，运行时提取请求文本与相关转写，交给执行侧的输入入口。这个入口采用 `StartOrSteer`：
+
+| 执行侧状态 | 输入处理 | 后续行为 |
+|---|---|---|
+| 当前空闲 | `Start` | 启动新的执行轮次 |
+| 已有任务运行 | `Steer` | 把新要求送入当前任务，影响后续执行 |
+
+例如，用户先说“修改登录页面”，又补充“保留原来的配色”，后一句可以继续约束正在进行的修改。仓库中的测试也检查了后续模型请求包含追加要求。
+
+Codex 这里的 `handoff` 表示向执行侧委托工作，语音入口继续保留。这个术语在前文 LiveKit 的对话交接中表示控制权转移，阅读不同项目时需要对应到具体行为。[输入路由源码](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/session/turn_input.rs#L911)明确使用了 `StartOrSteer`。
+
+### 后台回传进度，完成时再发送回执
+
+运行时使用 `active_handoff` 关联当前委托，并分别处理后台的中间消息和最终输出。以源码中的 Realtime V2 路径为例：
+
+1. 执行侧产生进度消息，运行时检查委托 ID，丢弃已经过期的更新。
+2. 有效消息进入实时会话上下文，供前台了解执行情况。
+3. 执行轮次结束时，发送对应工具调用的完成回执，再请求生成语音响应。
+
+**进度进入上下文、任务完成、生成语音回复是三个独立动作。** 前台因此可以在等待期间了解执行情况，完成后再组织结果表达。[回传实现](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/realtime_conversation.rs#L2778)还包含其他协议路径，具体发送方式随配置变化。
+
+Codex 的公开提示词也将语音表达与界面产物分开：后台负责执行和生成产物，前台简要说明结果、状态或下一步。代码、表格等内容由界面承载，用户需要时再详细讲解。
+
+### 语音上下文按需构建，执行上下文继续保留
+
+语音会话启动时，Codex 从已有记录中组装一份有容量限制的背景信息：
+
+- **当前聊天的近期问答**，用于衔接刚才的讨论。
+- **最近工作的线程信息**，提供近期任务线索。
+- **工作目录与项目结构**，提供当前工作环境。
+
+执行侧继续使用自己的任务上下文。语音启动上下文有明确的选取范围，源码将 `AGENTS` 文件、仓库记忆指令和记忆摘要排除在这次组装之外。[上下文构建实现](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/realtime_context.rs#L30)说明了数据来源与容量控制。
+
+运行期间，两边再按交互方向补充信息：语音侧把委托文本与相关转写送入执行会话，执行侧把进度和结果送回实时上下文。这样，启动时的背景、正在运行的任务和后续交互分别有对应的同步入口。
+
+### 语音记录与任务关联进入持久历史
+
+Codex 的语音历史协议包含以下记录：
+
+| 记录 | 保存的信息 |
+|---|---|
+| 会话开始与关闭 | 关联哪次语音会话，以及结束状态 |
+| 转写片段 | 发言角色与文本 |
+| `TurnInputAccepted` | 实际接收的输入、委托 ID、执行轮次 ID，以及 `Start` 或 `Steer` 模式 |
+| `SessionEndInputSaved` | 结束时保存的剩余输入及其来源 |
+
+历史处理路径将相应内容追加到持久线程记录中。结束时剩余转写还有单独的保存入口，可以写入模型历史和客户端历史，保持当前执行任务的状态，且不额外发起推理。[历史保存实现](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/session/realtime_history.rs)和[结束转写处理](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/realtime_conversation/transcript_tail.rs)分别负责这些动作。
+
+这个案例把记忆问题进一步拆开了：模型当前需要哪些上下文，由输入构建决定；哪些输入已经交给任务、语音交互发生过什么，则由持久记录保存。重新建立语音连接时，可以从保留的信息中组织新的上下文。进程内正在运行的工具和外部写入，还需要各自的恢复与核对机制。
+
 ## 记忆先分清用途，再选择保存位置
 
-两套框架都能管理模型上下文，也能传递后台结果。接下来需要确定应用里的每类信息由谁维护。
+Pipecat 和 LiveKit 提供上下文与任务协作组件，Codex 展示了输入路由、结果回传和持久历史怎样连接起来。落到具体应用，接下来要确定每类信息由谁维护、保存多久，以及何时进入模型上下文。
 
 对于持续执行的语音助手，可以把记忆分成以下几层：
 
 | 信息 | 典型内容 | 保存与使用方式 |
 |---|---|---|
-| 对话历史 | 用户原话、已交付回复、近期摘要 | 供下一轮理解“刚才那件事” |
+| 对话历史 | 用户原话、助手输出、交付记录与近期摘要 | 按需要持久保存；选取相关部分供下一轮理解语境 |
 | 后台工作上下文 | 任务材料、工具调用、工具返回值 | 供后台继续推理，按任务保留 |
 | 请求状态 | 请求 ID、要求版本、阶段、待答问题 | 由应用更新，供前台查询与控制 |
 | 业务记录 | 转写、资料、提案、持久作业结果 | 保存在业务服务，按 ID 和权限读取 |
 | 长期偏好 | 用户明确要求跨会话采用的习惯 | 独立持久保存，支持更新与删除 |
 
-这是本文用于分析的应用分层。Pipecat 的 context 和 LiveKit 的 `chat_ctx` 可以承载对话信息；worker 状态或 `userdata` 可以承载会话中的业务字段。是否写数据库、保存多久、重启后怎样恢复，都需要在具体应用中确定。
+这是本文用于分析的应用分层。Pipecat 的 context 和 LiveKit 的 `chat_ctx` 承载送入模型的信息；worker 状态或 `userdata` 可以承载会话中的业务字段。持久历史则保存可重新读取的记录，恢复时再选取内容构建上下文。每层的保存范围与恢复方式，都需要在具体应用中确定。
 
 ### 对话历史保留交流，执行记录保留事实
 
@@ -188,7 +244,7 @@ LiveKit 用 `chat_ctx` 保存模型对话上下文，用 `session.userdata` 保�
 
 ## 前后台同步的是任务信息、状态和结果
 
-下面是一种适用于上述分层的同步方案。它包含三个交接点。
+结合前面的机制，可以按创建、执行、交付三个时机组织同步，再单独处理历史压缩。下面是适用于会议助手的一种应用设计。
 
 ### 创建任务：给后台一份明确的输入快照
 
@@ -200,7 +256,7 @@ LiveKit 用 `chat_ctx` 保存模型对话上下文，用 `session.userdata` 保�
 
 ### 执行期间：回传状态，收集真实回执
 
-后台通过框架的工具结果、进度消息或 job 回调回传信息。应用据此更新请求记录，前台再读取适合当前回答的部分。
+后台通过工具结果、进度消息或 job 回调回传信息。应用据此更新请求记录，前台再读取适合当前回答的部分。Codex 的回传链路给出了一个具体例子：消息带着委托关联进入前台，完成回执单独发送。会议助手还可以在请求记录中加入要求版本和业务回执。
 
 用户修改要求时，需要按操作所处阶段分别处理：
 
@@ -233,7 +289,7 @@ LiveKit 用 `chat_ctx` 保存模型对话上下文，用 `session.userdata` 保�
 
 ## Mina 的选择：会话内业务执行与明确的请求状态
 
-前面的方案解决了执行与对话的分工。落到 Mina，会议助手还需要处理多人发言、原话归属、要求修改、资料权限和播报打断。
+前面的框架方案和 Codex 案例共同展示了这条协作路径：前台委托工作，执行侧接收后续修改，再将进度与结果送回。落到 Mina，会议助手还需要把多人发言、原话归属、资料权限和播报打断纳入同一套请求规则。
 
 从当前源码看，Mina 采用了**语音前台 + 独立业务 Agent + 请求管理器**的组合。项目依赖 Pipecat 1.14.0，当前业务链路使用自己的 `MeetingVoiceRuntime`、`MeetingRequests` 和 `TaskRunner`。
 
@@ -248,7 +304,7 @@ LiveKit 用 `chat_ctx` 保存模型对话上下文，用 `session.userdata` 保�
 | 结果可能等待或被打断 | 分别保存执行状态和播报状态 |
 | 后续追问涉及动态资料 | 保存来源信息，使用前重新核验 |
 
-Pipecat 已经提供前后台组合能力。Mina 当前定制的重点，是把这些会议规则落实到请求和交付过程中。
+Mina 当前定制的重点，是把这些会议规则落实到请求和交付过程中：前台控制动作、后台执行和语音输出都要核对同一项请求的有效状态。记忆的保存也沿着这几个边界展开。
 
 ### 受理与执行：前台控制，后台完成业务循环
 
@@ -339,5 +395,13 @@ Mina 后续要补齐的部分也集中在这几层：本地请求的持久化与
 - [LiveKit：Agents and handoffs](https://docs.livekit.io/agents/logic/agents-handoffs/)
 - [LiveKit：Tasks and task groups](https://docs.livekit.io/agents/logic/tasks/)
 - [LiveKit：Chat context](https://docs.livekit.io/agents/logic/chat-context/)
+- [Codex：语音前台与后台职责提示词](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/prompts/templates/realtime/backend_prompt.md)
+- [Codex：实时输入的 StartOrSteer 路由](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/session/turn_input.rs)
+- [Codex：Realtime 委托与结果回传](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/realtime_conversation.rs)
+- [Codex：语音启动上下文](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/realtime_context.rs)
+- [Codex：语音历史协议与任务关联](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/protocol/src/realtime.rs)
+- [Codex：语音历史持久保存](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/session/realtime_history.rs)
+- [Codex：结束转写的保存](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/realtime_conversation/transcript_tail.rs)
+- [Codex：实时委托与执行中修改的集成测试](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/app-server/tests/suite/v2/realtime_conversation.rs)
 
 Mina 实现部分核对了 `MeetingVoiceRuntime`、`MeetingRequests`、`TaskRunner`、`MeetingHistory`、Realtime 适配层与 Java 业务作业存储源码。本文描述源码中的处理机制，未提供新的性能实测。
