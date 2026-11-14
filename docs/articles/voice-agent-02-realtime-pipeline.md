@@ -650,3 +650,11 @@ Tom 路由的维护状态为 `gated-authorized`，来源与边界依 visual-ip-i
 - [三家工具链补图与事实核验](assets/voice-agent-02-realtime-pipeline/model-tools/research.md)
 - [豆包工具链提示词](assets/voice-agent-02-realtime-pipeline/model-tools/prompts/05-doubao-tool-loop.md)
 - [OpenAI 工具链提示词](assets/voice-agent-02-realtime-pipeline/model-tools/prompts/06-openai-tool-loop.md)
+
+### 独立封面
+
+![Voice Agent：从唤醒到多轮对话](assets/voice-agent-02-realtime-pipeline/00-cover-voice-agent.png)
+
+封面为独立 3:2 构图，使用内置 imagegen 生成；原图 1536 × 1024。网站通过封面字段引用，正文链路图保持原位。
+
+- [封面完整提示词](assets/voice-agent-02-realtime-pipeline/prompts/00-cover-voice-agent.md)

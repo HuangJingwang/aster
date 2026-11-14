@@ -375,7 +375,7 @@
     "publicUrl": "/images/voice-agent-practice-02-realtime-pipeline/01-pipeline-craft.png",
     "mimeType": "image/png",
     "byteSize": 2363657,
-    "usage": "cover",
+    "usage": "content",
     "altText": "Qwen 语音链路：应用控制音频输入与响应，工具由应用调用业务服务，结果回传模型续答",
     "createdAt": "2026-11-14T18:31:23+08:00"
   },
@@ -428,5 +428,15 @@
     "usage": "content",
     "altText": "OpenAI Realtime 工具链：从完成响应取得函数请求，应用执行并回传结果，再显式触发续答",
     "createdAt": "2026-11-14T19:12:13+08:00"
+  },
+  {
+    "id": "voice-agent-practice-02-realtime-pipeline-00-cover-voice-agent",
+    "storageKey": "images/voice-agent-practice-02-realtime-pipeline/00-cover-voice-agent.png",
+    "publicUrl": "/images/voice-agent-practice-02-realtime-pipeline/00-cover-voice-agent.png",
+    "mimeType": "image/png",
+    "byteSize": 2961756,
+    "usage": "cover",
+    "altText": "Voice Agent 第二篇封面：麦克风、对话气泡与日历工具串起从唤醒到多轮对话的过程",
+    "createdAt": "2026-11-14T20:42:13+08:00"
   }
 ]
