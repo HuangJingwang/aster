@@ -135,7 +135,7 @@ Output Directory: Next.js default
 
 安装与构建命令回到仓库根目录执行，让共享包先完成构建。生产环境设置 `PUBLIC_SITE_URL` 为实际网站地址，其他配置见 [部署说明](docs/deployment.md)。
 
-评论、留言、点赞和浏览量保留独立的互动接口。接入运行时互动需要配置 Worker 地址：
+评论、留言、点赞和浏览量保留独立的互动接口。未配置浏览器互动地址时，内容详情页会隐藏喜欢、底部评论和划线评论入口；配置后仍遵循每篇内容的评论开关。接入运行时互动需要配置 Worker 地址：
 
 ```text
 NEXT_PUBLIC_INTERACTION_BASE_URL=https://your-worker.example

@@ -23,6 +23,7 @@ function isCommentTargetType(type: SiteContentItem['type']): type is CommentTarg
 }
 
 export async function ContentDetail({ item, adjacent }: { item: SiteContentItem; adjacent?: AdjacentContent }) {
+  const interactionsEnabled = Boolean(process.env.NEXT_PUBLIC_INTERACTION_BASE_URL?.trim());
   const markdown = item.bodyMarkdown || item.summary || '';
   const bodyHtml = await renderMarkdown(markdown);
   const tableOfContents = buildContentTableOfContents(markdown);
@@ -32,12 +33,12 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
   const cover = getContentCover(item);
   const cookieHeader = (await cookies()).toString();
   const readerSession = await loadReaderSession({ cookieHeader });
-  const approvedComments = isCommentTargetType(item.type) && canShowComments(item)
+  const approvedComments = interactionsEnabled && isCommentTargetType(item.type) && canShowComments(item)
     ? await loadApprovedComments(item.type, item.id)
     : [];
   const { anchored: anchoredComments, regular: regularComments } = splitAnchoredComments(approvedComments);
   const collection = item.type === 'project' ? { href: '/projects', label: '项目记录' } : item.type === 'note' ? { href: '/notes', label: '笔记' } : item.type === 'moment' ? { href: '/moments', label: '片刻' } : { href: '/posts', label: '文章' };
-  const commentSection = isCommentTargetType(item.type) && canShowComments(item) ? (
+  const commentSection = interactionsEnabled && isCommentTargetType(item.type) && canShowComments(item) ? (
     <section className="detail-comments" aria-label="评论" id="comments">
       <h2>评论</h2>
       <CommentList comments={regularComments} />
@@ -70,7 +71,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
             </a>
           ) : null}
           <span>{item.viewCount ?? 0} 次浏览</span>
-          <LikeButton targetType={item.type} targetId={item.id} initialCount={item.likeCount ?? 0} />
+          {interactionsEnabled ? <LikeButton targetType={item.type} targetId={item.id} initialCount={item.likeCount ?? 0} /> : null}
         </div>
         {item.series && item.series.length > 0 ? (
           <div className="detail-taxonomy" aria-label="所属系列">
@@ -105,7 +106,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
             <div className="detail__body" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
             <ArticleImageLightbox />
             <XMindPreviewEnhancer />
-            {isCommentTargetType(item.type) && canShowComments(item) ? (
+            {interactionsEnabled && isCommentTargetType(item.type) && canShowComments(item) ? (
               <InlineCommentLayer
                 targetType={item.type}
                 targetId={item.id}
