@@ -21,7 +21,7 @@
 
 Pipecat 和 LiveKit 提供了让对话与后台工作协作的框架能力，Codex 的开源代码展示了语音入口与已有执行 Agent 的衔接。下面先梳理这些方案与实现，再讨论记忆的保存和同步，最后看 Mina 根据会议场景做出的选择。
 
-*框架文档与 Mina 源码核对于 2026 年 11 月 14 日，Codex 源码核对于 11 月 15 日。本文中的“前台”和“后台”指助手内部的交互与执行职责。*
+*框架文档与 Mina 源码核对于 2026 年 11 月 14 日，Codex 源码与补充的工程博客核对于 11 月 15 日。本文中的“前台”和“后台”指助手内部的交互与执行职责。*
 
 ## 为什么让对话和业务分别推进
 
@@ -42,9 +42,13 @@ Pipecat 和 LiveKit 提供了让对话与后台工作协作的框架能力，Cod
 
 把两种上下文分别管理，可以控制前台每轮需要读取的信息量。模型也可以分别配置：前台关注语音交互和简短表达，后台使用适合业务推理与工具操作的模型。
 
+LiveKit 的工程博客将这类组合称为 *Talker–Reasoner*：交互模型通过异步工具委托推理模型，后台使用独立上下文，完成后再将结果交给前台。这个模式适合需要多步分析的工作；单个慢 API 可以先采用异步工具，模型数量由任务需要决定。[Talker–Reasoner 模式](https://livekit.com/blog/talker-reasoner-pattern-voice-agents)
+
 这种组合会增加模型调用和状态管理的成本。**前后台分离的直接收益是执行期间仍可交互**，最终结果的耗时还取决于后台模型和工具。
 
 ### 打断声音之后，业务需要有明确去向
+
+语音侧需要判断是否让出说话机会。LiveKit 的打断处理博客指出，“嗯”“对”等附和声、咳嗽和环境声都可能触发 VAD，因此引入音频模型识别真正的插话。这个判断负责交谈节奏，修改或取消业务则需要理解用户意图。[Adaptive Interruption Handling](https://livekit.com/blog/adaptive-interruption-handling)
 
 用户的一句插话可能对应不同动作：
 
@@ -72,6 +76,18 @@ Pipecat 和 LiveKit 提供了让对话与后台工作协作的框架能力，Cod
 最后一种方案改变了当前负责对话的角色。本文关注的前后台分工，则让前台持续面对用户，后台独立推进工作。后面的框架章节会分别说明这两种控制方式。
 
 此外还有一个单独的选择：**工作是否需要跨会话、跨进程继续执行。** 需要时，可以把业务提交到持久作业服务，保存作业 ID、状态和结果。异步工具与后台 Agent 都可以调用这类服务，进程内的异步任务也可以承担较短的会话内工作。
+
+### 逻辑分工之后，还要检查运行隔离
+
+把工具放进异步任务，只完成了调度上的分工。如果工具内部调用同步 HTTP 客户端，或长时间执行计算，同一个事件循环上的音频收发和打断处理仍可能被拖住。LiveKit 的[事件循环排障文章](https://livekit.com/blog/diagnosing-blocked-event-loops)专门分析了这种情况。
+
+接入时可以按工作类型处理：
+
+- **等待网络或数据库**：优先使用异步客户端；必须使用的阻塞 I/O 可以移到线程中。
+- **持续占用 CPU 的工作**：评估独立进程或计算服务，给语音处理留出资源。
+- **需要重启后继续的工作**：再增加持久作业记录和恢复入口。
+
+这三个选择分别解决调度、资源竞争和恢复问题。增加一个后台模型后，仍需要逐项检查。
 
 ## Pipecat：从异步工具到前后台模型组合
 
@@ -242,6 +258,37 @@ Pipecat 和 LiveKit 提供上下文与任务协作组件，Codex 展示了输入
 
 把这些数据分别保存后，恢复会话也有明确的来源：对话恢复需要历史或摘要，业务恢复需要请求状态和真实回执，个性化输出需要当前有效偏好。
 
+### 原始记录及时保存，长期记忆按需要提取
+
+保存一句用户原话，与从中提取“以后按负责人分组”这条偏好，可以分成两个步骤。前者保留来源，后者整理供后续使用的信息。
+
+Mem0 的语音记忆指南比较了逐轮提取和会话结束后提取两种方式。前者更新及时，后者可以结合整段对话整理，并减少提取调用。[语音记忆架构指南](https://mem0.ai/library/agent-memory/ai-memory-for-voice-agents)
+
+| 提取时机 | 适合的需求 | 需要处理的问题 |
+|---|---|---|
+| 每轮后异步提取 | 后续轮次很快就要用到新信息 | 连续修正与重复信息需要合并，提取调用更频繁 |
+| 会话结束后统一提取 | 为下次交流准备简报或偏好 | 当前会话继续使用原始历史，结束后的提取任务需要可靠触发 |
+
+Retell 提供了后一种产品实践：对开启保存功能的电话会话，结束后结合转写、已有记忆和联系人字段更新简报，后续会话开始时加载；保存和读取分别配置。[Retell 的联系人记忆](https://www.retellai.com/blog/ai-voice-agent-memory)
+
+对于需要恢复的会议助手，可以采用下面的设计：
+
+1. 持续保存需要保留的原始交互和业务事件。
+2. 在后台提取偏好、未完成事项或会话简报。
+3. 记录处理进度；提取失败时，从已保存的原文补做。
+
+这样，长期记忆的提取速度可以独立调整。需要注意，只有已经持久保存的记录才能用于恢复。
+
+### 读取记忆也要考虑等待和时效
+
+记忆检索发生在回答之前时，会进入用户的等待时间。可以按用途安排读取：
+
+- **稳定且简短的偏好**：会话开始时加载，更新后替换。
+- **与具体任务相关的旧资料**：明确任务后按范围检索，交给后台使用。
+- **当前进度和动态业务状态**：读取请求记录或业务服务，核对最新结果。
+
+例如，旧简报可以说明上次正在整理哪场会议；用户追问提案是否已经创建，仍要查询执行回执。检索结果还需要携带归属和来源，避免把另一位参会人的偏好或另一场会议的内容带入当前任务。
+
 ## 前后台同步的是任务信息、状态和结果
 
 结合前面的机制，可以按创建、执行、交付三个时机组织同步，再单独处理历史压缩。下面是适用于会议助手的一种应用设计。
@@ -286,6 +333,32 @@ Pipecat 和 LiveKit 提供上下文与任务协作组件，Codex 展示了输入
 4. 只替换匹配的部分，保留后来追加的内容。
 
 请求状态和工具回执继续使用各自的记录。摘要用于压缩对话语境，精确资料仍从原始来源获取。
+
+## 验证分工是否真正改善体验
+
+前台很快说出“好的”，只能证明首次回应及时。后台完成得多快、用户修改是否生效、最终结果是否播完，还需要分别观察。
+
+Twilio 的延迟分析把口径限定为用户停止说话到回复抵达耳边，并明确区分基础语音链路与工具调用、复杂推理带来的额外耗时。比较不同方案时，需要先统一这些测量边界。[语音链路延迟分析](https://www.twilio.com/en-us/blog/developers/best-practices/guide-core-latency-ai-voice-agents)
+
+结合本文场景，可以增加以下观测项：
+
+| 观测项 | 建议记录的范围 | 用来判断 |
+|---|---|---|
+| 首次回应耗时 | 用户结束发言 → 客户端开始播放回应 | 是否及时确认收到请求 |
+| 有效结果等待 | 请求受理 → 客户端开始播放有效结果 | 后台执行与等待播报共花了多久 |
+| 修改处理 | 新要求受理 → 新版本开始执行，并记录旧版本后续提交 | 用户修改是否真正生效 |
+| 结果交付 | 完成、待播、播完、被打断分别计数 | 完成的工作是否告知了用户 |
+
+这些是本文建议的观测口径。只有服务端发送时间时，应标明测到的是服务端阶段；加入客户端播放事件后，才能进一步观察传输与播放等待。
+
+验证时可以用四个场景检查整条协作链：
+
+1. 慢工具执行中追问，前台能否读取当前进度。
+2. 写入发出后修改要求，后台能否保留原回执并执行新版本。
+3. 播报中途打断，系统能否保留待交付状态。
+4. 记忆提取期间断线，重连后能否读取已保存的记录，补做未完成的提取。
+
+每个场景都同时核对实际状态、工具回执和前台表达，确认对话与执行保持一致。
 
 ## Mina 的选择：会话内业务执行与明确的请求状态
 
@@ -385,6 +458,12 @@ Mina 后续要补齐的部分也集中在这几层：本地请求的持久化与
 
 ## 参考资料
 
+- [LiveKit：The talker-reasoner pattern for voice agents](https://livekit.com/blog/talker-reasoner-pattern-voice-agents)
+- [LiveKit：Diagnosing blocked event loops in LiveKit Agents](https://livekit.com/blog/diagnosing-blocked-event-loops)
+- [LiveKit：Adaptive Interruption Handling](https://livekit.com/blog/adaptive-interruption-handling)
+- [Mem0：Memory for Voice Agents: A Practical Architecture Guide](https://mem0.ai/library/agent-memory/ai-memory-for-voice-agents)
+- [Retell：Smarter Memory for AI Voice Agents](https://www.retellai.com/blog/ai-voice-agent-memory)
+- [Twilio：A Guide to Core Latency in AI Voice Agents](https://www.twilio.com/en-us/blog/developers/best-practices/guide-core-latency-ai-voice-agents)
 - [Pipecat：Function Calling](https://docs.pipecat.ai/pipecat/learn/function-calling)
 - [Pipecat：LLM with a Backend](https://docs.pipecat.ai/pipecat/learn/llm-with-backend)
 - [Pipecat：Multiple LLM Agents](https://docs.pipecat.ai/pipecat/learn/multiple-llm-agents)
