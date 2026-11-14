@@ -30,10 +30,14 @@
 .editorial-header { height: 72px; position: absolute; inset: 0 0 auto; display: flex; align-items: center; justify-content: space-between; width: min(1320px, calc(100% - 96px)); margin: auto; }
 .editorial-brand { display: inline-flex; align-items: center; gap: 10px; font-size: 19px; letter-spacing: -.055em; font-weight: 750; }
 .editorial-brand svg { color: var(--journal-accent); }
-.editorial-header__tools { display: flex; align-items: center; gap: 26px; font-size: 12px; }
-.editorial-header__tools > a { min-height: 44px; display: grid; place-items: center; }
-.editorial-header .theme-toggle { position: static; display: block; width: 44px; height: 44px; }
-.editorial-header .theme-toggle button { width: 44px; height: 44px; border: 1px solid var(--journal-line); border-radius: 50%; background: transparent; color: var(--journal-ink); box-shadow: none; display: grid; place-items: center; padding: 0; }
+.editorial-header__tools { display: flex; align-items: center; gap: 16px; font-size: 13px; }
+.editorial-header__tools > a { min-height: 44px; display: grid; place-items: center; color: var(--journal-muted); white-space: nowrap; }
+.editorial-header__tools > a:hover { color: var(--journal-accent); }
+/* Keep reader controls independent of legacy page-specific glass styles. */
+:root[data-theme] .journal-chrome .editorial-header .theme-toggle { position: static; display: block; width: 44px; height: 44px; background: transparent; border: 0; border-radius: 50%; padding: 0; box-shadow: none; backdrop-filter: none; }
+:root[data-theme] .journal-chrome .editorial-header .theme-toggle button { width: 44px; height: 44px; border: 1px solid var(--journal-line); border-radius: 50%; background: transparent; color: var(--journal-ink); box-shadow: none; display: grid; place-items: center; padding: 0; }
+:root[data-theme] .journal-chrome .editorial-header .theme-toggle button:hover { background: var(--journal-surface); color: var(--journal-accent); box-shadow: none; }
+:root[data-theme] .journal-chrome .editorial-header .theme-toggle button:focus-visible { background: var(--journal-surface); color: var(--journal-accent); box-shadow: none; outline: 2px solid var(--journal-accent); outline-offset: 3px; }
 .editorial-dock { display: none; }
 .editorial-home { position: relative; width: min(1320px, calc(100% - 96px)); margin: auto; padding-bottom: 100px; }
 .editorial-hero { position: relative; isolation: isolate; min-height: 630px; height: min(680px, 78dvh); margin-bottom: 36px; }
@@ -121,8 +125,6 @@
 .resource-card:hover, .resource-card:focus-visible { border-color: var(--journal-accent); }
 .resource-card .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 :root[data-theme] .journal-shell .share-page__search > span { position: static; width: auto; height: auto; clip: auto; clip-path: none; overflow: visible; display: block; margin-bottom: 10px; color: var(--journal-muted); font-size: 12px; }
-:root[data-theme] .journal-chrome .theme-toggle { background: transparent; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
-:root[data-theme] .journal-chrome .theme-toggle button { width: 44px; height: 44px; padding: 0; border: 1px solid var(--journal-line); color: var(--journal-ink); background: transparent; border-radius: 50%; box-shadow: none; }
 .resource-card__top { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
 .resource-card__logo { width: 44px; height: 44px; display: grid; place-items: center; background: var(--journal-raised); border-radius: 10px; font-size: 16px; font-weight: 650; overflow: hidden; }
 .resource-card__logo img { width: 100%; height: 100%; object-fit: cover; }

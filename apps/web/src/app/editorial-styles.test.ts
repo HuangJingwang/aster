@@ -20,6 +20,19 @@ test('the editorial theme toggle keeps its hit area aligned with the visible con
   expect(css).toMatch(/\.editorial-header \.theme-toggle button\s*\{[^}]*width:\s*44px;[^}]*height:\s*44px;/);
 });
 
+test('reader theme controls reset legacy glass backgrounds and shadows', () => {
+  const selector = ':root[data-theme] .journal-chrome .editorial-header .theme-toggle';
+  const wrapper = css.slice(css.indexOf(`${selector} {`)).split('}')[0];
+  expect(wrapper).toContain('background: transparent;');
+  expect(wrapper).toContain('box-shadow: none;');
+  expect(wrapper).toContain('backdrop-filter: none;');
+  for (const state of ['hover', 'focus-visible']) {
+    const control = css.slice(css.indexOf(`${selector} button:${state} {`)).split('}')[0];
+    expect(control).toContain('background: var(--journal-surface);');
+    expect(control).toContain('box-shadow: none;');
+  }
+});
+
 test('the shortcut navigation is hidden on desktop and sticks below the mobile header', () => {
   expect(css).toMatch(/\.editorial-dock\s*\{[^}]*display:\s*none;/);
   const mobileDock = css.match(/@media \(max-width: 767px\)\s*\{[\s\S]*?\.editorial-dock\s*\{([^}]*)\}/)?.[1];
