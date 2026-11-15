@@ -1,0 +1,31 @@
+model,elo,ci_low,ci_high,samples,success,success_ci_low,success_ci_high,observed_date,queried_at,source_url
+Cartesia Managed Agents,1111,1083,1140,685,91.7,88.3,94.3,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Gemini 3.1 Flash Live Minimal,1089,1064,1114,990,74.6,69.4,79.2,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Gemini 3.8 Live,1074,1047,1101,606,93.2,89.0,95.8,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Gemini 3.1 Flash Live High,1062,1037,1086,957,71.8,66.4,76.7,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Grok Voice 3.0,1059,1031,1086,668,94.8,91.6,96.8,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+"GPT-Live-1 (Sol, low)",1037,1012,1062,773,90.9,87.2,93.7,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+"GPT-Live-1 (Astra, medium)",1027,1002,1052,736,87.4,82.9,90.8,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Phonic 1 (High),1012,986,1038,683,92.3,88.9,94.7,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+GPT-Realtime-1.5,1000,,,921,85.1,80.8,88.6,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Grok Voice 2.0,991,966,1016,669,94.6,91.4,96.7,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Eleven Realtime v1 Max,990,964,1017,676,87.1,82.6,90.6,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+ElevenLabs Agents (Default Cascaded System),985,961,1010,893,90.5,86.7,93.4,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Eleven Realtime v1 Mini,981,954,1007,661,60.3,54.3,66.0,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+GPT Realtime (Aug '25),967,943,991,917,89.4,85.2,92.6,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Gemini 3.8 Live Extended Thinking (High),966,941,990,773,89.1,84.7,92.4,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Nova 2.0 Sonic (Mar 2026),964,940,988,913,57.1,51.1,62.9,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+GPT-Realtime-2.1 Minimal,933,909,957,932,89.4,85.2,92.5,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+GPT-Realtime-2.1 High,931,907,955,887,91.5,87.7,94.3,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+GPT Realtime Mini (Oct '25),922,898,945,962,79.6,74.6,83.8,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+GPT-Realtime-2 (High),920,896,944,905,89.8,85.7,92.9,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+GPT-Realtime-2 (Minimal),918,894,941,980,84.7,80.3,88.3,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Nova Sonic,907,882,933,827,57.1,51.6,62.5,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Grok Voice 1.0,903,877,929,864,80.7,75.8,84.8,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Deepgram Voice Agent (Default Cascaded System),901,877,925,955,73.7,68.5,78.2,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Inworld Realtime (Default Cascaded System),884,859,908,941,69.9,64.3,75.0,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Qwen Audio 3.0 Realtime Flash,858,825,892,293,81.7,70.1,89.4,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Qwen3.5 Omni Plus Realtime,843,818,868,942,62.0,56.4,67.2,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+GPT-Realtime-2.1 Mini Minimal,840,815,864,967,76.7,71.1,81.4,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Qwen3.5 Omni Flash Realtime,832,808,857,969,29.1,24.0,34.8,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena
+Qwen Audio 3.0 Realtime Plus,798,762,834,316,77.8,66.9,85.8,2026-11-15,2026-11-15T10:01:48.224663+00:00,https://artificialanalysis.ai/speech-to-speech/arena

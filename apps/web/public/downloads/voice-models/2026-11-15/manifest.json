@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-15",
+  "timezone": "Asia/Shanghai",
+  "research_start": "2026-11-01",
+  "research_end": "2026-11-15",
+  "previous_snapshot": "../2026-11-01/",
+  "previous_query_time_precision": "day only; exact time was not recorded, not reconstructed",
+  "provider_normalization": {
+    "Alibaba": "Alibaba Cloud",
+    "Amazon": "Amazon Bedrock",
+    "Grok": "SpaceXAI"
+  },
+  "model_identity": "Displayed version and effort retained; only punctuation and Aug/Oct 2025 expansion normalized; hosted immutable snapshot/region not fully disclosed",
+  "precision_policy": "All speech reasoning comparisons held for precision review; old integer values retained. No claim of upgrade or regression.",
+  "zero_cost_policy": "Keep 0.00 display, do not infer free service or calculate percentage changes.",
+  "unknown_conditions": "No language, harness, sample size or hardware invented when source is silent."
+}

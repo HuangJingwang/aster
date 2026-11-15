@@ -1,0 +1,618 @@
+[
+  {
+    "model_id": "35a448669ed552cd",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Qwen Audio 3.0 Realtime Plus",
+    "current_model": "Qwen Audio 3.0 Realtime Plus",
+    "provider": "Alibaba Cloud",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "b160a23ee8abf72e",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Qwen Audio 3.0 Realtime Flash",
+    "current_model": "Qwen Audio 3.0 Realtime Flash",
+    "provider": "Alibaba Cloud",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "d2e717e5505ff0c8",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Qwen3.5 Omni Plus Realtime",
+    "current_model": "Qwen3.5 Omni Plus Realtime",
+    "provider": "Alibaba Cloud",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "374282dc824d291b",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Qwen3.5 Omni Flash Realtime",
+    "current_model": "Qwen3.5 Omni Flash Realtime",
+    "provider": "Alibaba Cloud",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "d58ccc17db832ab7",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Qwen3 Omni Flash",
+    "current_model": "Qwen3 Omni Flash",
+    "provider": "Alibaba Cloud",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "15db5ae5fdd17e40",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Qwen3 Omni Realtime",
+    "current_model": "Qwen3 Omni Realtime",
+    "provider": "Alibaba Cloud",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "3c89560dc85c4bfc",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Nova 2.0 Sonic (Mar 2026)",
+    "current_model": "Nova 2.0 Sonic (Mar 2026)",
+    "provider": "Amazon Bedrock",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "c6878d989f8f1e37",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Higgs Realtime",
+    "current_model": "Higgs Realtime",
+    "provider": "Boson AI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "1937fcd72b695b78",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "FLM-Audio",
+    "current_model": "FLM-Audio",
+    "provider": "Cofe AI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "8c40898320449bf8",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Deepslate Opal",
+    "current_model": "Deepslate Opal",
+    "provider": "Deepslate",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "9451076bed6051f1",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Eleven Realtime v1 Max",
+    "current_model": "Eleven Realtime v1 Max",
+    "provider": "ElevenLabs",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "13f95fe8a2c6c3af",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Eleven Realtime v1 Mini",
+    "current_model": "Eleven Realtime v1 Mini",
+    "provider": "ElevenLabs",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "759f6bbaa66c13c8",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Gemini 3.8 Live Extended Thinking (High)",
+    "current_model": "Gemini 3.8 Live Extended Thinking (High)",
+    "provider": "Google",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "8213d54163cb109c",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Gemini 3.8 Live",
+    "current_model": "Gemini 3.8 Live",
+    "provider": "Google",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "60226e1920b2dd44",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Gemini 3.1 Flash Live High",
+    "current_model": "Gemini 3.1 Flash Live High",
+    "provider": "Google",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "749a6032ce7e66a7",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Gemini 3.1 Flash Live Minimal",
+    "current_model": "Gemini 3.1 Flash Live Minimal",
+    "provider": "Google",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "2e6287072a97482a",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Gemini 2.5 Flash Native Audio Dialog",
+    "current_model": "Gemini 2.5 Flash Native Audio Dialog",
+    "provider": "Google",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "d7262ff28f425f41",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Gemini 2.5 Flash Native Audio Dialog Thinking",
+    "current_model": "Gemini 2.5 Flash Native Audio Dialog Thinking",
+    "provider": "Google",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "3e92cd80c42ebdb3",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Gemini 2.5 Flash Native Audio Preview (Dec 2025)",
+    "current_model": "Gemini 2.5 Flash Native Audio Preview (Dec 2025)",
+    "provider": "Google",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "45c7c80f81d27ae4",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Gemini 2.5 Flash Native Audio Preview (Sep 2025)",
+    "current_model": "Gemini 2.5 Flash Native Audio Preview (Sep 2025)",
+    "provider": "Google",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "dde9a0d7b4aea2c9",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Raon SpeechChat",
+    "current_model": "Raon SpeechChat",
+    "provider": "Krafton",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "95c870ed9f846ede",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Moshi",
+    "current_model": "Moshi",
+    "provider": "Kyutai",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "966c08e88ca94f44",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Nemotron Voicechat",
+    "current_model": "Nemotron Voicechat",
+    "provider": "NVIDIA",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "fc41ba2735f63bbe",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "PersonaPlex",
+    "current_model": "PersonaPlex",
+    "provider": "NVIDIA",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "0ed837f8e96067dd",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Live-1 (Astra, medium)",
+    "current_model": "GPT-Live-1 (Astra, medium)",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "eee17d131bfe6b3f",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Live-1 (Sol, low)",
+    "current_model": "GPT-Live-1 (Sol, low)",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "35a87430b1944ed8",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Realtime-2.1 High",
+    "current_model": "GPT-Realtime-2.1 High",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "0c04e5e63db0365a",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Realtime-2.1 Minimal",
+    "current_model": "GPT-Realtime-2.1 Minimal",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "0fe14e1a33f228b7",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Realtime-2.1 Mini High",
+    "current_model": "GPT-Realtime-2.1 Mini High",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "72d3a6a5667ef929",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Realtime-2.1 Mini Minimal",
+    "current_model": "GPT-Realtime-2.1 Mini Minimal",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "a09e5d3248294b28",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Realtime-2 (High)",
+    "current_model": "GPT-Realtime-2 (High)",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "fefcd98eb57381bc",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Realtime-2 (Medium)",
+    "current_model": "GPT-Realtime-2 (Medium)",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "983f68064252c961",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Realtime-2 (Minimal)",
+    "current_model": "GPT-Realtime-2 (Minimal)",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "df958d3fb0736b27",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-Realtime-1.5",
+    "current_model": "GPT-Realtime-1.5",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "5e95e8deb5c3875d",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT Realtime (Aug 2025)",
+    "current_model": "GPT Realtime (Aug '25)",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "cc4e25447d4cf5e8",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT Realtime Mini (Oct 2025)",
+    "current_model": "GPT Realtime Mini (Oct '25)",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "740ea2f4f26759ab",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-4o mini Realtime (Dec 2024)",
+    "current_model": "GPT-4o mini Realtime (Dec 2024)",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "219f000b1dbb8f05",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-4o audio chatcompletions",
+    "current_model": "GPT-4o audio chatcompletions",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "b78801b29ae66b60",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "GPT-4o Realtime (Dec 2024)",
+    "current_model": "GPT-4o Realtime (Dec 2024)",
+    "provider": "OpenAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "4b102ed7a248dfb2",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Phonic 1 (High)",
+    "current_model": "Phonic 1 (High)",
+    "provider": "Phonic",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "4bf73a6e777549d9",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Grok Voice 3.0",
+    "current_model": "Grok Voice 3.0",
+    "provider": "SpaceXAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "9ab6a2ffcd9fc3c6",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Grok Voice 2.0",
+    "current_model": "Grok Voice 2.0",
+    "provider": "SpaceXAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "bf8d7f68dabd5f67",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Grok Voice 1.0",
+    "current_model": "Grok Voice 1.0",
+    "provider": "SpaceXAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "be9019fbdc84f902",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Grok Voice Fast 1.0",
+    "current_model": "Grok Voice Fast 1.0",
+    "provider": "SpaceXAI",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "9d9442648e57bf53",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "StepAudio 3 Realtime",
+    "current_model": "StepAudio 3 Realtime",
+    "provider": "StepFun",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "f153b7b10abb42c4",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Step-Audio R1.1 (Realtime)",
+    "current_model": "Step-Audio R1.1 (Realtime)",
+    "provider": "StepFun",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "8ca7359b1974b137",
+    "dataset": "speech-to-speech.csv",
+    "previous_model": "Freeze-Omni",
+    "current_model": "Freeze-Omni",
+    "provider": "VITA",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "8c94dc72d59a291b",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Cartesia Managed Agents",
+    "current_model": "Cartesia Managed Agents",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "258f6ffb31e5a745",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Gemini 3.1 Flash Live Minimal",
+    "current_model": "Gemini 3.1 Flash Live Minimal",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "f6efc41941de6eb5",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Gemini 3.8 Live",
+    "current_model": "Gemini 3.8 Live",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "06f0c3080c7b3983",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Gemini 3.1 Flash Live High",
+    "current_model": "Gemini 3.1 Flash Live High",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "f0d403718ee42468",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Grok Voice 3.0",
+    "current_model": "Grok Voice 3.0",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "64793cbff1e6d8f4",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT-Live-1 (Sol, low)",
+    "current_model": "GPT-Live-1 (Sol, low)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "33d647984cfe11c5",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT-Live-1 (Astra, medium)",
+    "current_model": "GPT-Live-1 (Astra, medium)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "5601e4abab4eb547",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Phonic 1 (High)",
+    "current_model": "Phonic 1 (High)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "3fd496ce5df41539",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT-Realtime-1.5",
+    "current_model": "GPT-Realtime-1.5",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "3461533a9f4a92a7",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Grok Voice 2.0",
+    "current_model": "Grok Voice 2.0",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "6cdfd5e0b5a80746",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Eleven Realtime v1 Max",
+    "current_model": "Eleven Realtime v1 Max",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "f562918499b148cc",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "ElevenLabs Agents (Default Cascaded System)",
+    "current_model": "ElevenLabs Agents (Default Cascaded System)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "f0468e529a055555",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Eleven Realtime v1 Mini",
+    "current_model": "Eleven Realtime v1 Mini",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "5b12235a4ac690dd",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT Realtime (Aug 2025)",
+    "current_model": "GPT Realtime (Aug '25)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "b1fb12834b28d1ce",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Gemini 3.8 Live Extended Thinking (High)",
+    "current_model": "Gemini 3.8 Live Extended Thinking (High)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "e3b04c632bdc0c58",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Nova 2.0 Sonic (Mar 2026)",
+    "current_model": "Nova 2.0 Sonic (Mar 2026)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "e59dd49cffd15ab7",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT-Realtime-2.1 Minimal",
+    "current_model": "GPT-Realtime-2.1 Minimal",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "88a2050b6f7c88ea",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT-Realtime-2.1 High",
+    "current_model": "GPT-Realtime-2.1 High",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "e3d606e84a812722",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT Realtime Mini (Oct 2025)",
+    "current_model": "GPT Realtime Mini (Oct '25)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "92d7d8b7606a9d99",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT-Realtime-2 (High)",
+    "current_model": "GPT-Realtime-2 (High)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "68e58c2ef329d863",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT-Realtime-2 (Minimal)",
+    "current_model": "GPT-Realtime-2 (Minimal)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "a8192f6389c2265f",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Nova Sonic",
+    "current_model": "Nova Sonic",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "766ebc5fba27caff",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Grok Voice 1.0",
+    "current_model": "Grok Voice 1.0",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "7ed047c429debc45",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Deepgram Voice Agent (Default Cascaded System)",
+    "current_model": "Deepgram Voice Agent (Default Cascaded System)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "f33b9eca0cc86eb6",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Inworld Realtime (Default Cascaded System)",
+    "current_model": "Inworld Realtime (Default Cascaded System)",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "0a2b37d176411d30",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Qwen Audio 3.0 Realtime Flash",
+    "current_model": "Qwen Audio 3.0 Realtime Flash",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "05d4e580808d3694",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Qwen3.5 Omni Plus Realtime",
+    "current_model": "Qwen3.5 Omni Plus Realtime",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "42fb06f4c64820c2",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "GPT-Realtime-2.1 Mini Minimal",
+    "current_model": "GPT-Realtime-2.1 Mini Minimal",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "be0af2436e2e6eb2",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Qwen3.5 Omni Flash Realtime",
+    "current_model": "Qwen3.5 Omni Flash Realtime",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  },
+  {
+    "model_id": "f558b2df705a3978",
+    "dataset": "speech-agent-arena.csv",
+    "previous_model": "Qwen Audio 3.0 Realtime Plus",
+    "current_model": "Qwen Audio 3.0 Realtime Plus",
+    "provider": "",
+    "identity_rule": "Exact displayed model/configuration after punctuation and year expansion only; provider abbreviations recorded in manifest."
+  }
+]

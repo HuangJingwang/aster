@@ -1,0 +1,48 @@
+provider,model,index,reasoning,dynamics,agentic,elo,success,ttfa,cost,input_price,output_price,observed_date,queried_at,source_url
+Alibaba Cloud,Qwen Audio 3.0 Realtime Plus,69.5,99.2,98.4,54.6,798,77.8,1.54,4.42,0.0331,0.18,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Alibaba Cloud,Qwen3.5 Omni Plus Realtime,,98.7,,,843,62.0,2.64,0.00,0.16,0.82,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Alibaba Cloud,Qwen Audio 3.0 Realtime Flash,67.7,96.1,96.9,35.9,858,81.7,1.55,4.77,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Alibaba Cloud,Qwen3.5 Omni Flash Realtime,,59.0,,,832,29.1,0.79,0.00,0.16,0.82,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Alibaba Cloud,Qwen3 Omni Flash,,58.7,72.7,,,,4.82,1.77,0.61,1.36,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Alibaba Cloud,Qwen3 Omni Realtime,,56.8,,,,,0.88,2.26,0.65,0.99,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Amazon Bedrock,Nova 2.0 Sonic (Mar 2026),,88.1,,,964,57.1,1.14,4.89,0.27,1.08,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Boson AI,Higgs Realtime,,68.6,92.8,18.6,,,1.47,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Cofe AI,FLM-Audio,,16.0,62.0,,,,,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Deepslate,Deepslate Opal,,85.0,85.7,17.5,,,0.44,6.48,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+ElevenLabs,Eleven Realtime v1 Max,77.3,98.8,94.1,47.6,990,87.1,0.57,4.80,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+ElevenLabs,Eleven Realtime v1 Mini,64.4,75.9,95.8,46.8,981,60.3,0.62,4.80,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Google,Gemini 3.8 Live Extended Thinking (High),82.6,97.7,91.9,68.6,966,89.1,1.35,3.50,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Google,Gemini 3.1 Flash Live High,72.0,96.6,74.3,37.7,1062,71.8,2.99,1.75,0.35,1.38,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Google,Gemini 3.8 Live,74.5,91.7,96.1,30.1,1074,93.2,1.18,0.84,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Google,Gemini 2.5 Flash Native Audio Dialog Thinking,,90.7,,,,,3.87,,0.35,1.38,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Google,Gemini 3.1 Flash Live Minimal,64.2,71.3,72.3,26.2,1089,74.6,0.96,1.50,0.35,1.38,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Google,Gemini 2.5 Flash Native Audio Dialog,,68.6,,,,,0.63,1.42,0.35,1.38,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Google,Gemini 2.5 Flash Native Audio Preview (Dec 2025),,,44.0,22.8,,,,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Google,Gemini 2.5 Flash Native Audio Preview (Sep 2025),,,30.3,,,,,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Krafton,Raon SpeechChat,,57.5,86.2,,,,0.04,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Kyutai,Moshi,,4.4,61.0,,,,,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+NVIDIA,Nemotron Voicechat,,27.0,52.9,,,,,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+NVIDIA,PersonaPlex,,19.1,91.0,,,,,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-Realtime-2 (High),73.6,96.6,95.3,39.8,920,89.8,1.14,4.14,1.15,4.61,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-Realtime-2.1 High,75.2,95.8,95.7,45.7,931,91.5,1.21,10.75,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-Realtime-2 (Medium),,93.3,95.2,37.4,,,1.22,3.97,1.15,4.61,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,"GPT-Live-1 (Astra, medium)",83.2,90.1,94.9,74.5,1027,87.4,1.34,5.83,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,"GPT-Live-1 (Sol, low)",80.1,89.0,97.3,59.3,1037,90.9,1.24,4.47,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-Realtime-2.1 Minimal,70.7,86.8,92.7,38.0,933,89.4,0.97,11.31,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT Realtime (Aug '25),69.1,83.3,93.9,30.4,967,89.4,0.98,11.08,1.15,4.61,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-Realtime-1.5,70.3,81.4,95.7,38.8,1000,85.1,0.81,11.44,1.15,4.61,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-Realtime-2.1 Mini High,,74.7,91.7,29.4,,,4.28,3.45,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-Realtime-2 (Minimal),63.3,71.8,96.1,30.8,918,84.7,1.12,3.07,1.15,4.61,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-4o mini Realtime (Dec 2024),,68.9,,,,,1.27,5.75,0.36,1.44,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT Realtime Mini (Oct '25),56.1,63.6,95.7,15.1,922,79.6,0.81,3.04,0.36,1.44,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-Realtime-2.1 Mini Minimal,54.4,62.7,91.8,22.5,840,76.7,0.85,4.60,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-4o audio chatcompletions,,54.3,,,,,3.38,0.00,3.60,14.40,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+OpenAI,GPT-4o Realtime (Dec 2024),,,89.8,27.9,,,1.49,2.04,1.44,5.76,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+Phonic,Phonic 1 (High),87.1,98.9,,79.9,1012,92.3,0.61,4.20,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+SpaceXAI,Grok Voice 3.0,86.9,98.5,97.0,71.6,1059,94.8,0.81,4.80,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+SpaceXAI,Grok Voice 2.0,81.3,97.2,95.1,56.5,991,94.6,0.70,4.80,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+SpaceXAI,Grok Voice 1.0,73.7,97.1,77.8,52.1,903,80.7,1.25,3.00,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+SpaceXAI,Grok Voice Fast 1.0,,93.3,71.6,27.4,,,0.78,3.00,3.00,3.00,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+StepFun,StepAudio 3 Realtime,,99.7,98.9,,,,8.83,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+StepFun,Step-Audio R1.1 (Realtime),,97.6,,,,,1.53,0.00,0.064,1.69,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech
+VITA,Freeze-Omni,,33.4,58.7,,,,,,,,2026-11-15,2026-11-15T10:01:47.182176+00:00,https://artificialanalysis.ai/speech-to-speech

@@ -1,0 +1,128 @@
+[
+  {
+    "provider": "Artificial Analysis",
+    "url": "https://artificialanalysis.ai/speech-to-speech",
+    "observed_date": "2026-11-15",
+    "finding": "47 个配置完整表；新旧快照以公开数值对照，不代表两次独立重测。"
+  },
+  {
+    "provider": "Speech Agent Arena",
+    "url": "https://artificialanalysis.ai/speech-to-speech/arena",
+    "observed_date": "2026-11-15",
+    "finding": "30 个条目；保留 Elo、95% 区间、出场次数、TSR 及当前 TSR 区间。"
+  },
+  {
+    "provider": "AA methodology",
+    "url": "https://artificialanalysis.ai/methodology/speech-to-speech-benchmarking",
+    "observed_date": "2026-11-15",
+    "finding": "综合指数等权四分项；成本为固定 40 题子集按输入音频时长折算；精确托管地区等条件未留存在旧快照。"
+  },
+  {
+    "provider": "OpenAI",
+    "url": "https://developers.openai.com/api/docs/changelog",
+    "observed_date": "2026-11-15",
+    "finding": "11 月 2 日 Live API 出站 SIP 开放；未在查阅的本期记录中核验到新的语音模型成绩。"
+  },
+  {
+    "provider": "Google",
+    "url": "https://aistudio.google.com/docs/changelog",
+    "observed_date": "2026-11-15",
+    "finding": "11 月记录有 Gemini 4 Carbon/Hydrogen、Omni 视频生成等更新；这些条目不作为 Live 语音模型升级。"
+  },
+  {
+    "provider": "ByteDance / Doubao",
+    "url": "https://seed.bytedance.com/en/seedrealtime",
+    "observed_date": "2026-11-15",
+    "finding": "官网入口可访问，本次提取仅返回导航，未取得可核验的本期新分数；AA 无该厂商条目，保留空缺。"
+  },
+  {
+    "provider": "Qwen",
+    "url": "https://docs.qwencloud.com/changelog/models",
+    "observed_date": "2026-11-15",
+    "finding": "qwen-audio-3.1-realtime-flash 的发布日期列为 2026-10-27；本期补充核验，不当作 11 月新品。"
+  },
+  {
+    "provider": "Qwen Audio Agent",
+    "url": "https://github.com/QwenAudio/qwen-audio-agent",
+    "observed_date": "2026-11-15",
+    "finding": "v2.1.0 记录日期 2026-11-10；新增 Audio 3.1 Realtime 接入、统一前端配置及运行中任务更新。"
+  },
+  {
+    "provider": "Grok",
+    "url": "https://x.ai/news/grok-voice-3",
+    "observed_date": "2026-11-15",
+    "finding": "Grok Voice 3.0 官方发布日 2026-10-14；AA 当前对应行与上期同名配置匹配。"
+  },
+  {
+    "provider": "Amazon",
+    "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-2-5-sonic.html",
+    "observed_date": "2026-11-15",
+    "finding": "Nova 2.5 Sonic 发布日 2026-10-05、256K 上下文；AA 列 Nova 2.0，不合并。"
+  },
+  {
+    "provider": "ElevenLabs rollout",
+    "url": "https://elevenlabs.io/docs/changelog/2026/11/2",
+    "observed_date": "2026-11-15",
+    "finding": "Eleven Realtime 全工作区开放，完成 10 月 19 日起的 rollout；不是新模型分数。"
+  },
+  {
+    "provider": "ElevenLabs ASR",
+    "url": "https://elevenlabs.io/docs/changelog/2026/11/9",
+    "observed_date": "2026-11-15",
+    "finding": "Scribe v3 Live 厂商报告语义词错误率相对 v2 Realtime 下降 44%，FLEURS 73 语言；未给这段摘要可供复算的前后绝对值。"
+  },
+  {
+    "provider": "Cartesia",
+    "url": "https://www.cartesia.ai/blog",
+    "observed_date": "2026-11-15",
+    "finding": "本次博客索引最新置顶 Managed Agents 发布日 2026-10-29；Arena 服务条目单独识别。"
+  },
+  {
+    "provider": "StepFun",
+    "url": "https://arxiv.org/abs/2609.14005",
+    "observed_date": "2026-11-15",
+    "finding": "StepAudio 3 Realtime 技术报告本次显示 v3，修订日期 2026-10-12；厂商报告宏平均 τ-Voice 不填入 AA 空项。"
+  },
+  {
+    "provider": "MiniCPM",
+    "url": "https://github.com/OpenBMB/MiniCPM-V",
+    "observed_date": "2026-11-15",
+    "finding": "官方仓库区分 MiniCPM-V 4.7 与 MiniCPM-o 4.5；视觉模型更新不当作语音版本升级。"
+  },
+  {
+    "provider": "Qwen evaluation",
+    "url": "https://arxiv.org/html/2609.25176v2",
+    "observed_date": "2026-11-15",
+    "finding": "继续留作厂商全双工测量参考，不把既有 Table 10 当作本期新增变化。"
+  },
+  {
+    "provider": "DuplexAct-Bench",
+    "url": "https://arxiv.org/html/2609.39446",
+    "observed_date": "2026-11-15",
+    "finding": "双语，1290 个流式试验，12 系统；版本集不覆盖全部当前商业接口，未作为中文统一排名。"
+  },
+  {
+    "provider": "Boson AI",
+    "url": "https://www.boson.ai/blog/higgs-realtime-duplex",
+    "observed_date": "2026-11-15",
+    "finding": "发布日期 2026-11-05；Duplex API coming soon，旧 Higgs Realtime 可用；新旧身份分开。"
+  },
+  {
+    "provider": "Sophon",
+    "url": "https://huggingface.co/adventists-ai/Sophon-Realtime-v1",
+    "observed_date": "2026-11-15",
+    "finding": "本期首次留存模型卡，确切首发日期未核验；三种构建同一 32B 主模型，厂商自测，工具 Pass@1 采用多次最佳。"
+  },
+  {
+    "provider": "Liquid AI",
+    "url": "https://www.liquid.ai/blog/liquidcodec",
+    "observed_date": "2026-11-15",
+    "finding": "搜索定位 11 月 12 日 codec 文章，但原文打开失败；不发表其性能数字。"
+  },
+  {
+    "provider": "Tencent Hy Realtime",
+    "url": "",
+    "observed_date": "2026-11-15",
+    "finding": "搜索发现 11 月 13 日发布线索，未核验到可打开的厂商原文，未纳入成绩表。"
+  }
+]
