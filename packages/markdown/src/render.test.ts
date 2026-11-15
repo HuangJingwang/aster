@@ -110,8 +110,31 @@ describe('Markdown rendering', () => {
     expect(html).toContain('aria-live="polite"');
     expect(html).toContain('>复制代码</button>');
     expect(html).not.toContain('Copy');
-    expect(html).toContain('class="token keyword">const</span>');
-    expect(html).toContain('class="token string">"42"</span>');
+    expect(html).toMatch(/class="shiki-token" style="--code-light:#[0-9a-f]+;--code-dark:#[0-9a-f]+">const<\/span>/i);
+    expect(html).toContain('>"42"</span>');
+  });
+
+  test.each(['json', 'python', 'java', 'bash', 'yaml'])('highlights %s with colors for both reader themes', async (language) => {
+    const samples: Record<string, string> = { json: '{"ready": true}', python: 'def ready(): return True', java: 'public class Ready {}', bash: 'echo "ready"', yaml: 'ready: true' };
+    const html = await renderMarkdown('```' + language + '\n' + samples[language] + '\n```');
+    expect(html).toContain('class="shiki-token"');
+    expect(html).toMatch(/--code-light:#[0-9a-f]+;--code-dark:#[0-9a-f]+/i);
+  });
+
+  test('keeps unknown languages readable and preserves code whitespace for copying', async () => {
+    const html = await renderMarkdown('```custom-lang\n  <script>alert("x")</script>\n\n  last line\n```');
+    expect(html).toContain('class="markdown-code-block__language">custom-lang</span>');
+    expect(html).toContain('  &lt;script&gt;alert("x")&lt;/script&gt;\n\n  last line\n');
+    expect(html).not.toContain('<script>');
+    const highlighted = await renderMarkdown('```ts\nconst a = 1;\n\n  // comment\n```');
+    const code = highlighted.match(/<code[^>]*>([\s\S]*?)<\/code>/)![1]!.replace(/<[^>]+>/g, '');
+    expect(code).toBe('const a = 1;\n\n  // comment\n');
+  });
+
+  test('never accepts user HTML styles or event handlers while highlighting', async () => {
+    const html = await renderMarkdown('<span style="background:url(javascript:bad)" onclick="bad()">unsafe</span>\n\n```html\n<img src=x onerror=bad()>\n```');
+    expect(html).not.toMatch(/<img|onclick=|style="background/);
+    expect(html).toContain('&lt;');
   });
 
   test('marks xmind links for progressive mind map previews', async () => {

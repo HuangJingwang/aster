@@ -1,0 +1,101 @@
+/* Neutral, single-column reading. Typography informed by VitePress's vp-doc
+   rhythm; isolated from the homepage and content archives. */
+:root[data-theme] {
+  --reader-bg: #1b1b1f;
+  --reader-text: #d8d8df;
+  --reader-heading: #efeff2;
+  --reader-muted: #aaaab4;
+  --reader-line: #34343b;
+  --reader-soft: #252529;
+  --reader-link: #a5bbf8;
+  --reader-quote: #55555f;
+  --reader-font: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+}
+:root[data-theme='summer-day'] {
+  --reader-bg: #fff;
+  --reader-text: #35353c;
+  --reader-heading: #242428;
+  --reader-muted: #73737d;
+  --reader-line: #e6e6e8;
+  --reader-soft: #f6f6f7;
+  --reader-link: #345eb3;
+  --reader-quote: #c7c7ce;
+}
+:root[data-theme]:has(.reader-page) :is(.journal-shell, .journal-chrome, .editorial-dock) {
+  --journal-bg: var(--reader-bg);
+  --journal-ink: var(--reader-heading);
+  --journal-muted: var(--reader-muted);
+  --journal-surface: var(--reader-soft);
+  --journal-raised: var(--reader-soft);
+  --journal-line: var(--reader-line);
+  --journal-accent: var(--reader-link);
+  --journal-wash: var(--reader-soft);
+  --journal-display: var(--reader-font);
+  font-family: var(--reader-font);
+}
+:root[data-theme]:has(.reader-page) body { background: var(--reader-bg); }
+:root[data-theme]:has(.reader-page) .persistent-public-background { display: none; }
+:root[data-theme]:has(.reader-page) .editorial-header { width: min(920px, calc(100% - 64px)); }
+:root[data-theme] .journal-shell:has(.reader-page) .page-main.narrow { width: min(700px, calc(100% - 48px)); padding: 48px 0 80px; margin-inline: auto; }
+:root[data-theme] .journal-shell .reader-page .journal-article-hero { display: block; padding: 0; border: 0; }
+:root[data-theme] .journal-shell .reader-page .journal-breadcrumb { font: 12px/1.7 var(--reader-font); margin-bottom: 24px; }
+:root[data-theme] .journal-shell .reader-page .journal-breadcrumb > span:last-child { display: none; }
+:root[data-theme] .journal-shell .reader-page .journal-breadcrumb > span:nth-last-child(2) { display: none; }
+:root[data-theme] .journal-shell .reader-series { font: 13px/1.6 var(--reader-font); color: var(--reader-muted); margin: 0 0 14px; }
+:root[data-theme] .journal-shell .reader-page .detail .journal-article-hero h1 { font: 650 32px/1.5 var(--reader-font); letter-spacing: -.5px; margin: 0; text-wrap: pretty; color: var(--reader-heading); }
+:root[data-theme] .journal-shell .reader-page .journal-article-intro .detail__meta { font: 13px/1.7 var(--reader-font); margin: 18px 0 0; gap: 8px 16px; color: var(--reader-muted); }
+:root[data-theme] .journal-shell .reader-page .journal-article-standfirst { font: 16px/1.85 var(--reader-font); margin: 23px 0 0; max-width: none; color: var(--reader-muted); }
+:root[data-theme] .journal-shell .reader-page .journal-article-grid { display: block; margin-top: 31px; }
+:root[data-theme] .journal-shell .reader-page .detail-sidebar { display: none; }
+:root[data-theme] .journal-shell .reader-page .journal-mobile-toc { display: block; padding: 0 0 12px; margin: 0 0 31px; background: transparent; border: 0; border-bottom: 1px solid var(--reader-line); border-radius: 0; }
+:root[data-theme] .journal-shell .reader-page .journal-mobile-toc summary { min-height: 44px; padding: 10px 0; font: 13px/1.85 var(--reader-font); color: var(--reader-muted); }
+:root[data-theme] .journal-shell .reader-page .journal-mobile-toc summary span { margin-left: 12px; }
+:root[data-theme] .journal-shell .reader-page .journal-mobile-toc .detail-toc { max-height: 60vh; overflow-y: auto; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body { font: 17px/1.85 var(--reader-font); color: var(--reader-text); letter-spacing: 0; word-break: normal; overflow-wrap: anywhere; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body p { margin: 20px 0; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body :is(h1,h2) { font: 600 24px/1.5 var(--reader-font); letter-spacing: -.3px; margin: 44px 0 18px; padding-top: 26px; border-top: 1px solid var(--reader-line); color: var(--reader-heading); }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body h3 { font: 600 20px/1.55 var(--reader-font); margin: 32px 0 14px; color: var(--reader-heading); }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body :is(h4,h5,h6) { font: 600 18px/1.6 var(--reader-font); margin: 26px 0 12px; color: var(--reader-heading); }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body > :first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body strong { font-weight: 600; color: var(--reader-heading); }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body a { color: var(--reader-link); text-underline-offset: 3px; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body :is(ul,ol) { padding-left: 1.4em; margin: 20px 0; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body li { margin: 0; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body li + li { margin-top: 10px; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body blockquote { border: 0; border-left: 3px solid var(--reader-quote); background: none; border-radius: 0; padding: 1px 0 1px 21px; margin: 25px 0; color: var(--reader-text); font-size: 16px; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body blockquote p { margin: 9px 0; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body code { font: .84em/1.8 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; background: var(--reader-soft); color: var(--reader-text); border: 0; border-radius: 4px; padding: 3px 5px; overflow-wrap: anywhere; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body .markdown-code-block { margin: 25px 0; background: var(--reader-soft); border: 1px solid var(--reader-line); border-radius: 7px; box-shadow: none; }
+:root[data-theme] .journal-shell .reader-page .markdown-code-block__bar { background: transparent; border: 0; padding: 10px 16px 0; }
+:root[data-theme] .journal-shell .reader-page .markdown-code-block__language { color: var(--reader-muted); font: 11px/1.5 ui-monospace, monospace; }
+:root[data-theme] .journal-shell .reader-page .markdown-code-block__copy { background: transparent; border: 0; border-radius: 4px; color: var(--reader-muted); font: 12px/1.5 var(--reader-font); padding: 3px 0; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body pre { font: 13px/1.8 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; background: var(--reader-soft); color: var(--reader-text); padding: 16px 20px 21px; margin: 0; border: 0; border-radius: 7px; overflow-x: auto; tab-size: 2; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body pre code { font: inherit; background: transparent; color: inherit; padding: 0; white-space: pre; overflow-wrap: normal; }
+/* These tokens also support the existing dark code surface in editor previews. */
+.markdown-code-block .shiki-token { color: var(--code-dark); }
+:root[data-theme='summer-day'] .reader-page .markdown-code-block .shiki-token { color: var(--code-light); }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 14px; line-height: 1.75; margin: 24px 0; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body :is(th,td) { padding: 12px 14px; text-align: left; border: 1px solid var(--reader-line); vertical-align: top; min-width: 115px; color: var(--reader-text); }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body th { background: var(--reader-soft); color: var(--reader-heading); font-weight: 600; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body tr:nth-child(2n) { background: color-mix(in srgb, var(--reader-soft) 55%, var(--reader-bg)); }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body img { display: block; width: 100%; height: auto; margin: 28px auto 12px; border: 0; border-radius: 5px; }
+:root[data-theme] .journal-shell .reader-page .detail .detail__body p:has(> img) + p:has(> em:only-child) { font-size: 13px; line-height: 1.75; color: var(--reader-muted); text-align: center; margin: 12px 0 28px; }
+:root[data-theme] .journal-shell .reader-page .reader-article-details { margin-top: 38px; padding: 15px 0; border-top: 1px solid var(--reader-line); }
+:root[data-theme] .journal-shell .reader-page .reader-article-details summary { cursor: pointer; color: var(--reader-muted); font-size: 13px; min-height: 44px; padding: 10px 0; }
+:root[data-theme] .journal-shell .reader-page .journal-article-taxonomy { margin-top: 8px; padding: 0; border: 0; }
+:root[data-theme] .journal-shell .reader-page .reader-cover { max-width: 180px; margin: 20px 0 0; }
+:root[data-theme] .journal-shell .reader-page .reader-cover img { width: 100%; height: auto; border-radius: 5px; }
+:root[data-theme] .journal-shell:has(.reader-page) .journal-footer { max-width: 920px; margin-inline: auto; padding-inline: 24px; }
+@media (max-width: 760px) {
+  :root[data-theme] .journal-shell:has(.reader-page) .page-main.narrow { width: calc(100% - 46px); padding-top: 30px; }
+  :root[data-theme]:has(.reader-page) .editorial-header { width: calc(100% - 46px); }
+  :root[data-theme] .journal-shell .reader-page .detail .journal-article-hero h1 { font-size: 26px; line-height: 1.55; letter-spacing: 0; }
+  :root[data-theme] .journal-shell .reader-page .journal-article-standfirst { font-size: 15px; }
+  :root[data-theme] .journal-shell .reader-page .detail .detail__body { font-size: 16px; }
+  :root[data-theme] .journal-shell .reader-page .detail .detail__body :is(h1,h2) { font-size: 22px; }
+  :root[data-theme] .journal-shell .reader-page .detail .detail__body h3 { font-size: 18px; }
+  :root[data-theme] .journal-shell .reader-page .detail .detail__body blockquote { font-size: 15px; padding-left: 16px; }
+}
+@media (pointer: coarse) {
+  :root[data-theme] .journal-shell .reader-page .markdown-code-block__copy { min-height: 44px; padding-inline: 8px; }
+}

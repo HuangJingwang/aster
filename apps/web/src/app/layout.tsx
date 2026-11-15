@@ -16,6 +16,7 @@ import './styles/admin.css';
 import './styles/responsive.css';
 import './styles/journal.css';
 import './styles/editorial.css';
+import './styles/reader.css';
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await loadSiteSettings();

@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 
 import { canShowComments, estimateReadingTime, getContentHref, getContentTaxonomyLinkGroups, getSeriesHref, type AdjacentContent, type SiteContentItem } from '@/lib/content';
 import { getContentCover } from '@/lib/content-cover';
+import { getArticleHeading } from '@/lib/article-heading';
 import { buildContentTableOfContents } from '@/lib/content-toc';
 import type { CommentTargetType } from '@/lib/interaction-client';
 import { loadApprovedComments, type PublicComment } from '@/lib/public-comments';
@@ -31,6 +32,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
   const updatedAt = item.updatedAt && item.updatedAt !== item.publishedAt ? item.updatedAt : undefined;
   const taxonomyGroups = getContentTaxonomyLinkGroups(item);
   const cover = getContentCover(item);
+  const heading = getArticleHeading(item);
   const cookieHeader = (await cookies()).toString();
   const readerSession = await loadReaderSession({ cookieHeader });
   const approvedComments = interactionsEnabled && isCommentTargetType(item.type) && canShowComments(item)
@@ -52,15 +54,16 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
   ) : null;
 
   return (
-    <div className={`detail-shell ${tableOfContents.length ? 'detail-shell--with-toc' : 'detail-shell--no-toc'}`}>
+    <div className={`detail-shell reader-page ${tableOfContents.length ? 'detail-shell--with-toc' : 'detail-shell--no-toc'}`}>
       <ViewTracker targetType={item.type} targetId={item.id} />
       <article className="detail">
         <header className={`journal-article-hero${cover ? '' : ' journal-article-hero--text'}`}>
         <div className="journal-article-intro">
         <nav className="journal-breadcrumb" aria-label="阅读路径"><Link href="/">首页</Link><span>/</span><Link href={collection.href}>{collection.label}</Link><span>/</span><span>THE JOURNAL</span></nav>
-        <h1>{item.title}</h1>
-        {item.summary && <p className="journal-article-standfirst">{item.summary}</p>}
+        {heading.issue && <p className="reader-series">{heading.kicker} · {heading.issue}</p>}
+        <h1 aria-label={item.title}>{heading.title}</h1>
         <div className="detail__meta">
+          <span>Aster.H</span>
           <time dateTime={item.publishedAt}>{item.publishedAt}</time>
           {updatedAt ? <time dateTime={updatedAt}>更新于 {updatedAt}</time> : null}
           <span>{readingTime}</span>
@@ -73,30 +76,8 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
           <span>{item.viewCount ?? 0} 次浏览</span>
           {interactionsEnabled ? <LikeButton targetType={item.type} targetId={item.id} initialCount={item.likeCount ?? 0} /> : null}
         </div>
-        {(item.series?.length || taxonomyGroups.length) ? <div className="journal-article-taxonomy">
-        {item.series && item.series.length > 0 ? (
-          <div className="detail-taxonomy" aria-label="所属系列">
-            <span>系列</span>
-            {item.series.map((series) => (
-              <Link key={series} href={getSeriesHref(series)}>
-                {series}
-              </Link>
-            ))}
-          </div>
-        ) : null}
-        {taxonomyGroups.map((group) => (
-          <div key={group.ariaLabel} className="detail-taxonomy" data-taxonomy={group.label} aria-label={group.ariaLabel}>
-            <span>{group.label}</span>
-            {group.items.map((item) => (
-              <Link key={item.href} href={item.href}>
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        ))}
-        </div> : null}
+        {item.summary && <p className="journal-article-standfirst">{item.summary}</p>}
         </div>
-        {cover && <figure className="journal-article-cover"><img src={cover.imageUrl} alt={cover.altText} /></figure>}
         </header>
         <div className="journal-article-grid">
         <ArticleReadingGuide headings={tableOfContents} />
@@ -119,6 +100,30 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
             ) : null}
           </div>
         </div>
+        {(item.series?.length || taxonomyGroups.length || cover) ? <details className="reader-article-details"><summary>系列、分类与标签</summary><div className="journal-article-taxonomy">
+        {item.series && item.series.length > 0 ? (
+          <div className="detail-taxonomy" aria-label="所属系列">
+            <span>系列</span>
+            {item.series.map((series) => (
+              <Link key={series} href={getSeriesHref(series)}>
+                {series}
+              </Link>
+            ))}
+          </div>
+        ) : null}
+        {taxonomyGroups.map((group) => (
+          <div key={group.ariaLabel} className="detail-taxonomy" data-taxonomy={group.label} aria-label={group.ariaLabel}>
+            <span>{group.label}</span>
+            {group.items.map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        ))}
+        </div>
+        {cover && <figure className="reader-cover"><img src={cover.imageUrl} alt={cover.altText} /></figure>}
+        </details> : null}
         {adjacent ? (
           <nav className="adjacent-content" aria-label="相邻内容">
             {adjacent.previous ? (

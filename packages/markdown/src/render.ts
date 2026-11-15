@@ -42,7 +42,7 @@ const allowedAttributes: sanitizeHtml.IOptions['allowedAttributes'] = {
   code: ['class'],
   div: ['class'],
   button: ['type', 'class', 'data-copy-code', 'aria-label', 'aria-live'],
-  span: ['class'],
+  span: ['class', 'style'],
   figure: ['class'],
   video: ['src', 'controls', 'playsinline', 'preload', 'aria-label'],
 };
@@ -62,6 +62,14 @@ export async function renderMarkdown(markdown: string): Promise<string> {
   return sanitizeHtml(String(rendered), {
     allowedTags,
     allowedAttributes,
+    // Only highlighter-generated hexadecimal colors survive; raw Markdown HTML
+    // remains disabled before this final sanitizer.
+    allowedStyles: {
+      span: {
+        '--code-light': [/^#[0-9a-f]{6}$/i],
+        '--code-dark': [/^#[0-9a-f]{6}$/i],
+      },
+    },
     transformTags: {
       a: sanitizeHtml.simpleTransform('a', {
         rel: 'nofollow noopener noreferrer',
@@ -215,7 +223,17 @@ function rehypeHeadingIds() {
 }
 
 function rehypeCodeBlocks() {
-  return (tree: MarkdownNode) => {
+  return async (tree: MarkdownNode) => {
+    const blocks: MarkdownNode[] = [];
+    visitTree(tree, (node) => {
+      if (node.type === 'element' && node.tagName === 'pre') {
+        const code = node.children?.find(child => child.type === 'element' && child.tagName === 'code');
+        if (code) blocks.push(code);
+      }
+    });
+    await Promise.all(blocks.map(async code => {
+      code.children = await highlightCode(collectText(code), getCodeLanguage(code));
+    }));
     replaceChildren(tree, (node) => {
       if (node.type !== 'element' || node.tagName !== 'pre') {
         return node;
@@ -228,9 +246,6 @@ function rehypeCodeBlocks() {
       }
 
       const language = getCodeLanguage(code);
-      const codeText = collectText(code);
-
-      code.children = highlightCode(codeText, language);
 
       return {
         type: 'element',
@@ -320,51 +335,31 @@ function isXmindHref(href: string): boolean {
   return /\.xmind(?:$|[?#])/i.test(href);
 }
 
-function highlightCode(code: string, language: string): MarkdownNode[] {
-  if (!['js', 'jsx', 'ts', 'tsx', 'javascript', 'typescript'].includes(language)) {
+async function highlightCode(code: string, language: string): Promise<MarkdownNode[]> {
+  if (!language || language === 'text' || language === 'plaintext') {
     return [{ type: 'text', value: code }];
   }
-
-  const tokenPattern = /(\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`|\b(?:async|await|break|case|catch|class|const|continue|default|else|export|extends|finally|for|from|function|if|import|interface|let|new|return|throw|try|type|var|while)\b)/g;
+  // Lazy loading keeps the editor and pages without fenced code lightweight.
+  const { bundledLanguages, codeToTokens } = await import('shiki');
+  if (!Object.hasOwn(bundledLanguages, language)) return [{ type: 'text', value: code }];
+  const { tokens } = await codeToTokens(code, {
+    lang: language as keyof typeof bundledLanguages,
+    themes: { light: 'github-light', dark: 'github-dark-dimmed' },
+  });
   const nodes: MarkdownNode[] = [];
-  let lastIndex = 0;
-
-  for (const match of code.matchAll(tokenPattern)) {
-    const token = match[0];
-    const index = match.index ?? 0;
-
-    if (index > lastIndex) {
-      nodes.push({ type: 'text', value: code.slice(lastIndex, index) });
+  tokens.forEach((line, index) => {
+    if (index) nodes.push({ type: 'text', value: '\n' });
+    for (const token of line) {
+      const light = token.htmlStyle?.color;
+      const dark = token.htmlStyle?.['--shiki-dark'];
+      nodes.push({
+        type: 'element', tagName: 'span',
+        properties: { className: ['shiki-token'], style: `--code-light:${light};--code-dark:${dark}` },
+        children: [{ type: 'text', value: token.content }],
+      });
     }
-
-    nodes.push({
-      type: 'element',
-      tagName: 'span',
-      properties: {
-        className: [`token ${getTokenType(token)}`],
-      },
-      children: [{ type: 'text', value: token }],
-    });
-    lastIndex = index + token.length;
-  }
-
-  if (lastIndex < code.length) {
-    nodes.push({ type: 'text', value: code.slice(lastIndex) });
-  }
-
+  });
   return nodes;
-}
-
-function getTokenType(token: string): string {
-  if (token.startsWith('//')) {
-    return 'comment';
-  }
-
-  if (/^["'`]/.test(token)) {
-    return 'string';
-  }
-
-  return 'keyword';
 }
 
 function isHeadingTag(tagName: string | undefined): boolean {
