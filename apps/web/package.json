@@ -11,6 +11,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@fontsource/lxgw-wenkai-tc": "^5.3.1",
     "@starry-summer/markdown": "file:../../packages/markdown",
     "@starry-summer/shared": "file:../../packages/shared",
     "framer-motion": "^12.43.0",

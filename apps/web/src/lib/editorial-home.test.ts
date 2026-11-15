@@ -1,30 +1,32 @@
 import { describe, expect, test } from 'vitest';
-import { selectEditorialHome } from './editorial-home';
+import { getHomeArticleHeading, selectEditorialHome } from './editorial-home';
 import { filterRecommendations, getRecommendationKind } from './recommendation-filter';
 import { recommendedShares } from './recommended-shares';
 import type { SiteContentItem } from './content-types';
 
 describe('editorial home preserves content boundaries', () => {
-  test('bounds homepage previews to three public articles and two projects without changing the source', () => {
+  test('bounds homepage previews to one public article and one project without changing the source', () => {
     const items = Array.from({ length: 6 }, (_, index) => ({ id: String(index), slug: String(index), title: `文章${index}`, type: 'post', status: 'published', visibility: 'public', publishedAt: `2026-09-0${index + 1}` } as SiteContentItem));
     items.push(...Array.from({ length: 4 }, (_, index) => ({ ...items[index]!, id: `project${index}`, type: 'project' as const })), { ...items[0]!, id: 'draft', status: 'draft' }, { ...items[0]!, id: 'private', visibility: 'private' });
     const model = selectEditorialHome(items);
-    expect(model.articles.map(item => item.id)).toEqual(['5', '4', '3']);
-    expect(model.projects.map(item => item.id)).toEqual(['project3', 'project2']);
+    expect(model.articles.map(item => item.id)).toEqual(['5']);
+    expect(model.projects.map(item => item.id)).toEqual(['project3']);
     expect(items).toHaveLength(12);
     expect(model.articles.some(item => ['draft', 'private'].includes(item.id))).toBe(false);
   });
-  test('empty collections remain empty', () => expect(selectEditorialHome([])).toEqual({ articles: [], projects: [], featuredVideo: null }));
-  test('features the published Mina video article while preserving the article feed', () => {
+  test('empty collections remain empty', () => expect(selectEditorialHome([])).toEqual({ articles: [], projects: [] }));
+  test('treats video articles as ordinary articles, with no separate feature', () => {
     const video: SiteContentItem = { id: 'moment-mina-meeting-video', slug: 'mina-meeting-video', title: 'Mina 会议视频', type: 'post', status: 'published', visibility: 'public', publishedAt: '2026-11-12' };
-    const home = selectEditorialHome([video]);
-    expect(home.featuredVideo?.item).toEqual(video);
-    expect(home.featuredVideo?.durationLabel).toBe('1 分 35 秒');
-    expect(home.articles).toEqual([video]);
-    expect(home.projects).toEqual([]);
-    expect(selectEditorialHome([{ ...video, status: 'draft' }]).featuredVideo).toBeNull();
-    expect(selectEditorialHome([{ ...video, visibility: 'private' }]).featuredVideo).toBeNull();
-    expect(selectEditorialHome([{ ...video, id: 'another-moment' }]).featuredVideo).toBeNull();
+    expect(selectEditorialHome([video])).toEqual({ articles: [video], projects: [] });
+    expect(selectEditorialHome([{ ...video, status: 'draft' }]).articles).toEqual([]);
+    expect(selectEditorialHome([{ ...video, visibility: 'private' }]).articles).toEqual([]);
+  });
+  test('separates a declared series and episode from its display heading without rewriting the article', () => {
+    const item = { title: 'Voice Agent 实践与落地（三）：前后台分离与记忆管理', series: ['Voice Agent 实践与落地'], type: 'post' } as SiteContentItem;
+    expect(getHomeArticleHeading(item)).toEqual({ title: '前后台分离与记忆管理', kicker: 'Voice Agent 实践与落地', issue: '03' });
+    expect(item.title).toBe('Voice Agent 实践与落地（三）：前后台分离与记忆管理');
+    expect(getHomeArticleHeading({ ...item, series: ['别的系列'] }).title).toBe(item.title);
+    expect(getHomeArticleHeading({ ...item, title: '普通标题', series: [] })).toEqual({ title: '普通标题', kicker: '文章', issue: undefined });
   });
 });
 

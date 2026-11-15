@@ -6,25 +6,22 @@ import { selectEditorialHome } from '@/lib/editorial-home';
 
 vi.mock('./EditorialMotion', () => ({ HeroCharacter: () => null, TiltMedia: ({ children }: { children: React.ReactNode }) => children }));
 
-test('homepage exposes the video after the hero as one accessible link without loading the MP4', () => {
+test('homepage shows a video only once in the normal article entry, without a player or dedicated row', () => {
   const model = selectEditorialHome([{ id: 'moment-mina-meeting-video', slug: 'mina-meeting-video', title: 'Mina 会议视频', type: 'post', status: 'published', visibility: 'public', publishedAt: '2026-11-12' }]);
   const document = new DOMParser().parseFromString(renderToStaticMarkup(<EditorialHome {...model} />), 'text/html');
-  const feature = document.querySelector('.editorial-video-feature');
-  const link = feature?.querySelector('a');
-  expect(link?.getAttribute('href')).toBe('/posts/mina-meeting-video');
-  expect(link?.getAttribute('aria-label')).toContain('Mina 会议视频');
-  expect(feature?.textContent).toContain('1 分 35 秒');
-  expect(feature?.textContent).toContain('播放视频');
-  expect(link?.querySelector('img')?.getAttribute('src')).toBe('/images/mina-meeting-video.webp');
-  expect(feature?.previousElementSibling?.classList.contains('editorial-hero')).toBe(true);
-  expect(feature?.nextElementSibling?.querySelector('#latest')).not.toBeNull();
-  expect(feature?.querySelectorAll('a')).toHaveLength(1);
-  expect(feature?.querySelector('video')).toBeNull();
+  expect(document.querySelectorAll('a[href="/posts/mina-meeting-video"]')).toHaveLength(1);
+  expect(document.querySelector('.editorial-video-feature')).toBeNull();
+  expect(document.querySelector('video')).toBeNull();
+  expect(document.querySelector('#latest h3')?.textContent).toBe('Mina 会议视频');
+  expect(document.querySelector('#latest a[aria-label="Mina 会议视频"]')).not.toBeNull();
 });
 
-test('homepage omits the video feature when no public video is selected', () => {
-  const html = renderToStaticMarkup(<EditorialHome {...selectEditorialHome([])} />);
-  expect(html).not.toContain('editorial-video-feature');
+test('empty collections retain their archive entries and display an honest empty state', () => {
+  const document = new DOMParser().parseFromString(renderToStaticMarkup(<EditorialHome {...selectEditorialHome([])} />), 'text/html');
+  expect(document.querySelector('#latest')?.textContent).toContain('还没有公开文章');
+  expect(document.querySelector('#projects')?.textContent).toContain('还没有公开项目');
+  expect(document.querySelector('#latest a')?.getAttribute('href')).toBe('/posts');
+  expect(document.querySelector('#projects a')?.getAttribute('href')).toBe('/projects');
 });
 
 test('homepage renders configured social profiles as safe external links beside reading', () => {

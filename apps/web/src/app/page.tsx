@@ -5,6 +5,8 @@ import { EditorialHome } from '@/components/EditorialHome';
 import { SiteShell } from '@/components/SiteShell';
 import { selectEditorialHome } from '@/lib/editorial-home';
 import { loadSiteSettings } from '@/lib/settings-repository';
+import '@fontsource/lxgw-wenkai-tc/400.css';
+import './styles/home-features.css';
 
 export const metadata: Metadata = {
   title: 'Aster · Aster.H 的个人博客',

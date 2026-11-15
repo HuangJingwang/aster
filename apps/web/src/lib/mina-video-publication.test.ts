@@ -19,7 +19,7 @@ test('the Mina video is a public article with context, a playable video, and mat
   const html = await renderMarkdown(article.bodyMarkdown!);
   expect(html.match(/<video /g)).toHaveLength(1);
   expect(html).toContain('src="/videos/mina-false-ending-office-v8.mp4"');
-  expect(getContentHref(selectEditorialHome(items).featuredVideo!.item)).toBe('/posts/mina-meeting-video');
+  expect(getContentHref(selectEditorialHome([article]).articles[0]!)).toBe('/posts/mina-meeting-video');
 });
 
 test('the published moment URL permanently redirects to the article', async () => {
