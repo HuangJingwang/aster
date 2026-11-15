@@ -3,6 +3,7 @@ import { formatArchiveDate } from '@/lib/archive-date';
 
 import { ContentArchiveActions, ContentArchiveMarkup } from '@/components/ContentArchiveMarkup';
 import { SiteShell } from '@/components/SiteShell';
+import { WritingCollectionFeature } from '@/components/WritingCollectionFeature';
 import { SortableContentArchive, type SortableArchiveGroup } from '@/components/SortableContentArchive';
 import { getContentHref, getContentTaxonomyLinkGroups, type SiteContentItem } from '@/lib/content';
 import { getContentCover } from '@/lib/content-cover';
@@ -27,14 +28,18 @@ export default async function PostsPage() {
 
   return (
     <SiteShell>
-      <main className="page-main">
-        <div className="page-title-row">
-          <div className="page-title">
+      <main className="page-main writing-collection writing-collection--posts">
+        <header className="writing-intro">
+          <div className="writing-intro__copy">
+            <p className="writing-intro__edition">01 <span /> JOURNAL</p>
             <h1>文章</h1>
-            <p>技术实践、原理探索，以及那些值得认真聊聊的事。</p>
+            <p className="writing-intro__description">技术实践、原理探索，<br />以及那些值得认真聊聊的事。</p>
+            <div className="writing-intro__links"><a href="#writing-list">浏览文章 <span aria-hidden="true">↓</span></a><a href="/notes">随手笔记 ↗</a></div>
           </div>
-          <div className="journal-heading-note"><b>{latestPosts.length}</b>公开文章 / 持续更新</div>
-        </div>
+          <WritingCollectionFeature item={latestPosts[0]} kind="posts" />
+        </header>
+        <section id="writing-list" className="writing-index" aria-labelledby="writing-list-title">
+        <div className="writing-index__heading"><h2 id="writing-list-title">全部文章</h2><p>{latestPosts.length} 篇公开文章 <span>· 持续更新</span></p></div>
         <Suspense
           fallback={
             <>
@@ -61,6 +66,7 @@ export default async function PostsPage() {
             baseHref="/posts"
           />
         </Suspense>
+        </section>
       </main>
     </SiteShell>
   );

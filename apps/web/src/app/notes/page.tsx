@@ -3,6 +3,7 @@ import { formatArchiveDate } from '@/lib/archive-date';
 
 import { ContentArchiveActions, ContentArchiveMarkup } from '@/components/ContentArchiveMarkup';
 import { SiteShell } from '@/components/SiteShell';
+import { WritingCollectionFeature } from '@/components/WritingCollectionFeature';
 import { SortableContentArchive, type SortableArchiveGroup } from '@/components/SortableContentArchive';
 import { getContentHref, getContentTaxonomyLinkGroups, type SiteContentItem } from '@/lib/content';
 import { getContentCover } from '@/lib/content-cover';
@@ -27,15 +28,19 @@ export default async function NotesPage() {
 
   return (
     <SiteShell>
-      <main className="page-main">
-        <div className="page-title-row">
-          <div className="page-title">
-            <p className="eyebrow">02 / FIELD NOTES</p>
+      <main className="page-main writing-collection writing-collection--notes">
+        <header className="writing-intro">
+          <div className="writing-intro__copy">
+            <p className="writing-intro__edition">02 <span /> FIELD NOTES</p>
             <h1>笔记</h1>
-            <p>还没写成长文的发现，和留给以后自己的线索。</p>
+            <p className="writing-intro__description">还没写成长文的发现，<br />和留给以后自己的线索。</p>
+            <div className="writing-intro__links"><a href="#writing-list">翻阅笔记 <span aria-hidden="true">↓</span></a><a href="/posts">阅读文章 ↗</a></div>
           </div>
-          <div className="journal-heading-note"><b>{latestNotes.length}</b>则笔记 / 随时记录</div>
-        </div>
+          <WritingCollectionFeature item={latestNotes[0]} kind="notes" />
+        </header>
+        <section id="writing-list" className="writing-index" aria-labelledby="writing-list-title">
+        <div className="writing-index__heading"><h2 id="writing-list-title">全部笔记</h2><p>{latestNotes.length} 则公开笔记 <span>· 随时记录</span></p></div>
+        {latestNotes.length > 0 ? (
         <Suspense
           fallback={
             <>
@@ -62,7 +67,8 @@ export default async function NotesPage() {
             baseHref="/notes"
           />
         </Suspense>
-        {latestNotes.length === 0 && <div className="journal-empty"><p>笔记还在慢慢积累。先看看已经整理好的文章吧。</p><a href="/posts">去读文章 ↗</a></div>}
+        ) : <div className="writing-empty"><span className="writing-empty__mark" aria-hidden="true">＊</span><div><h3>笔记还在慢慢积累</h3><p>先看看已经整理好的文章吧。</p><a href="/posts">去读文章 ↗</a></div></div>}
+        </section>
       </main>
     </SiteShell>
   );
