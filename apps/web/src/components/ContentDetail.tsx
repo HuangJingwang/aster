@@ -75,6 +75,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
         </div>
         {item.summary && <p className="journal-article-standfirst">{item.summary}</p>}
         </div>
+        {cover && <figure className="reader-cover"><img src={cover.imageUrl} alt={cover.altText} /></figure>}
         </header>
         <div className="journal-article-grid">
         <ArticleReadingGuide headings={tableOfContents} />
@@ -97,7 +98,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
             ) : null}
           </div>
         </div>
-        {(item.series?.length || taxonomyGroups.length || cover) ? <details className="reader-article-details"><summary>系列、分类与标签</summary><div className="journal-article-taxonomy">
+        {(item.series?.length || taxonomyGroups.length) ? <details className="reader-article-details"><summary>系列、分类与标签</summary><div className="journal-article-taxonomy">
         {item.series && item.series.length > 0 ? (
           <div className="detail-taxonomy" aria-label="所属系列">
             <span>系列</span>
@@ -119,7 +120,6 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
           </div>
         ))}
         </div>
-        {cover && <figure className="reader-cover"><img src={cover.imageUrl} alt={cover.altText} /></figure>}
         </details> : null}
         {adjacent ? (
           <nav className="adjacent-content" aria-label="相邻内容">

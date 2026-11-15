@@ -50,6 +50,8 @@ test('displays the exact authored title including its series prefix and issue', 
   expect(html).toContain('aria-label="所属系列"');
   expect(html).toContain('人工智能');
   expect(html).toContain('/images/cover.png');
+  expect(html.match(/<header\b[^>]*>[\s\S]*?<\/header>/)?.[0]).toContain('src="/images/cover.png"');
+  expect(html.match(/<details class="reader-article-details">[\s\S]*?<\/details>/)?.[0]).not.toContain('src="/images/cover.png"');
   expect(html).toContain('文章目录');
   expect(html).toContain('Aster.H');
 });

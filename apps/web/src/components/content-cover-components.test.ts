@@ -40,7 +40,7 @@ describe('content cover components', () => {
     expect(source).toContain('alt={cover.altText}');
   });
 
-  test('opens with the title and reading guide and keeps the cover in the article details', () => {
+  test('keeps the cover visible in the article header before the reading guide', () => {
     const source = readFileSync(join(process.cwd(), 'src/components/ContentDetail.tsx'), 'utf8');
 
     expect(source).toContain('journal-article-hero');
@@ -49,7 +49,7 @@ describe('content cover components', () => {
     expect(source).toContain('<ArticleReadingGuide headings={tableOfContents} />');
     expect(source).toContain('<article className="detail">');
     expect(source.indexOf('<h1')).toBeLessThan(source.indexOf('<ArticleReadingGuide'));
-    expect(source.indexOf('reader-cover')).toBeGreaterThan(source.indexOf('detail__body'));
+    expect(source.indexOf('reader-cover')).toBeLessThan(source.indexOf('</header>'));
     expect(source).toContain('<div className="detail-reader__main">');
     expect(source).not.toContain('detail-sidebar__cover');
   });
