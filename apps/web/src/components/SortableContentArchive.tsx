@@ -1,8 +1,10 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { selectArchivePage } from '@/lib/archive-filter';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowRight, ChevronDown, Search, X } from 'lucide-react';
+import { buildArchiveSortHref, filterArchive } from '@/lib/archive-filter';
 
 import {
   ContentArchiveActions,
@@ -34,44 +36,105 @@ export function SortableContentArchive({
   baseHref,
 }: SortableContentArchiveProps) {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const sort = searchParams.get('sort') === 'popular' ? 'popular' : 'latest';
   const groups = sort === 'popular' ? popularGroups : latestGroups;
   const query = searchParams.get('q') ?? '';
   const tag = searchParams.get('tag') ?? '';
-  const result = selectArchivePage(groups, { query, tag, page: Number(searchParams.get('page') ?? 1) });
-  const tags = [...new Set(latestGroups.flatMap(group => group.items.flatMap(item => item.taxonomyItems.map(t => t.label))))];
-  function pageHref(page: number) {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('page', String(page));
-    return `${baseHref}?${params}`;
+  const result = filterArchive(groups, { query, tag });
+  const tagCounts = new Map<string, number>();
+  for (const item of latestGroups.flatMap(group => group.items)) {
+    for (const label of new Set(item.taxonomyItems.map(t => t.label))) tagCounts.set(label, (tagCounts.get(label) ?? 0) + 1);
   }
+  const tags = [...tagCounts.keys()].sort((a, b) => tagCounts.get(b)! - tagCounts.get(a)! || a.localeCompare(b, 'zh-CN'));
+  const quickTags = tags.slice(0, 5);
+  if (tag && !quickTags.includes(tag)) quickTags.splice(4, 1, tag);
+  const filterHref = (nextQuery: string, nextTag: string) => buildArchiveSortHref(baseHref, sort, nextQuery, nextTag);
 
   return (
     <>
-      <ContentArchiveActions
-        query={query}
-        tag={tag}
-        sort={sort}
-        sortAriaLabel={sortAriaLabel}
-        browseAriaLabel={browseAriaLabel}
-        browseHref={browseHref}
-        browseLabel={browseLabel}
-        baseHref={baseHref}
-      />
-      <form className="editorial-archive-filter" action={baseHref} key={`${query}:${tag}:${sort}`}>
-        <input type="hidden" name="sort" value={sort} />
-        <label><span>查找{contentLabel}</span><input type="search" name="q" defaultValue={query} placeholder="标题、摘要或标签" /></label>
-        <label><span>分类与标签</span><select name="tag" defaultValue={tag}><option value="">全部主题</option>{tags.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
-        <button type="submit">筛选</button>
-        {(query || tag) && <Link href={baseHref}>清除</Link>}
-      </form>
-      <p className="resource-results" role="status">{result.total} 篇{contentLabel}</p>
-      {result.total ? <ContentArchiveMarkup groups={result.groups} contentLabel={contentLabel} /> : <p className="editorial-empty">没有找到相关{contentLabel}，试试其他关键词。</p>}
-      {result.pages > 1 && <nav className="editorial-pagination" aria-label={`${contentLabel}分页`}>
-        {result.page > 1 && <Link href={pageHref(result.page - 1)}>上一页</Link>}
-        {Array.from({ length: result.pages }, (_, i) => <Link key={i} href={pageHref(i + 1)} aria-label={`第 ${i + 1} 页`} aria-current={result.page === i + 1 ? 'page' : undefined}>{i + 1}</Link>)}
-        {result.page < result.pages && <Link href={pageHref(result.page + 1)}>下一页</Link>}
-      </nav>}
+      <div className="archive-toolbar">
+        <div className="archive-toolbar__top">
+          <ContentArchiveActions
+            query={query}
+            tag={tag}
+            sort={sort}
+            sortAriaLabel={sortAriaLabel}
+            browseAriaLabel={browseAriaLabel}
+            browseHref={browseHref}
+            browseLabel={browseLabel}
+            baseHref={baseHref}
+          />
+          <form className="archive-search" role="search" aria-label={`搜索${contentLabel}`} action={baseHref} key={`${query}:${tag}:${sort}`} onSubmit={event => {
+            event.preventDefault();
+            const value = String(new FormData(event.currentTarget).get('q') ?? '').trim();
+            router.push(filterHref(value, tag), { scroll: false });
+          }}>
+            <Search size={16} aria-hidden="true" />
+            <input type="hidden" name="sort" value={sort} />
+            <input type="hidden" name="tag" value={tag} />
+            <input type="search" name="q" aria-label={`搜索${contentLabel}`} defaultValue={query} placeholder={`搜索${contentLabel}…`} />
+            <button type="submit" aria-label="提交搜索"><ArrowRight size={16} aria-hidden="true" /></button>
+          </form>
+        </div>
+        {tags.length > 0 && <div className="archive-toolbar__topics">
+          <nav className="archive-topics" aria-label={`${contentLabel}主题`}>
+            <Link href={filterHref(query, '')} scroll={false} aria-current={!tag ? 'page' : undefined}>全部</Link>
+            {quickTags.map(value => <Link key={value} href={filterHref(query, value)} scroll={false} aria-current={tag === value ? 'page' : undefined}>{value}</Link>)}
+          </nav>
+          <div className="archive-more-topics">
+            <select aria-label="选择主题" value={tag} onChange={event => router.push(filterHref(query, event.target.value), { scroll: false })}>
+              <option value="">更多主题</option>
+              {tag && !tagCounts.has(tag) && <option value={tag}>{tag}</option>}
+              {tags.map(value => <option key={value} value={value}>{value}</option>)}
+            </select>
+            <ChevronDown size={13} aria-hidden="true" />
+          </div>
+        </div>}
+        <div className="archive-toolbar__results">
+          <p role="status">{query || tag ? '找到 ' : ''}{result.total} 篇{contentLabel}{query && <span> · “{query}”</span>}</p>
+          {(query || tag) && <Link href={filterHref('', '')} scroll={false} aria-label="清除搜索和主题筛选"><X size={12} aria-hidden="true" />重置</Link>}
+        </div>
+      </div>
+      {result.total ? (
+        <ContinuousArchive key={`${baseHref}:${sort}:${query}:${tag}`} groups={result.groups} total={result.total} contentLabel={contentLabel} />
+      ) : <p className="editorial-empty">没有找到相关{contentLabel}，试试其他关键词。</p>}
+    </>
+  );
+}
+
+function ContinuousArchive({ groups, total, contentLabel }: { groups: SortableArchiveGroup[]; total: number; contentLabel: string }) {
+  const [limit, setLimit] = useState(12);
+  const sentinel = useRef<HTMLDivElement>(null);
+  const hasMore = limit < total;
+  const loadMore = () => setLimit(current => Math.min(current + 12, total));
+  let remaining = limit;
+  const visibleGroups = groups.flatMap(group => {
+    const items = group.items.slice(0, Math.max(0, remaining));
+    remaining -= items.length;
+    return items.length ? [{ ...group, items }] : [];
+  });
+
+  useEffect(() => {
+    if (!hasMore || !sentinel.current || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        // One batch per observation; reconnect after React has appended the rows.
+        observer.disconnect();
+        setLimit(current => Math.min(current + 12, total));
+      }
+    }, { rootMargin: '240px 0px' });
+    observer.observe(sentinel.current);
+    return () => observer.disconnect();
+  }, [hasMore, limit, total]);
+
+  return (
+    <>
+      <ContentArchiveMarkup groups={visibleGroups} contentLabel={contentLabel} />
+      <div className="archive-load-more" ref={sentinel}>
+        {hasMore ? <button type="button" onClick={loadMore}>继续阅读 <ArrowRight size={14} aria-hidden="true" /></button> : null}
+        <p role="status">{hasMore ? `已展示 ${Math.min(limit, total)} / ${total} 篇${contentLabel} · 向下滚动继续` : `已展示全部 ${total} 篇${contentLabel}`}</p>
+      </div>
     </>
   );
 }

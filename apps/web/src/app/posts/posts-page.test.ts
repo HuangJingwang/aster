@@ -58,7 +58,7 @@ describe('posts page', () => {
     expect(notesSource).toContain("loadSiteContent('note', 'latest')");
     expect(notesSource).toContain("loadSiteContent('note', 'popular')");
     expect(archiveSource).toContain("'use client';");
-    expect(archiveSource).toContain("import { useSearchParams } from 'next/navigation';");
+    expect(archiveSource).toContain("import { useRouter, useSearchParams } from 'next/navigation';");
     expect(archiveSource).toContain("searchParams.get('sort') === 'popular' ? 'popular' : 'latest'");
   });
 
