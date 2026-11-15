@@ -456,7 +456,7 @@
     "coverImageUrl": "/images/starry-summer-night.png",
     "coverAltText": "夏夜公园里的月亮、星星和松树",
     "featured": true,
-    "pinned": true,
+    "pinned": false,
     "categories": [
       "随笔",
       "关于"
