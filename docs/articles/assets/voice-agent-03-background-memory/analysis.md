@@ -1,8 +1,20 @@
 # 第三篇配图规划
 
-## 当前版本：Fast path / Slow path
+## 当前版本：前后台协作、任务修改与记忆更新
 
-2026-11-15 按文章主线重绘两张结构图，使用内置 imagegen，画风仍为 craft-handmade。正文与网站当前引用：
+2026-11-15，主线为前后台分离与记忆管理。快慢路径仅作联想。正文按顺序引用：
+
+1. `01-collaboration-craft.png`：前后台与请求协调的组件关系。
+2. `03-task-amendment-sequence.png`：执行期间修改、查询进度和结果交付的时序。
+3. `02-memory-sync-craft.png`：保存的记录如何进入前后台上下文。
+
+新增时序图使用 Baoyu linear-progression / craft-handmade，中文，内置 imagegen，实际尺寸 1122 × 1402。完整提示词在 `prompts/03-task-amendment-sequence.md`，关系与边界在 `structured-content-sequence.md`。图仅画业务写入前的替换执行分支；在途写入先收回执、unknown 时停止重规划的细节在正文说明。
+
+已逐项检查四条生命线、15 条单向消息、版本标签与播放回执方向。新图不表示独立进程或持久化保证。原封面和两张结构图继续使用；历史生成稿保留追溯。
+
+## 历史版本：Fast path / Slow path
+
+2026-11-15 按文章主线重绘两张结构图，使用内置 imagegen，画风仍为 craft-handmade。该版本正文与网站引用：
 
 - `01-fast-slow-collaboration-v2.png`：快路径、请求协调与慢路径的协作，保留工具调用和回执方向。
 - `02-memory-sync-v2.png`：受理时传快照，执行时读状态，交付后更新历史。

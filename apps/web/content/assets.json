@@ -488,5 +488,15 @@
     "usage": "content",
     "altText": "创建请求时由历史与原话形成慢路径快照；执行期间工具回执更新请求状态并供快路径读取；交付后将结果引用和播放状态写入对话历史",
     "createdAt": "2026-11-15T01:21:33+08:00"
+  },
+  {
+    "id": "voice-agent-practice-03-background-memory-03-task-amendment-sequence",
+    "storageKey": "images/voice-agent-practice-03-background-memory/03-task-amendment-sequence.png",
+    "publicUrl": "/images/voice-agent-practice-03-background-memory/03-task-amendment-sequence.png",
+    "mimeType": "image/png",
+    "byteSize": 2337393,
+    "usage": "content",
+    "altText": "用户在后台执行期间修改要求并查询进度；协调层更新版本、替换执行，结果核验后播报，完整播放后更新交付状态与历史引用",
+    "createdAt": "2026-11-15T20:31:52+08:00"
   }
 ]
