@@ -10,6 +10,7 @@ export function ArticleReadingGuide({ headings }: { headings: MarkdownHeading[] 
   const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
   const progress = useRef<HTMLDivElement>(null);
   const mobile = useRef<HTMLDetailsElement>(null);
+  const desktopOutline = useRef<HTMLElement>(null);
   useEffect(() => { setPortalTarget(document.body); }, []);
   useEffect(() => {
     let frame = 0;
@@ -40,13 +41,23 @@ export function ArticleReadingGuide({ headings }: { headings: MarkdownHeading[] 
       observer?.disconnect();
     };
   }, [headings, portalTarget]);
-  const toc = <nav className="detail-toc" aria-label="文章目录"><p className="eyebrow">ON THIS PAGE</p><ol>{headings.map((heading) => <li key={heading.slug} className={`detail-toc__item detail-toc__item--depth-${heading.depth}`}><a href={`#${heading.slug}`} aria-current={current === heading.slug ? 'location' : undefined} onClick={() => { if (mobile.current) mobile.current.open = false; }}>{heading.text}</a></li>)}</ol></nav>;
+  useEffect(() => {
+    const outline = desktopOutline.current;
+    const active = outline?.querySelector('[aria-current="location"]');
+    if (!outline?.clientHeight || !active) return;
+    const bounds = outline.getBoundingClientRect();
+    const link = active.getBoundingClientRect();
+    // Scroll this container only: scrollIntoView can also move the article.
+    if (link.top < bounds.top) outline.scrollTop -= bounds.top - link.top;
+    else if (link.bottom > bounds.bottom) outline.scrollTop += link.bottom - bounds.bottom;
+  }, [current]);
+  const toc = (desktop = false) => <nav ref={desktop ? desktopOutline : undefined} className="detail-toc" aria-label="文章目录"><p className="eyebrow">本文目录</p><ol>{headings.map((heading) => <li key={heading.slug} className={`detail-toc__item detail-toc__item--depth-${heading.depth}`}><a href={`#${heading.slug}`} aria-current={current === heading.slug ? 'location' : undefined} onClick={() => { if (mobile.current) mobile.current.open = false; }}>{heading.text}</a></li>)}</ol></nav>;
   return <>
     {portalTarget && createPortal(
       <div className="journal-chrome journal-reading-progress" aria-hidden="true" ref={progress} style={{ transform: 'scaleX(0)' }} />,
       portalTarget,
     )}
-    <aside className="detail-sidebar" aria-label="阅读导览"><div className="journal-reading-label"><span>READING PROGRESS</span><span>{percent}%</span></div>{headings.length > 0 && toc}<a className="journal-reader-home" href="/">✳ Aster.H 的个人博客 ↗</a></aside>
-    {headings.length > 0 && <details className="journal-mobile-toc" ref={mobile}><summary>文章目录 <span>{headings.length} 个章节</span></summary>{toc}</details>}
+    <aside className="detail-sidebar" aria-label="阅读导览"><div className="journal-reading-label"><span>阅读进度</span><span>{percent}%</span></div>{headings.length > 0 && toc(true)}</aside>
+    {headings.length > 0 && <details className="journal-mobile-toc" ref={mobile}><summary>文章目录 <span>{headings.length} 个章节</span></summary>{toc()}</details>}
   </>;
 }

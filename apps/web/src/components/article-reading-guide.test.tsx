@@ -26,7 +26,7 @@ test('viewport progress tracks only the article, updates after layout changes, a
   const root = createRoot(host);
   let top = -580;
   let height = 2000;
-  vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
+  vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
     return { top, height, bottom: top + height, left: 0, right: 800, width: 800, x: 0, y: top, toJSON() {} };
   });
   await act(async () => root.render(<><ArticleReadingGuide headings={[]} /><div className="detail__body">正文</div><section style={{ height: 3000 }}>评论和页脚</section></>));
@@ -78,4 +78,34 @@ test('guide follows actual headings and collapses mobile navigation after select
   expect(mobile.open).toBe(false);
   await act(async () => root.unmount());
   host.remove(); vi.unstubAllGlobals();
+});
+
+test('keeps the current desktop chapter visible by scrolling only the outline', async () => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
+  let frame: FrameRequestCallback | undefined;
+  vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { frame = callback; return 1; });
+  vi.stubGlobal('cancelAnimationFrame', vi.fn());
+  const pageScroll = vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
+  const host = document.createElement('div');
+  document.body.append(host);
+  const root = createRoot(host);
+  let chapterTop = 500;
+  let linkTop = 400;
+  vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+    const top = this.id === 'details' ? chapterTop : this.tagName === 'A' ? linkTop : 100;
+    const height = this.tagName === 'NAV' ? 200 : 30;
+    return { top, bottom: top + height, height, left: 0, right: 220, width: 220, x: 0, y: top, toJSON() {} };
+  });
+  await act(async () => root.render(<><ArticleReadingGuide headings={[{ slug: 'opening', text: '开篇', depth: 2 }, { slug: 'details', text: '细节', depth: 3 }]} /><div className="detail__body"><h2 id="opening">开篇</h2><h3 id="details">细节</h3></div></>));
+  const outline = host.querySelector<HTMLElement>('.detail-sidebar .detail-toc')!;
+  Object.defineProperty(outline, 'clientHeight', { configurable: true, value: 200 });
+  await act(async () => { chapterTop = 120; window.dispatchEvent(new Event('scroll')); frame?.(0); });
+  expect(outline.scrollTop).toBeGreaterThan(0);
+  expect(outline.querySelector('[aria-current="location"]')?.getAttribute('href')).toBe('#details');
+  const previousScroll = outline.scrollTop;
+  await act(async () => { chapterTop = 500; linkTop = 60; window.dispatchEvent(new Event('scroll')); frame?.(0); });
+  expect(outline.scrollTop).toBeLessThan(previousScroll);
+  expect(pageScroll).not.toHaveBeenCalled();
+  await act(async () => root.unmount());
+  host.remove();
 });
