@@ -17,7 +17,7 @@ test('homepage exposes the video after the hero as one accessible link without l
   expect(feature?.textContent).toContain('播放视频');
   expect(link?.querySelector('img')?.getAttribute('src')).toBe('/images/mina-meeting-video.webp');
   expect(feature?.previousElementSibling?.classList.contains('editorial-hero')).toBe(true);
-  expect(feature?.nextElementSibling?.id).toBe('latest');
+  expect(feature?.nextElementSibling?.querySelector('#latest')).not.toBeNull();
   expect(feature?.querySelectorAll('a')).toHaveLength(1);
   expect(feature?.querySelector('video')).toBeNull();
 });

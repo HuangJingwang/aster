@@ -16,8 +16,8 @@ export function selectEditorialHome(content: SiteContentItem[]) {
     durationLabel: '1 分 35 秒',
   } : null;
   return {
-    articles: visible.filter(item => item.type === 'post' || item.type === 'note').slice(0, 4),
-    projects: visible.filter(item => item.type === 'project'),
+    articles: visible.filter(item => item.type === 'post' || item.type === 'note').slice(0, 3),
+    projects: visible.filter(item => item.type === 'project').slice(0, 2),
     featuredVideo,
   };
 }
