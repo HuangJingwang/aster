@@ -56,7 +56,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
       <ViewTracker targetType={item.type} targetId={item.id} />
       <article className="detail">
         <header className={`journal-article-hero${cover ? '' : ' journal-article-hero--text'}`}>
-        <div>
+        <div className="journal-article-intro">
         <nav className="journal-breadcrumb" aria-label="阅读路径"><Link href="/">首页</Link><span>/</span><Link href={collection.href}>{collection.label}</Link><span>/</span><span>THE JOURNAL</span></nav>
         <h1>{item.title}</h1>
         {item.summary && <p className="journal-article-standfirst">{item.summary}</p>}
@@ -73,6 +73,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
           <span>{item.viewCount ?? 0} 次浏览</span>
           {interactionsEnabled ? <LikeButton targetType={item.type} targetId={item.id} initialCount={item.likeCount ?? 0} /> : null}
         </div>
+        {(item.series?.length || taxonomyGroups.length) ? <div className="journal-article-taxonomy">
         {item.series && item.series.length > 0 ? (
           <div className="detail-taxonomy" aria-label="所属系列">
             <span>系列</span>
@@ -84,7 +85,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
           </div>
         ) : null}
         {taxonomyGroups.map((group) => (
-          <div key={group.ariaLabel} className="detail-taxonomy" aria-label={group.ariaLabel}>
+          <div key={group.ariaLabel} className="detail-taxonomy" data-taxonomy={group.label} aria-label={group.ariaLabel}>
             <span>{group.label}</span>
             {group.items.map((item) => (
               <Link key={item.href} href={item.href}>
@@ -93,6 +94,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
             ))}
           </div>
         ))}
+        </div> : null}
         </div>
         {cover && <figure className="journal-article-cover"><img src={cover.imageUrl} alt={cover.altText} /></figure>}
         </header>
