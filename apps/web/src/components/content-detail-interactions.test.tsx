@@ -40,13 +40,13 @@ test('retains configured interactions and respects per-article comment settings'
   expect(loadApprovedComments).not.toHaveBeenCalled();
 });
 
-test('keeps the full article identity and taxonomy while presenting a concise series title', async () => {
+test('displays the exact authored title including its series prefix and issue', async () => {
   const { renderToStaticMarkup } = await import('react-dom/server');
   const title = 'Voice Agent 实践与落地（二）：从唤醒到多轮对话';
   const tree = await ContentDetail({ item: { ...item, title, series: ['Voice Agent 实践与落地'], categories: ['人工智能'], coverImageUrl: '/images/cover.png' } });
   const html = renderToStaticMarkup(tree);
-  expect(html).toContain(`aria-label="${title}">从唤醒到多轮对话</h1>`);
-  expect(html).toContain('Voice Agent 实践与落地 · 02');
+  expect(html).toContain(`<h1>${title}</h1>`);
+  expect(html).not.toContain('Voice Agent 实践与落地 · 02');
   expect(html).toContain('aria-label="所属系列"');
   expect(html).toContain('人工智能');
   expect(html).toContain('/images/cover.png');
