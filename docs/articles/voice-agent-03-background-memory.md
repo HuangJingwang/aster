@@ -1,6 +1,18 @@
 # Voice Agent 实践与落地（三）：前后台分离与记忆管理
 
-上一篇拆解了从唤醒到多轮对话的语音链路。这一篇继续讨论：当助手开始执行一项耗时任务，对话怎样继续，任务和记忆又怎样衔接。
+上一篇拆解了从唤醒到多轮对话的语音链路。这一篇的前后台分离，来自我们处理长任务时的一次设计调整。
+
+最初，我们把 Agent loop 和工具调用都放在语音前台。模型收到用户输入后，选择工具、等待结果，再判断是否继续调用，直到生成最终回复：
+
+用户输入 → 模型判断 → 调用工具 → 结果回传模型 → 继续调用或生成回复。
+
+这条链路在简单问答和短查询中容易组织。任务变长后，多轮推理和工具等待都集中在当前语音轮次里，用户要等较久才能收到结果。
+
+后来深入分析 Codex 的语音实现时，我们看到它把实时对话与持续执行分开：语音侧委托工作，执行侧推进任务，运行时负责将后续输入接到已有任务，并把进度和结果送回语音侧。这让我们开始从前后台协作的角度重新梳理语音助手。
+
+调研过程中，Pipecat 也发布了支持这类分工的版本。它在 **v1.13.0** 中加入 alpha 版 `LLMWithBackend`，将对话前台与负责推理、工具编排的后台模型组合起来。这提供了一个可以对照的框架实现。[v1.13.0 发布记录](https://github.com/pipecat-ai/pipecat/releases/tag/v1.13.0)
+
+接下来先讲分离能解决什么问题，再分析 Codex、Pipecat 和 LiveKit 的协作方式，最后说明任务与记忆怎样衔接，以及 Mina 的选择。
 
 ## 为什么选择前后台分离
 
@@ -17,7 +29,7 @@
 - “先停一下。”——控制执行。
 - “刚才那个负责人是谁？”——继续对话。
 
-如果对话必须等整项任务完成后才能处理下一句，这些输入就难以及时生效。前后台分离后，后台保留任务进度并持续执行，前台继续接收输入，应用把新的要求关联到对应任务。
+这些输入需要在任务执行期间得到处理。前台接收新要求，后台保留工作进度，应用负责把修改和追问关联到对应任务。
 
 | 部分 | 职责 |
 |---|---|
@@ -30,8 +42,6 @@
 分离也带来了协作成本：修改和取消要作用到正确的任务，完成的结果要安排播报，两边保存的信息还要同步。因此，当业务任务跨越多个对话轮次、用户需要在执行期间继续交流时，这种分工就有了明确的价值。
 
 简单问答或一次很快的查询，可以先用单一对话流程。需要分离时，可以从异步工具开始；任务涉及连续推理和多次工具调用，再引入独立后台 Agent。前后台按职责划分，可以运行在同一进程。
-
-下面先说明意图判断的分工，对照 Pipecat、LiveKit 与 Codex 的方案，再展开任务协作和记忆同步，最后落到 Mina 的实现与取舍。
 
 ### 用 OpenFGA 和 ZGC 的快慢路径作类比
 
@@ -83,9 +93,24 @@
 
 这些判断依赖业务上下文和真实工具结果，适合由后台持续推进。
 
-## Pipecat、LiveKit 与 Codex 的协作方案
+## Codex、Pipecat 与 LiveKit 的协作方案
 
-这些方案提供了不同的实现入口。选型时可以对照三个问题：谁决定委托、后续输入送到哪里、结果怎样回到对话。
+这三个实现可以对照来看：Codex 展示应用如何协调语音与持续执行，Pipecat 和 LiveKit 提供框架层的接入方式。下面分别说明委托入口、后续输入和结果回传。
+
+### Codex：把新输入接到已有执行任务
+
+先看带来这个思路的 Codex。以下分析固定在开源仓库 `65a5410` 提交中的 Realtime 与核心执行链路。
+
+语音侧产生委托后，运行时把请求文本和相关转写交给执行侧，通过 `StartOrSteer` 决定输入去向：
+
+| 当前状态 | 处理方式 |
+|---|---|
+| 执行侧空闲 | `Start`：启动新的执行轮次 |
+| 已有任务运行 | `Steer`：把后续要求送入当前任务 |
+
+例如，先说“修改登录页面”，再补充“保留原来的配色”，后一句可以继续约束正在进行的修改。这体现了协调层的作用：**让多个语音轮次关联到持续执行的任务。** [输入路由源码](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/session/turn_input.rs#L911)
+
+执行侧回传进度时，运行时核对委托关联。在 Realtime V2 路径中，过期更新会被丢弃；任务结束后，再发送完成回执并请求语音响应。这里的 `handoff` 表示委托执行，语音入口继续保留。[回传源码](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/realtime_conversation.rs#L2778)
 
 ### Pipecat：从异步工具扩展到后台模型
 
@@ -106,21 +131,6 @@ LiveKit 的 Talker–Reasoner 示例保留了前台的路由职责：简单问�
 新建与修改任务的区分、多人补充要求和写入后的取消处理，需要应用另行设计。官方示例展示的是一种分工，LiveKit 允许应用调整两边的职责。
 
 LiveKit 的 handoff 和 `AgentTask` 还支持把当前对话交给专职角色或阶段任务。信息收集、核验可以采用这种方式；需要后台持续处理并接收追问的工作，可以采用异步委托。
-
-### Codex：把新输入接到已有执行任务
-
-Codex 提供了一个更接近完整应用的案例。以下分析固定在开源仓库 `65a5410` 提交中的 Realtime 与核心执行链路。
-
-语音侧产生委托后，运行时把请求文本和相关转写交给执行侧，通过 `StartOrSteer` 决定输入去向：
-
-| 当前状态 | 处理方式 |
-|---|---|
-| 执行侧空闲 | `Start`：启动新的执行轮次 |
-| 已有任务运行 | `Steer`：把后续要求送入当前任务 |
-
-例如，先说“修改登录页面”，再补充“保留原来的配色”，后一句可以继续约束正在进行的修改。这体现了协调层的作用：**让多个语音轮次关联到持续执行的任务。** [输入路由源码](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/session/turn_input.rs#L911)
-
-执行侧回传进度时，运行时核对委托关联。在 Realtime V2 路径中，过期更新会被丢弃；任务结束后，再发送完成回执并请求语音响应。这里的 `handoff` 表示委托执行，语音入口继续保留。[回传源码](https://github.com/openai/codex/blob/65a5410f72dac1f4b40862c34ef0a8b71b12834a/codex-rs/core/src/realtime_conversation.rs#L2778)
 
 ## 一项请求怎样在前后台之间推进
 
@@ -329,6 +339,7 @@ Mina 当前已经把语音交互与持续执行分开。下一步的调整集中
 - [JEP 439：分代 ZGC 的快慢路径](https://openjdk.org/jeps/439#Fast-paths-and-slow-paths)
 
 - [Pipecat：Function Calling](https://docs.pipecat.ai/pipecat/learn/function-calling)
+- [Pipecat v1.13.0：引入 LLMWithBackend](https://github.com/pipecat-ai/pipecat/releases/tag/v1.13.0)
 - [Pipecat：LLM with a Backend](https://docs.pipecat.ai/pipecat/learn/llm-with-backend)
 - [Pipecat：Context Summarization](https://docs.pipecat.ai/pipecat/fundamentals/context-summarization)
 - [LiveKit：Talker–Reasoner 模式](https://livekit.com/blog/talker-reasoner-pattern-voice-agents)
