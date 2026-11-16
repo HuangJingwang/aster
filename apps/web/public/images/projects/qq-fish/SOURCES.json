@@ -1,0 +1,26 @@
+{
+  "author": "可以叫我云大人 / 雾雪",
+  "author_url": "https://space.bilibili.com/103739",
+  "website": "https://kiriyuki.com",
+  "upstream": "https://github.com/Loping151/dsh-nekowhale-stickers",
+  "files": [
+    {
+      "file": "whale-portrait.png",
+      "source": "https://kiriyuki.com/meme/kit/nekowhale/id-photo-blue.png",
+      "sha256": "3545781dc9531578ba740d3a54194387dfb5191aca46b33a649ce201617f874c",
+      "modified": false
+    },
+    {
+      "file": "rice.gif",
+      "source": "https://kiriyuki.com/meme/kit/nekowhale/showcase/16N12.gif",
+      "sha256": "b003cefd16fe43ac15edbb5c6229357b6b8a08e8e6b68e7ed66c7202838bb2f1",
+      "modified": false
+    },
+    {
+      "file": "moyu.gif",
+      "source": "https://kiriyuki.com/meme/kit/nekowhale/showcase/3N05.gif",
+      "sha256": "f04ce9f904fcf14ff1853c4455097c5bcd9b907838ed33332602f07812657737",
+      "modified": false
+    }
+  ]
+}
