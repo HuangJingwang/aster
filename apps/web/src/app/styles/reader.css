@@ -100,6 +100,8 @@
 :root[data-theme] .journal-shell .reader-page .detail .detail__body th { background: var(--reader-soft); color: var(--reader-heading); font-weight: 600; }
 :root[data-theme] .journal-shell .reader-page .detail .detail__body tr:nth-child(2n) { background: color-mix(in srgb, var(--reader-soft) 55%, var(--reader-bg)); }
 :root[data-theme] .journal-shell .reader-page .detail .detail__body img { display: block; width: 100%; height: auto; margin: 28px auto 12px; border: 0; border-radius: 5px; }
+/* The fish article uses 120 px sticker previews; keep their original display size. */
+:root[data-theme] .journal-shell .reader-page .detail .detail__body img[src^="/images/projects/qq-fish/"][src$=".gif"] { width: 120px; max-width: 100%; }
 :root[data-theme] .journal-shell .reader-page .detail .detail__body p:has(> img) + p:has(> em:only-child) { font-size: 13px; line-height: 1.75; color: var(--reader-muted); text-align: center; margin: 12px 0 28px; }
 :root[data-theme] .journal-shell .reader-page .reader-article-details { margin-top: 38px; padding: 15px 0; border-top: 1px solid var(--reader-line); }
 :root[data-theme] .journal-shell .reader-page .reader-article-details summary { cursor: pointer; color: var(--reader-muted); font-size: 13px; min-height: 44px; padding: 10px 0; }

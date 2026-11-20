@@ -21,6 +21,111 @@
       "source": "https://kiriyuki.com/meme/kit/nekowhale/showcase/3N05.gif",
       "sha256": "f04ce9f904fcf14ff1853c4455097c5bcd9b907838ed33332602f07812657737",
       "modified": false
+    },
+    {
+      "file": "hero.jpg",
+      "source": "https://kiriyuki.com/meme/kit/nekowhale/hero.jpg",
+      "sha256": "39c476f75c2edd0158f0e2d400f1d80273fd29d14be5f55d0857bdcd82194c0d",
+      "modified": false,
+      "bytes": 347993,
+      "rights": "可以叫我云大人 / 雾雪; non-commercial sharing with attribution"
+    },
+    {
+      "file": "eat-melon.gif",
+      "source": "https://kiriyuki.com/meme/kit/nekowhale/showcase/5N05.gif",
+      "sha256": "8acba153e213736ce9b025945145fe19dc8c9df4364c721ebf389fcd2851eab6",
+      "modified": false,
+      "bytes": 377038,
+      "rights": "可以叫我云大人 / 雾雪; non-commercial sharing with attribution"
+    },
+    {
+      "file": "idea.gif",
+      "source": "https://kiriyuki.com/meme/kit/nekowhale/showcase/15N01.gif",
+      "sha256": "389d48e8d0182dc3bd76d4d967b355c106e7b9a64fd9df61c1d3515add25457e",
+      "modified": false,
+      "bytes": 287281,
+      "rights": "可以叫我云大人 / 雾雪; non-commercial sharing with attribution"
+    },
+    {
+      "file": "heart.gif",
+      "source": "https://kiriyuki.com/meme/kit/nekowhale/showcase/TT02.gif",
+      "sha256": "255e9490480e860dad6568cbdec92fb3eaf363051f3b056383feb289e23bfc5b",
+      "modified": false,
+      "bytes": 212128,
+      "rights": "可以叫我云大人 / 雾雪; non-commercial sharing with attribution"
+    },
+    {
+      "file": "base-six-views.png",
+      "source": "https://raw.githubusercontent.com/xiaoweigen/deepseek-dafeiyu-assets/7e7a888845877b30314d36a7f274dc3bd6f330b1/images/base-six-views.png",
+      "sha256": "451fccc6f5ce644d65ba4d63981a94745bc38dff8a51679e33528f853942f259",
+      "modified": false,
+      "bytes": 1647623,
+      "rights": "xiaoweigen and upstream contributors; CC BY-NC-SA 4.0 plus YunYueSama attribution license"
+    },
+    {
+      "file": "hanfu-sword-design-sheet.png",
+      "source": "https://raw.githubusercontent.com/xiaoweigen/deepseek-dafeiyu-assets/7e7a888845877b30314d36a7f274dc3bd6f330b1/images/hanfu-sword-design-sheet.png",
+      "sha256": "2966d93b627aa21cc3b77de1cee7442dc35384fb7209f11136faf67746e7b622",
+      "modified": false,
+      "bytes": 2094660,
+      "rights": "xiaoweigen and upstream contributors; CC BY-NC-SA 4.0 plus YunYueSama attribution license"
+    }
+  ],
+  "additional_artwork": {
+    "author": "xiaoweigen",
+    "upstream": "https://github.com/xiaoweigen/deepseek-dafeiyu-assets",
+    "revision": "7e7a888845877b30314d36a7f274dc3bd6f330b1",
+    "contributors": [
+      "上善无形",
+      "ZipZipPipe",
+      "YunYueSama",
+      "xiaoweigen"
+    ],
+    "license": "CC BY-NC-SA 4.0; retain YunYueSama attribution license",
+    "ai_assisted": true
+  },
+  "license_files": [
+    {
+      "file": "licenses/LICENSE",
+      "source": "https://raw.githubusercontent.com/xiaoweigen/deepseek-dafeiyu-assets/7e7a888845877b30314d36a7f274dc3bd6f330b1/LICENSE",
+      "sha256": "e66c269d4819aaab34b49ef5220c4ddab6756f21bb5180761a4eb8561f2b7bbd",
+      "modified": false,
+      "bytes": 20850
+    },
+    {
+      "file": "licenses/LICENSE.zh-CN.md",
+      "source": "https://raw.githubusercontent.com/xiaoweigen/deepseek-dafeiyu-assets/7e7a888845877b30314d36a7f274dc3bd6f330b1/LICENSE.zh-CN.md",
+      "sha256": "6341071e118dbe0c513a38e937df2333bd56b4e41ae4fcca7c62d2ed295e4a34",
+      "modified": false,
+      "bytes": 3982
+    },
+    {
+      "file": "licenses/NOTICE.md",
+      "source": "https://raw.githubusercontent.com/xiaoweigen/deepseek-dafeiyu-assets/7e7a888845877b30314d36a7f274dc3bd6f330b1/NOTICE.md",
+      "sha256": "583770973bd0e3ecce8d6e885a69dcfd4e3c109748d9b6e58676b862fa6b11bf",
+      "modified": false,
+      "bytes": 5468
+    },
+    {
+      "file": "licenses/licenses/YunYueSama-ATTRIBUTION-1.0.txt",
+      "source": "https://raw.githubusercontent.com/xiaoweigen/deepseek-dafeiyu-assets/7e7a888845877b30314d36a7f274dc3bd6f330b1/licenses/YunYueSama-ATTRIBUTION-1.0.txt",
+      "sha256": "a8191ae2c7517f8cb2326d37cd62f84cfd9c2e18cefe113077897c642dc7912b",
+      "modified": false,
+      "bytes": 2469
+    },
+    {
+      "file": "licenses/licenses/YunYueSama-ASSET_LICENSE.md",
+      "source": "https://raw.githubusercontent.com/xiaoweigen/deepseek-dafeiyu-assets/7e7a888845877b30314d36a7f274dc3bd6f330b1/licenses/YunYueSama-ASSET_LICENSE.md",
+      "sha256": "6ec5e61796b95f10eec94d46ec48c287a708fabdd494241f0d1d6cc64864625c",
+      "modified": false,
+      "bytes": 2524
+    },
+    {
+      "file": "licenses/licenses/README.md",
+      "source": "https://raw.githubusercontent.com/xiaoweigen/deepseek-dafeiyu-assets/7e7a888845877b30314d36a7f274dc3bd6f330b1/licenses/README.md",
+      "sha256": "adb18ce39b77602335d6a32c2bd03eaedfb8cb12099820b57c4b73f57a4b21c9",
+      "modified": false,
+      "bytes": 1243
     }
   ]
 }
