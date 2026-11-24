@@ -100,7 +100,7 @@ function toArchiveItem(item: SiteContentItem): SortableArchiveGroup['items'][num
     excerpt: item.summary,
     pinned: Boolean(item.pinned),
     taxonomyItems,
-    statsLabel: `${item.viewCount ?? 0} 浏览 · ${item.likeCount ?? 0} 喜欢`,
+    statsLabel: `${item.likeCount ?? 0} 喜欢`,
     ...(cover ? { cover: { imageUrl: cover.imageUrl } } : {}),
   };
 }

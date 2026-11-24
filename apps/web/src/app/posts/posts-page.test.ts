@@ -4,6 +4,14 @@ import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 
 describe('posts page', () => {
+  test.each(['posts', 'notes'])('%s archive does not label repository view counts as readership', route => {
+    const source = readFileSync(join(process.cwd(), `src/app/${route}/page.tsx`), 'utf8');
+    const stats = source.match(/statsLabel: `([^`]+)`/)?.[1];
+    expect(stats).toBeDefined();
+    expect(stats).not.toContain('浏览');
+    expect(stats).not.toContain('viewCount');
+  });
+
   test('offers the series index from the article list instead of the global navigation', () => {
     const source = readFileSync(join(process.cwd(), 'src/app/posts/page.tsx'), 'utf8');
     const archiveSource = readFileSync(join(process.cwd(), 'src/components/ContentArchiveMarkup.tsx'), 'utf8');

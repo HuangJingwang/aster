@@ -35,7 +35,6 @@ export function ContentCard({ item }: { item: SiteContentItem }) {
         </div>
       ) : null}
       <div className="content-card__footer">
-        <span>{item.viewCount ?? 0} 次浏览</span>
         <span>{item.likeCount ?? 0} 次喜欢</span>
       </div>
     </article>

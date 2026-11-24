@@ -6,6 +6,7 @@ import { ContentDetail } from './ContentDetail';
 import { LikeButton } from './LikeButton';
 import { CommentForm } from './CommentForm';
 import { InlineCommentLayer } from './InlineCommentLayer';
+import { ContentCard } from './ContentCard';
 
 vi.mock('next/headers', () => ({ cookies: async () => ({ toString: () => '' }) }));
 vi.mock('@/lib/reader-auth', () => ({ loadReaderSession: async () => ({ authenticated: false }) }));
@@ -16,6 +17,18 @@ function contains(node: ReactNode, type: unknown): boolean {
   return Children.toArray(node).some(child => isValidElement<{ children?: ReactNode }>(child) && (child.type === type || contains(child.props.children, type)));
 }
 afterEach(() => { vi.unstubAllEnvs(); vi.clearAllMocks(); });
+
+test.each([undefined, 0, 123])('does not present static viewCount=%s as a live readership count', async viewCount => {
+  const { renderToStaticMarkup } = await import('react-dom/server');
+  const content = { ...item, viewCount };
+  const detail = renderToStaticMarkup(await ContentDetail({ item: content }));
+  const card = renderToStaticMarkup(<ContentCard item={content} />);
+  for (const html of [detail, card]) {
+    expect(html).not.toContain('次浏览');
+    expect(html).toContain(item.title);
+    expect(html).toContain(item.publishedAt);
+  }
+});
 
 test.each([undefined, '', '   '])('hides all interaction entry points without a browser endpoint (%s)', async value => {
   vi.stubEnv('NEXT_PUBLIC_INTERACTION_BASE_URL', value);

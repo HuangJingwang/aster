@@ -78,7 +78,6 @@ describe('public accessibility copy', () => {
       'src/lib/content-public.ts',
     ]);
 
-    expect(sources).toContain('次浏览');
     expect(sources).toContain('次喜欢');
     expect(sources).toContain('篇内容');
     expect(sources).toContain('关于');

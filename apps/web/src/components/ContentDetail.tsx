@@ -70,7 +70,6 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
               原文
             </a>
           ) : null}
-          <span>{item.viewCount ?? 0} 次浏览</span>
           {interactionsEnabled ? <LikeButton targetType={item.type} targetId={item.id} initialCount={item.likeCount ?? 0} /> : null}
         </div>
         {item.summary && <p className="journal-article-standfirst">{item.summary}</p>}
