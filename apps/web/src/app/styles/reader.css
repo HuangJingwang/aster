@@ -6,7 +6,7 @@
   --reader-muted: #94a3b8;
   --reader-line: #263041;
   --reader-soft: #111722;
-  --reader-link: #8fb3ff;
+  --reader-link: #a6c1e4;
   --reader-quote: #5f7594;
   --reader-font: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
 }
@@ -17,7 +17,7 @@
   --reader-muted: #5b6675;
   --reader-line: #dbe2ec;
   --reader-soft: #eef2f7;
-  --reader-link: #1d4ed8;
+  --reader-link: #315c8a;
   --reader-quote: #a9b8cc;
 }
 :root[data-theme]:has(.reader-page) :is(.journal-shell, .journal-chrome, .editorial-dock) {
