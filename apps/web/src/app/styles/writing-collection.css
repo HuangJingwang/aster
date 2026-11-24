@@ -5,7 +5,7 @@
   width: min(1080px, calc(100% - 96px));
   padding-top: 44px;
 }
-:root[data-theme='summer-day'] .journal-shell .page-main.writing-collection { --writing-paper: #fcfbf7; }
+:root[data-theme='summer-day'] .journal-shell .page-main.writing-collection { --writing-paper: #ffffff; }
 .writing-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; padding: 18px 0 58px; }
 .writing-intro__edition { display: flex; align-items: center; gap: 14px; margin: 0; color: var(--journal-muted); font: 11px/1.6 var(--journal-mono); letter-spacing: .12em; }
 .writing-intro__edition > span { display: block; width: 36px; height: 1px; background: var(--journal-line); }
@@ -16,7 +16,7 @@
 .writing-intro__links a:first-child { color: var(--journal-ink); border-bottom: 1px solid var(--journal-ink); }
 .writing-intro__links a:hover { color: var(--journal-accent); }
 .writing-paper { position: relative; display: block; min-width: 0; padding: 22px 26px 20px; border: 1px solid var(--journal-line); border-radius: 4px; background: var(--writing-paper); color: var(--journal-ink); box-shadow: 5px 5px 0 var(--journal-bg), 6px 6px 0 var(--journal-line); }
-.writing-paper::before { content: ''; position: absolute; top: -1px; left: 26px; width: 30px; height: 3px; background: var(--journal-accent); }
+.writing-paper::before { content: ''; position: absolute; top: -1px; left: 26px; width: 30px; height: 3px; background: var(--journal-signal); }
 .writing-paper__label { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 17px; border-bottom: 1px solid var(--journal-line); font-size: 12px; letter-spacing: .03em; color: var(--journal-muted); }
 .writing-paper__entry { display: grid; grid-template-columns: minmax(0, 1fr) 112px; gap: 22px; align-items: center; margin: 22px 0; }
 .writing-paper__entry--text { grid-template-columns: 1fr; }
