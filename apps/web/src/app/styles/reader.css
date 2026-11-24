@@ -56,10 +56,11 @@
 :root[data-theme] .journal-shell .reader-page .detail-toc a { overflow-wrap: anywhere; }
 :root[data-theme] .journal-shell .reader-page .detail-toc a:focus-visible { outline: 2px solid var(--reader-link); outline-offset: -2px; border-radius: 3px; }
 @media (min-width: 1024px) {
-  /* Reserve an outline column without widening the reading measure. Disable
-     entrance transforms here so fixed positioning stays relative to the viewport. */
+  /* Keep the reading measure while giving the sticky outline an article-bound
+     grid column, so it scrolls away before the footer enters its space. */
   :root[data-theme] .journal-shell .page-main.narrow:has(.reader-page.detail-shell--with-toc) { width: min(968px, calc(100% - 64px)); padding-right: 268px; animation: none; }
-  :root[data-theme] .journal-shell .reader-page.detail-shell--with-toc .detail-sidebar { position: fixed; top: 120px; right: max(32px, calc((100vw - 968px) / 2)); display: flex; flex-direction: column; width: 220px; max-height: calc(100svh - 152px); overflow: hidden; }
+  :root[data-theme] .journal-shell .reader-page.detail-shell--with-toc .journal-article-grid { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 48px; width: calc(100% + 268px); }
+  :root[data-theme] .journal-shell .reader-page.detail-shell--with-toc .detail-sidebar { position: sticky; top: 120px; align-self: start; display: flex; flex-direction: column; width: 220px; max-height: calc(100svh - 152px); overflow: hidden; }
   :root[data-theme] .journal-shell .reader-page .journal-mobile-toc { display: none; }
   :root[data-theme] .journal-shell .reader-page .journal-reading-label { flex-shrink: 0; margin-bottom: 18px; font: 12px/1.5 var(--reader-font); color: var(--reader-muted); }
   :root[data-theme] .journal-shell .reader-page .detail-sidebar .detail-toc { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--reader-line) transparent; padding: 0 8px 0 0; border: 0; }
