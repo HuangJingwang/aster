@@ -6,6 +6,7 @@ import { buildPublicNavigation } from '@/lib/navigation';
 import { buildSiteMetadata, resolvePublicSiteUrl } from '@/lib/seo';
 import { loadSiteSettings } from '@/lib/settings-repository';
 import { getThemeInitScript } from '@/lib/site-theme';
+import '@fontsource/lxgw-wenkai-tc/400.css';
 import './styles/base.css';
 import './styles/public.css';
 import './styles/home.css';
@@ -18,6 +19,7 @@ import './styles/journal.css';
 import './styles/editorial.css';
 import './styles/reader.css';
 import './styles/writing-collection.css';
+import './styles/editorial-layout.css';
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await loadSiteSettings();

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { DEFAULT_POST_COVER, getContentCover } from './content-cover';
+import { getContentCover } from './content-cover';
 
 describe('content cover helpers', () => {
   test('uses the explicit cover before defaulting', () => {
@@ -18,16 +18,9 @@ describe('content cover helpers', () => {
     });
   });
 
-  test('uses the generated default cover for posts without a cover', () => {
-    expect(
-      getContentCover({
-        type: 'post',
-        title: '没有封面的文章',
-      }),
-    ).toEqual({
-      ...DEFAULT_POST_COVER,
-      altText: '没有封面的文章 默认文章封面',
-    });
+  test('omits the image area when no authored cover exists', () => {
+    expect(getContentCover({ type: 'post', title: '没有封面的文章' })).toBeNull();
+    expect(getContentCover({ type: 'post', title: '空封面', coverImageUrl: '  ' })).toBeNull();
   });
 
   test('does not add default article covers to non-post content', () => {

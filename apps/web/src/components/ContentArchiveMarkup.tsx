@@ -1,3 +1,4 @@
+import { EditorialImage } from './EditorialImage';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { buildArchiveSortHref } from '@/lib/archive-filter';
@@ -92,7 +93,7 @@ export function ContentArchiveMarkup({ groups, contentLabel }: { groups: Sortabl
                 </span>
                 {item.cover ? (
                   <span className="posts-archive-item__cover-preview" aria-hidden="true">
-                    <img src={item.cover.imageUrl} alt="" loading="lazy" decoding="async" />
+                    <EditorialImage src={item.cover.imageUrl} alt="" loading="lazy" decoding="async" />
                   </span>
                 ) : null}
                 <ArrowUpRight aria-hidden="true" className="posts-archive-item__arrow" size={21} />

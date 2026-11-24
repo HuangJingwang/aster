@@ -1,25 +1,24 @@
-/* Neutral, single-column reading. Typography informed by VitePress's vp-doc
-   rhythm; isolated from the homepage and content archives. */
+/* Editorial reading: shared paper and ink palette, quiet sans-serif body copy. */
 :root[data-theme] {
-  --reader-bg: #1b1b1f;
-  --reader-text: #d8d8df;
-  --reader-heading: #efeff2;
-  --reader-muted: #aaaab4;
-  --reader-line: #34343b;
-  --reader-soft: #252529;
-  --reader-link: #a5bbf8;
-  --reader-quote: #55555f;
+  --reader-bg: #20221f;
+  --reader-text: #d8ddd2;
+  --reader-heading: #f0f0e6;
+  --reader-muted: #adb5a7;
+  --reader-line: #41483c;
+  --reader-soft: #292c27;
+  --reader-link: #b5d1b6;
+  --reader-quote: #6c7c64;
   --reader-font: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
 }
 :root[data-theme='summer-day'] {
-  --reader-bg: #fff;
-  --reader-text: #35353c;
-  --reader-heading: #242428;
-  --reader-muted: #73737d;
-  --reader-line: #e6e6e8;
-  --reader-soft: #f6f6f7;
-  --reader-link: #345eb3;
-  --reader-quote: #c7c7ce;
+  --reader-bg: #f6f4ee;
+  --reader-text: #35423a;
+  --reader-heading: #263c32;
+  --reader-muted: #637064;
+  --reader-line: #d9ded1;
+  --reader-soft: #eeeee6;
+  --reader-link: #28634c;
+  --reader-quote: #b9c5b2;
 }
 :root[data-theme]:has(.reader-page) :is(.journal-shell, .journal-chrome, .editorial-dock) {
   --journal-bg: var(--reader-bg);
@@ -30,8 +29,6 @@
   --journal-line: var(--reader-line);
   --journal-accent: var(--reader-link);
   --journal-wash: var(--reader-soft);
-  --journal-display: var(--reader-font);
-  font-family: var(--reader-font);
 }
 /* Direct chapter jumps avoid long animations competing with outline tracking. */
 :root[data-theme]:has(.reader-page) { scroll-behavior: auto; }
@@ -44,7 +41,7 @@
 :root[data-theme] .journal-shell .reader-page .journal-breadcrumb > span:last-child { display: none; }
 :root[data-theme] .journal-shell .reader-page .journal-breadcrumb > span:nth-last-child(2) { display: none; }
 :root[data-theme] .journal-shell .reader-series { font: 13px/1.6 var(--reader-font); color: var(--reader-muted); margin: 0 0 14px; }
-:root[data-theme] .journal-shell .reader-page .detail .journal-article-hero h1 { font: 650 32px/1.5 var(--reader-font); letter-spacing: -.5px; margin: 0; text-wrap: pretty; color: var(--reader-heading); }
+:root[data-theme] .journal-shell .reader-page .detail .journal-article-hero h1 { font: 400 clamp(30px, 2.8vw, 40px)/1.5 var(--journal-editorial); letter-spacing: 0; margin: 0; text-wrap: pretty; color: var(--reader-heading); }
 :root[data-theme] .journal-shell .reader-page .journal-article-intro .detail__meta { font: 13px/1.7 var(--reader-font); margin: 18px 0 0; gap: 8px 16px; color: var(--reader-muted); }
 :root[data-theme] .journal-shell .reader-page .journal-article-standfirst { font: 16px/1.85 var(--reader-font); margin: 23px 0 0; max-width: none; color: var(--reader-muted); }
 :root[data-theme] .journal-shell .reader-page .journal-article-grid { display: block; margin-top: 31px; }
@@ -113,7 +110,7 @@
 @media (max-width: 760px) {
   :root[data-theme] .journal-shell:has(.reader-page) .page-main.narrow { width: calc(100% - 46px); padding-top: 30px; }
   :root[data-theme]:has(.reader-page) .editorial-header { width: calc(100% - 46px); }
-  :root[data-theme] .journal-shell .reader-page .detail .journal-article-hero h1 { font-size: 26px; line-height: 1.55; letter-spacing: 0; }
+  :root[data-theme] .journal-shell .reader-page .detail .journal-article-hero h1 { font-size: 29px; line-height: 1.5; letter-spacing: 0; }
   :root[data-theme] .journal-shell .reader-page .journal-article-standfirst { font-size: 15px; }
   :root[data-theme] .journal-shell .reader-page .detail .detail__body { font-size: 16px; }
   :root[data-theme] .journal-shell .reader-page .detail .detail__body :is(h1,h2) { font-size: 22px; }

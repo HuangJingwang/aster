@@ -12,7 +12,7 @@ export const DEFAULT_POST_COVER: ContentCover = {
   isDefault: true,
 };
 
-export function getContentCover(item: Pick<SiteContentItem, 'type' | 'title' | 'coverImageUrl' | 'coverAltText'>): ContentCover | null {
+export function getContentCover(item: Pick<SiteContentItem, 'type' | 'title' | 'coverImageUrl' | 'coverAltText'>, options: { useDefault?: boolean } = {}): ContentCover | null {
   const coverImageUrl = item.coverImageUrl?.trim();
 
   if (coverImageUrl) {
@@ -23,12 +23,7 @@ export function getContentCover(item: Pick<SiteContentItem, 'type' | 'title' | '
     };
   }
 
-  if (item.type === 'post') {
-    return {
-      ...DEFAULT_POST_COVER,
-      altText: `${item.title} 默认文章封面`,
-    };
-  }
-
+  // Social metadata and the separate design preview retain their default asset.
+  if (options.useDefault && item.type === 'post') return { ...DEFAULT_POST_COVER, altText: `${item.title} 默认文章封面` };
   return null;
 }

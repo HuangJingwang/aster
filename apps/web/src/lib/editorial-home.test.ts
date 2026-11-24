@@ -5,12 +5,12 @@ import { recommendedShares } from './recommended-shares';
 import type { SiteContentItem } from './content-types';
 
 describe('editorial home preserves content boundaries', () => {
-  test('bounds homepage previews to one public article and one project without changing the source', () => {
+  test('bounds homepage previews to three public articles and two projects without changing the source', () => {
     const items = Array.from({ length: 6 }, (_, index) => ({ id: String(index), slug: String(index), title: `文章${index}`, type: 'post', status: 'published', visibility: 'public', publishedAt: `2026-09-0${index + 1}` } as SiteContentItem));
     items.push(...Array.from({ length: 4 }, (_, index) => ({ ...items[index]!, id: `project${index}`, type: 'project' as const })), { ...items[0]!, id: 'draft', status: 'draft' }, { ...items[0]!, id: 'private', visibility: 'private' });
     const model = selectEditorialHome(items);
-    expect(model.articles.map(item => item.id)).toEqual(['5']);
-    expect(model.projects.map(item => item.id)).toEqual(['project3']);
+    expect(model.articles.map(item => item.id)).toEqual(['5', '4', '3']);
+    expect(model.projects.map(item => item.id)).toEqual(['project3', 'project2']);
     expect(items).toHaveLength(12);
     expect(model.articles.some(item => ['draft', 'private'].includes(item.id))).toBe(false);
   });

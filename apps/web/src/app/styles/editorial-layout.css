@@ -1,0 +1,106 @@
+/* Public navigation and editorial layouts. All colors follow the journal theme. */
+.journal-chrome { background: var(--journal-bg); }
+.editorial-home--compact .editorial-hero { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 16px 48px; height: auto; padding: 24px 0 0; }
+.editorial-home--compact .editorial-hero h1 { position: static; grid-column: 1; grid-row: 1; }
+.editorial-home--compact .editorial-hero__intro { position: static; grid-column: 1; grid-row: 2; max-width: none; }
+.editorial-home--compact .editorial-hero .editorial-character { position: static; grid-column: 2; grid-row: 1 / 3; align-self: end; width: 200px; max-width: 100%; }
+.editorial-primary-nav { display: flex; align-items: center; gap: 24px; margin-inline: auto; }
+.editorial-primary-nav a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; color: var(--journal-muted); border-bottom: 2px solid transparent; }
+.editorial-primary-nav a:hover, .editorial-primary-nav a[aria-current] { color: var(--journal-accent); border-bottom-color: var(--journal-accent); }
+.editorial-directory { position: relative; }
+.editorial-directory summary { display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; list-style: none; color: var(--journal-muted); font-size: 13px; }
+.editorial-directory summary::-webkit-details-marker { display: none; }
+.editorial-directory[open] summary { color: var(--journal-accent); }
+.editorial-directory nav { position: absolute; top: calc(100% + 8px); right: 0; width: 280px; padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; border: 1px solid var(--journal-line); border-radius: 6px; background: var(--journal-bg); box-shadow: 0 12px 30px #0002; }
+.editorial-directory nav a { display: flex; align-items: center; min-height: 44px; color: var(--journal-ink); padding: 4px 8px; border-radius: 3px; }
+.editorial-directory nav a:hover, .editorial-directory nav a[aria-current] { background: var(--journal-surface); color: var(--journal-accent); }
+:root[data-theme]:has(.reader-page) .editorial-header { width: min(1160px, calc(100% - 64px)); }
+
+/* A missing or failed cover leaves no empty media slot or spare grid column. */
+:root[data-theme] .journal-shell :is(.content-card__cover,.posts-archive-item__cover-preview,.project-showcase-card__thumbnail,.reader-cover,.home-feature-project-cover):not(:has(img)) { display: none; }
+:root[data-theme] .journal-shell .writing-paper__entry:not(:has(img)) { grid-template-columns: minmax(0, 1fr); }
+:root[data-theme] .journal-shell .writing-collection .posts-archive-item:not(:has(img)) { grid-template-columns: 64px minmax(0, 1fr); grid-template-areas: 'date title' 'date excerpt' 'date tags'; }
+:root[data-theme] .journal-shell .posts-archive-item__cover-preview { background: var(--journal-surface); }
+:root[data-theme] .journal-shell .writing-collection .posts-archive-item__cover-preview { width: 128px; height: 80px; }
+:root[data-theme] .journal-shell .writing-collection .posts-archive-item:has(img) { grid-template-columns: 64px minmax(0, 1fr) 128px; grid-template-areas: 'date title image' 'date excerpt image' 'date tags image'; }
+:root[data-theme] .journal-shell .posts-archive-item__arrow { display: none; }
+:root[data-theme] .journal-shell .content-card { padding: 0 0 24px; border: 0; border-bottom: 1px solid var(--journal-line); border-radius: 0; background: transparent; box-shadow: none; }
+:root[data-theme] .journal-shell .content-card:hover { transform: none; box-shadow: none; background: transparent; }
+:root[data-theme] .journal-shell .content-card__cover { border-radius: 4px; background: var(--journal-surface); }
+:root[data-theme] .journal-shell .content-card h3 { font-family: var(--journal-editorial); font-size: 24px; line-height: 1.5; font-weight: 400; }
+:root[data-theme] .journal-shell :is(.content-card__meta,.content-card__footer) { font-size: 12px; color: var(--journal-muted); }
+
+/* Projects read as case studies, with a consistent framed preview. */
+:root[data-theme] .journal-shell .projects-page .project-showcase-card { padding: 32px 0; border: 0; border-top: 1px solid var(--journal-line); border-radius: 0; box-shadow: none; background: transparent; }
+:root[data-theme] .journal-shell .projects-page .project-showcase-card:hover { box-shadow: none; }
+:root[data-theme] .journal-shell .project-showcase-card__header { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 40px; }
+:root[data-theme] .journal-shell .project-showcase-card__header:not(:has(img)) { grid-template-columns: minmax(0, 1fr); }
+:root[data-theme] .journal-shell .project-showcase-card__thumbnail { aspect-ratio: 16 / 9; background: var(--journal-surface); border-radius: 4px; }
+:root[data-theme] .journal-shell .project-showcase-card__thumbnail img { object-fit: cover; padding: 0; background: transparent; }
+:root[data-theme] .journal-shell .project-showcase-card__thumbnail img[src$='.svg'] { object-fit: contain; padding: 36px; }
+:root[data-theme] .journal-shell .project-showcase-card__thumbnail img[src$='whale-portrait.png'] { object-fit: contain; padding: 12px; }
+:root[data-theme] .journal-shell .project-showcase-card__title-row h2 { font: 400 clamp(26px, 2.4vw, 34px)/1.4 var(--journal-editorial); }
+:root[data-theme] .journal-shell .project-showcase-card__description { margin: 24px 0 18px; font-size: 15px; line-height: 1.9; }
+:root[data-theme] .journal-shell :is(.project-showcase-card__tags span,.project-showcase-card__title-row time) { font-size: 12px; }
+
+/* Recommendations use a compact logo and clear, independently labeled filters. */
+.resource-card { border: 0; border-top: 1px solid var(--journal-line); border-radius: 0; background: transparent; padding: 24px 12px; }
+.resource-card__logo { flex: 0 0 40px; width: 40px; height: 40px; background: var(--journal-raised); border: 1px solid var(--journal-line); border-radius: 6px; }
+.resource-card__logo img { object-fit: contain; }
+.resource-card__top > svg { display: none; }
+.resource-card__kind, .resource-card__rating, .resource-card__tags span { font-size: 12px; }
+.resource-card__description { font-size: 14px; line-height: 1.85; }
+.resource-filter-group { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; }
+.resource-filter-group > span, .resource-topic-select > span { font-size: 13px; color: var(--journal-muted); }
+.resource-kind-filter { flex-wrap: wrap; }
+.resource-kind-filter button { border-radius: 4px; padding: 9px 14px; }
+.resource-topic-select { display: flex; align-items: center; gap: 24px; font-size: 14px; }
+.resource-topic-select select { min-width: 180px; min-height: 44px; padding: 8px 12px; border: 1px solid var(--journal-line); border-radius: 4px; color: var(--journal-ink); background: var(--journal-surface); font: inherit; }
+.resource-topic-select select:focus-visible { outline: 2px solid var(--journal-accent); outline-offset: 3px; }
+.archive-topic-label { font-size: 13px; color: var(--journal-muted); }
+.writing-collection .archive-toolbar__topics { justify-content: flex-start; gap: 16px; }
+
+.journal-taxonomy-index--directory { gap: 12px; margin-bottom: 32px; }
+.journal-taxonomy-index--directory a { min-height: 48px; padding: 12px 18px; font-size: 15px; }
+.journal-taxonomy-index--directory a span { font: 12px/1.5 var(--journal-mono); color: var(--journal-muted); }
+.journal-taxonomy-index a span { font-size: 12px; }
+:root[data-theme] .journal-shell :is(.archive-month__heading span,.archive-item time,.archive-item > span,.search-hit-field) { font-size: 12px; }
+.search-page .search-form { width: 100%; max-width: 800px; }
+.search-discovery { max-width: 900px; margin-top: 36px; }
+.search-discovery > .empty-state { padding: 0; border: 0; background: none; text-align: left; font-size: 14px; }
+.search-discovery > div { margin: 36px 0; }
+.search-discovery h2 { margin: 0 0 20px; font: 400 27px/1.5 var(--journal-editorial); }
+.search-discovery__recent { padding: 0; list-style: none; }
+.search-discovery__recent a { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 24px; padding: 20px 0; border-top: 1px solid var(--journal-line); }
+.search-discovery__recent time { color: var(--journal-muted); font: 12px/1.9 var(--journal-mono); }
+.search-discovery__recent span { font: 400 22px/1.6 var(--journal-editorial); }
+.search-discovery__browse { display: inline-flex; align-items: center; min-height: 44px; color: var(--journal-accent); }
+:root[data-theme] .journal-shell .search-result-card__meta :is(span,time) { font-size: 12px; }
+:root[data-theme='summer-night'] .editorial-character img { filter: drop-shadow(0 0 14px #d6e6cb28); }
+
+@media (max-width: 1100px) {
+  .editorial-primary-nav { gap: 16px; }
+  .editorial-primary-nav a { font-size: 13px; }
+  .editorial-header { width: calc(100% - 48px); }
+}
+@media (max-width: 767px) {
+  .editorial-home--compact .editorial-hero { grid-template-columns: minmax(0, 1fr) 110px; gap: 16px; padding: 24px 0; }
+  .editorial-home--compact .editorial-hero h1 { grid-column: 1 / -1; }
+  .editorial-home--compact .editorial-hero__intro { margin: 0; }
+  .editorial-home--compact .editorial-hero__intro > p { max-width: none; }
+  .editorial-home--compact .editorial-hero .editorial-character { grid-row: 2; width: 110px; align-self: start; }
+  .editorial-primary-nav { display: none; }
+  .editorial-directory nav { right: -110px; width: min(280px, calc(100vw - 46px)); }
+  :root[data-theme]:has(.reader-page) .editorial-header { width: calc(100% - 46px); }
+  :root[data-theme] .journal-shell .project-showcase-card__header { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .resource-filter-group { gap: 8px; }
+  .resource-filter-group > span { flex-basis: 100%; }
+  .resource-kind-filter { gap: 6px; }
+  .resource-kind-filter button { font-size: 12px; padding-inline: 10px; }
+  .search-discovery__recent a { grid-template-columns: 1fr; gap: 8px; }
+}
+@media (max-width: 600px) {
+  :root[data-theme] .journal-shell .writing-collection .posts-archive-item:has(img) { grid-template-columns: minmax(0, 1fr) 88px; grid-template-areas: 'date date' 'title title' 'excerpt image' 'tags image'; }
+  :root[data-theme] .journal-shell .writing-collection .posts-archive-item:not(:has(img)) { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'date' 'title' 'excerpt' 'tags'; }
+  :root[data-theme] .journal-shell .writing-collection .posts-archive-item__cover-preview { width: 88px; height: 66px; }
+}

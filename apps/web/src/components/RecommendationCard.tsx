@@ -1,5 +1,6 @@
 'use client';
 
+import { EditorialImage } from './EditorialImage';
 import { ArrowUpRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { PointerEvent } from 'react';
@@ -28,7 +29,7 @@ export function RecommendationCard({ resource, animated = false, index = 0 }: { 
     viewport={{ once: true, amount: .1 }}
     transition={{ layout: { type: 'spring', stiffness: 340, damping: 34 }, y: { duration: .5, delay: (index % 3) * .06, ease: [.2, .75, .2, 1] } }}>
     <span className="resource-card__top">
-      <span className="resource-card__logo">{resource.avatarSrc ? <img src={resource.avatarSrc} alt="" width="44" height="44" loading="lazy" /> : resource.logo}</span>
+      <span className="resource-card__logo">{resource.avatarSrc ? <EditorialImage src={resource.avatarSrc} fallback={resource.logo} alt="" width="44" height="44" loading="lazy" /> : resource.logo}</span>
       <span className="resource-card__kind">{recommendationKindLabels[kind]}</span>
       <ArrowUpRight size={18} aria-hidden="true" />
     </span>

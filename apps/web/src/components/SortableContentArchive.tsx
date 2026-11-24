@@ -47,8 +47,6 @@ export function SortableContentArchive({
     for (const label of new Set(item.taxonomyItems.map(t => t.label))) tagCounts.set(label, (tagCounts.get(label) ?? 0) + 1);
   }
   const tags = [...tagCounts.keys()].sort((a, b) => tagCounts.get(b)! - tagCounts.get(a)! || a.localeCompare(b, 'zh-CN'));
-  const quickTags = tags.slice(0, 5);
-  if (tag && !quickTags.includes(tag)) quickTags.splice(4, 1, tag);
   const filterHref = (nextQuery: string, nextTag: string) => buildArchiveSortHref(baseHref, sort, nextQuery, nextTag);
 
   return (
@@ -78,13 +76,10 @@ export function SortableContentArchive({
           </form>
         </div>
         {tags.length > 0 && <div className="archive-toolbar__topics">
-          <nav className="archive-topics" aria-label={`${contentLabel}主题`}>
-            <Link href={filterHref(query, '')} scroll={false} aria-current={!tag ? 'page' : undefined}>全部</Link>
-            {quickTags.map(value => <Link key={value} href={filterHref(query, value)} scroll={false} aria-current={tag === value ? 'page' : undefined}>{value}</Link>)}
-          </nav>
+          <span className="archive-topic-label">按主题阅读</span>
           <div className="archive-more-topics">
             <select aria-label="选择主题" value={tag} onChange={event => router.push(filterHref(query, event.target.value), { scroll: false })}>
-              <option value="">更多主题</option>
+              <option value="">全部主题</option>
               {tag && !tagCounts.has(tag) && <option value={tag}>{tag}</option>}
               {tags.map(value => <option key={value} value={value}>{value}</option>)}
             </select>

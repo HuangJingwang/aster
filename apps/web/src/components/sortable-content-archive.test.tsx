@@ -34,10 +34,10 @@ test('search keeps the applied topic and sort, resets pagination, and uses clien
 
 test('topics switch directly while keeping search and sort, and reset keeps the sort', async () => {
   await renderArchive();
-  const topic = [...host.querySelectorAll('.archive-topics a')].find(a => a.textContent === 'Python')!;
-  expect(topic.getAttribute('href')).toBe('/posts?sort=popular&q=old&tag=Python');
-  expect(host.querySelector('.archive-topics [aria-current]')?.textContent).toBe('Java');
   const more = host.querySelector<HTMLSelectElement>('select[aria-label="选择主题"]')!;
+  expect(more.value).toBe('Java');
+  expect(host.querySelectorAll('select[aria-label="选择主题"]')).toHaveLength(1);
+  expect(host.querySelector('.archive-topics')).toBeNull();
   more.value = 'Python';
   await act(async () => more.dispatchEvent(new Event('change', { bubbles: true })));
   expect(navigation.push).toHaveBeenCalledWith('/posts?sort=popular&q=old&tag=Python', { scroll: false });

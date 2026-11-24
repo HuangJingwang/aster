@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { EditorialImage } from '@/components/EditorialImage';
 
 import { SiteShell } from '@/components/SiteShell';
 import { ReaderReveal } from '@/components/ReaderMotion';
@@ -43,17 +44,9 @@ function ProjectShowcaseCard({ item }: { item: SiteContentItem }) {
   return (
     <article className="project-showcase-card">
       <div className="project-showcase-card__header">
-        <Link
-          aria-label={`查看项目：${item.title}`}
-          className={`project-showcase-card__thumbnail${cover ? '' : ' project-showcase-card__thumbnail--empty'}`}
-          href={href}
-        >
-          {cover ? (
-            <TiltMedia className="reader-project-media"><img src={cover.imageUrl} alt={cover.altText} loading="lazy" decoding="async" /></TiltMedia>
-          ) : (
-            <span>PROJECT</span>
-          )}
-        </Link>
+        {cover && <Link aria-label={`查看项目：${item.title}`} className="project-showcase-card__thumbnail" href={href}>
+          <TiltMedia className="reader-project-media"><EditorialImage src={cover.imageUrl} alt={cover.altText} loading="lazy" decoding="async" /></TiltMedia>
+        </Link>}
 
         <div className="project-showcase-card__intro">
           <div className="project-showcase-card__title-row">

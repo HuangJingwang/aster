@@ -23,7 +23,7 @@ export function TiltMedia({ children, className = '' }: { children: ReactNode; c
 }
 
 export function HeroCharacter() {
-  return <TiltMedia className="editorial-character"><img src="/images/aster-avatar.webp" srcSet="/images/aster-avatar-640.webp 640w, /images/aster-avatar-960.webp 960w, /images/aster-avatar.webp 1254w" sizes="(max-width: 767px) 92vw, 57vw" width="1254" height="1254" fetchPriority="high" alt="黑色短发、穿深色卫衣、手持笔记本坐在方块上的 Aster 卡通形象" /></TiltMedia>;
+  return <TiltMedia className="editorial-character"><img src="/images/aster-avatar.webp" srcSet="/images/aster-avatar-640.webp 640w, /images/aster-avatar-960.webp 960w, /images/aster-avatar.webp 1254w" sizes="(max-width: 767px) 120px, 200px" width="1254" height="1254" fetchPriority="high" alt="黑色短发、穿深色卫衣、手持笔记本坐在方块上的 Aster 卡通形象" /></TiltMedia>;
 }
 
 export function ProjectStackItem({ children, index, total }: { children: ReactNode; index: number; total: number }) {

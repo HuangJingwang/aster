@@ -1,3 +1,4 @@
+import { EditorialImage } from './EditorialImage';
 import Link from 'next/link';
 
 import type { SiteContentItem } from '@/lib/content';
@@ -11,7 +12,7 @@ export function ContentCard({ item }: { item: SiteContentItem }) {
     <article className="content-card">
       {cover ? (
         <Link className="content-card__cover" href={getContentHref(item)}>
-          <img src={cover.imageUrl} alt={cover.altText} loading="lazy" decoding="async" />
+          <EditorialImage src={cover.imageUrl} alt={cover.altText} loading="lazy" decoding="async" />
         </Link>
       ) : null}
       <div className="content-card__meta">

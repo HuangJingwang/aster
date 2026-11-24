@@ -1,3 +1,4 @@
+import { EditorialImage } from './EditorialImage';
 import { renderMarkdown } from '@starry-summer/markdown';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
@@ -74,7 +75,7 @@ export async function ContentDetail({ item, adjacent }: { item: SiteContentItem;
         </div>
         {item.summary && <p className="journal-article-standfirst">{item.summary}</p>}
         </div>
-        {cover && <figure className="reader-cover"><img src={cover.imageUrl} alt={cover.altText} /></figure>}
+        {cover && <figure className="reader-cover"><EditorialImage src={cover.imageUrl} alt={cover.altText} /></figure>}
         </header>
         <div className="journal-article-grid">
         <ArticleReadingGuide headings={tableOfContents} />

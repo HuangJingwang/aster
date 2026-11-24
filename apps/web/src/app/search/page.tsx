@@ -5,6 +5,8 @@ import {
   buildSearchResultPreviews,
   formatPublicContentType,
   getContentHref,
+  getTagHref,
+  groupContentByTag,
   normalizeSearchContentKind,
   splitHighlightedSearchText,
   type SearchContentKind,
@@ -31,6 +33,10 @@ export default async function SearchPage({
   const contentKind = scope === 'all' ? undefined : scope;
   const results = query ? await loadSiteContent(contentKind, undefined, query) : [];
   const previews = buildSearchResultPreviews(results, query);
+  const browseContent = query ? [] : await loadSiteContent();
+  const topics = groupContentByTag(browseContent).slice(0, 8);
+  const recent = browseContent.filter(item => item.type === 'post' || item.type === 'note')
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).slice(0, 3);
 
   return (
     <SiteShell>
@@ -64,7 +70,12 @@ export default async function SearchPage({
           </p>
         ) : null}
         {!query ? (
-          <p className="empty-state" role="status" aria-live="polite">输入关键词后开始搜索。</p>
+          <section className="search-discovery" aria-label="阅读入口">
+            <p className="empty-state" role="status" aria-live="polite">输入关键词后开始搜索。</p>
+            <div><h2>从主题开始</h2><nav className="journal-taxonomy-index" aria-label="常见主题">{topics.map(topic => <Link key={topic.key} href={getTagHref(topic.label)}>{topic.label}<span>{topic.items.length}</span></Link>)}</nav></div>
+            <div><h2>最近发布</h2><ol className="search-discovery__recent">{recent.map(item => <li key={item.id}><Link href={getContentHref(item)}><time dateTime={item.publishedAt}>{item.publishedAt}</time><span>{item.title}</span></Link></li>)}</ol></div>
+            <Link className="search-discovery__browse" href="/archives">浏览全部归档 →</Link>
+          </section>
         ) : query && previews.length === 0 ? (
           <p className="empty-state" role="status" aria-live="polite">没有找到匹配内容。</p>
         ) : previews.length > 0 ? (

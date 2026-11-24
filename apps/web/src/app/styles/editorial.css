@@ -4,26 +4,27 @@
 @font-face { font-family: 'Aster Display'; src: url('/fonts/aster-display.woff2') format('woff2'); font-style: oblique; font-weight: 400; font-display: swap; }
 .journal-shell, .journal-chrome, .editorial-dock {
   --journal-art: 'Aster Display', var(--journal-display);
-  --journal-bg: #0c0e10;
-  --journal-surface: #15191d;
-  --journal-raised: #20272b;
-  --journal-ink: #eceef0;
-  --journal-muted: #a1aab1;
-  --journal-accent: #83d9df;
-  --journal-line: rgb(203 216 225 / .15);
-  --journal-wash: rgb(117 211 220 / .05);
+  --journal-editorial: 'LXGW WenKai TC', 'Songti SC', STSong, serif;
+  --journal-bg: #20221f;
+  --journal-surface: #292c27;
+  --journal-raised: #343a31;
+  --journal-ink: #f0f0e6;
+  --journal-muted: #adb5a7;
+  --journal-accent: #b5d1b6;
+  --journal-line: rgb(221 229 209 / .18);
+  --journal-wash: rgb(181 209 182 / .06);
   --cyber-panel: var(--journal-surface);
   --cyber-border: var(--journal-line);
 }
 :root[data-theme='summer-day'] .journal-shell, :root[data-theme='summer-day'] .journal-chrome, :root[data-theme='summer-day'] .editorial-dock {
-  --journal-bg: #f2f4f5;
-  --journal-surface: #e9edef;
-  --journal-raised: #dfe6e9;
-  --journal-ink: #18232a;
-  --journal-muted: #52616b;
-  --journal-accent: #12616b;
-  --journal-line: rgb(31 60 75 / .18);
-  --journal-wash: rgb(24 119 130 / .045);
+  --journal-bg: #f6f4ee;
+  --journal-surface: #eeeee6;
+  --journal-raised: #e5e8dc;
+  --journal-ink: #263c32;
+  --journal-muted: #637064;
+  --journal-accent: #28634c;
+  --journal-line: rgb(38 60 50 / .18);
+  --journal-wash: rgb(40 99 76 / .045);
 }
 .journal-shell { padding-top: 72px; min-height: 100dvh; }
 .journal-shell::before { display: none; }
@@ -45,7 +46,7 @@
 .editorial-hero h1 > span { display: block; }
 .editorial-period { color: var(--journal-accent); }
 .editorial-character { position: absolute; right: 2%; bottom: 0; width: min(57%, 700px); z-index: 1; }
-.editorial-character img { display: block; width: 100%; height: auto; object-fit: contain; }
+.editorial-character img { filter: drop-shadow(0 0 18px var(--journal-wash)); display: block; width: 100%; height: auto; object-fit: contain; }
 .editorial-hero__intro { position: absolute; left: 0; bottom: 50px; max-width: 340px; z-index: 2; }
 .editorial-hero__intro p { font-size: 15px; line-height: 1.85; margin: 0 0 12px; color: var(--journal-muted); }
 .editorial-hero__intro p:first-child { color: var(--journal-ink); font-weight: 650; font-size: 20px; }
@@ -288,9 +289,9 @@
 /* The homepage is an introduction and a short index; full collections live in their directories. */
 .journal-chrome:has(~ .journal-shell > .editorial-home--compact) { background: var(--journal-bg); }
 .editorial-home--compact { padding-bottom: 32px; }
-.editorial-home--compact .editorial-hero { min-height: 0; height: 350px; margin-bottom: 16px; }
+.editorial-home--compact .editorial-hero { min-height: 0; height: 320px; margin-bottom: 16px; }
 .editorial-home--compact .editorial-hero h1 { top: 24px; font-size: clamp(90px, 12vw, 160px); }
-.editorial-home--compact .editorial-hero .editorial-character { top: auto; right: 5%; bottom: 0; width: 350px; max-width: 42%; }
+.editorial-home--compact .editorial-hero .editorial-character { top: auto; right: 4%; bottom: 36px; width: 200px; max-width: 28%; }
 .editorial-home--compact .editorial-hero__intro { bottom: 12px; max-width: 440px; }
 .editorial-home--compact .editorial-hero__intro p { margin-bottom: 6px; }
 .editorial-home--compact .editorial-hero__actions { margin-top: 14px; }
@@ -301,7 +302,7 @@
 @media (max-width: 767px) {
   .editorial-home--compact .editorial-hero { height: auto; padding: 24px 0; margin: 0; }
   .editorial-home--compact .editorial-hero h1 { position: relative; top: auto; font-size: clamp(76px, 20vw, 120px); }
-  .editorial-home--compact .editorial-hero .editorial-character { width: 150px; max-width: 40%; top: 80px; right: -8px; bottom: auto; }
+  .editorial-home--compact .editorial-hero .editorial-character { width: 110px; max-width: 30%; top: 100px; right: 0; bottom: auto; }
   .editorial-home--compact .editorial-hero__intro { position: relative; bottom: auto; margin-top: 14px; max-width: none; }
   .editorial-home--compact .editorial-hero__intro > p { max-width: 60%; }
   .editorial-home--compact .editorial-hero__intro p:first-child { font-size: 16px; }

@@ -19,7 +19,7 @@ export function selectPreviewContent(content: SiteContentItem[]) {
     .filter((item) => item.type !== 'page')
     .sort((left, right) => right.publishedAt.localeCompare(left.publishedAt))
     .map((item): BlogPreviewEntry => {
-      const cover = getContentCover(item);
+      const cover = getContentCover(item, { useDefault: true });
       return {
         cover: cover ? { alt: cover.altText, src: cover.imageUrl } : undefined,
         excerpt: item.summary?.trim() || '一则正在整理中的公开记录。',

@@ -1,3 +1,4 @@
+import { EditorialImage } from './EditorialImage';
 import Link from 'next/link';
 import { ArrowUpRight, PenLine } from 'lucide-react';
 import { getContentHref, type SiteContentItem } from '@/lib/content';
@@ -19,7 +20,7 @@ export function WritingCollectionFeature({ item, kind }: { item?: SiteContentIte
     <div className="writing-paper__label"><span>{kind === 'posts' ? '从这一篇读起' : '翻开一则笔记'}</span><ArrowUpRight size={18} aria-hidden="true" /></div>
     <div className={`writing-paper__entry${cover ? '' : ' writing-paper__entry--text'}`}>
       <h2>{item.title}</h2>
-      {cover && <img src={cover.imageUrl} alt={cover.altText} />}
+      {cover && <EditorialImage src={cover.imageUrl} alt={cover.altText} />}
     </div>
     <div className="writing-paper__foot"><time dateTime={item.publishedAt}>{formatArchiveDate(item.publishedAt)}</time><span>阅读全文 ↗</span></div>
   </Link>;

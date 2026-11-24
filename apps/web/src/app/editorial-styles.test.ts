@@ -3,8 +3,8 @@ import { expect, test } from 'vitest';
 const css = readFileSync(new URL('./styles/editorial.css', import.meta.url), 'utf8');
 test('the new home and resource system keeps theme, accessibility and responsive contracts', () => {
   expect(css).toContain(":root[data-theme='summer-day'] .journal-shell");
-  expect(css).toContain('--journal-bg: #0c0e10');
-  expect(css).toContain('--journal-bg: #f2f4f5');
+  expect(css).toContain('--journal-bg: #20221f');
+  expect(css).toContain('--journal-bg: #f6f4ee');
   expect(css).toContain('@media (prefers-reduced-motion: reduce)');
   expect(css).toContain('@media (prefers-reduced-transparency: reduce)');
   expect(css).toContain('env(safe-area-inset-bottom)');

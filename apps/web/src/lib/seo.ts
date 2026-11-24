@@ -108,7 +108,7 @@ export function buildContentMetadata(item: SiteContentItem, settings: SiteSettin
   const socialTitle = item.seoTitle?.trim() || item.title;
   const metadataTitle = item.seoTitle?.trim() || `${item.title} | ${settings.profile.title}`;
   const description = item.seoDescription?.trim() || item.summary || settings.profile.description;
-  const cover = getContentCover(item);
+  const cover = getContentCover(item, { useDefault: true });
   const coverImageUrl = normalizeMetadataImageUrl(cover?.imageUrl, publicSiteUrl);
 
   return {
