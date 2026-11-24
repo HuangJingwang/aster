@@ -40,9 +40,13 @@ export function EditorialHome({ articles, projects, socialLinks = [] }: { articl
 
 function FeaturedArticle({ item }: { item: SiteContentItem }) {
   const heading = getHomeArticleHeading(item);
+  const cover = getContentCover(item);
   return <Link className="home-feature-article" href={getContentHref(item)} aria-label={item.title}>
     <div className="home-feature-article-top"><span className="home-feature-series">{heading.kicker}</span>{heading.issue && <span className="home-feature-issue" aria-label={`系列第 ${heading.issue} 篇`}><b>{heading.issue}</b></span>}</div>
-    <div className="home-feature-title-row home-feature-title-row--text"><h3>{heading.title}</h3></div>
+    <div className={`home-feature-title-row${cover ? ' home-feature-title-row--with-cover' : ' home-feature-title-row--text'}`}>
+      <h3>{heading.title}</h3>
+      {cover && <span className="home-feature-cover"><EditorialImage src={cover.imageUrl} alt={cover.altText} width="150" height="110" loading="lazy" decoding="async" /></span>}
+    </div>
     {item.summary && <p className="home-feature-summary">{item.summary}</p>}
     <div className="home-feature-article-foot"><time className="home-feature-article-date" dateTime={item.publishedAt}>{item.publishedAt.slice(0, 10).replaceAll('-', '.')}</time><span className="home-feature-reading-link">阅读全文<span className="home-feature-circle"><ArrowRight aria-hidden="true" /></span></span></div>
   </Link>;
