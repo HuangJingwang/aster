@@ -16,6 +16,7 @@ export interface SiteContentItem {
   sourceUrl?: string;
   coverAssetId?: string;
   coverImageUrl?: string;
+  coverThumbnailUrl?: string;
   coverAltText?: string;
   slug?: string;
   featured?: boolean;

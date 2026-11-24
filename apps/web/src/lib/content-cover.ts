@@ -2,6 +2,7 @@ import type { SiteContentItem } from './content';
 
 export interface ContentCover {
   imageUrl: string;
+  thumbnailUrl?: string;
   altText: string;
   isDefault: boolean;
 }
@@ -12,12 +13,14 @@ export const DEFAULT_POST_COVER: ContentCover = {
   isDefault: true,
 };
 
-export function getContentCover(item: Pick<SiteContentItem, 'type' | 'title' | 'coverImageUrl' | 'coverAltText'>, options: { useDefault?: boolean } = {}): ContentCover | null {
+export function getContentCover(item: Pick<SiteContentItem, 'type' | 'title' | 'coverImageUrl' | 'coverThumbnailUrl' | 'coverAltText'>, options: { useDefault?: boolean } = {}): ContentCover | null {
   const coverImageUrl = item.coverImageUrl?.trim();
+  const coverThumbnailUrl = item.coverThumbnailUrl?.trim();
 
   if (coverImageUrl) {
     return {
       imageUrl: coverImageUrl,
+      ...(coverThumbnailUrl ? { thumbnailUrl: coverThumbnailUrl } : {}),
       altText: item.coverAltText?.trim() || item.title,
       isDefault: false,
     };

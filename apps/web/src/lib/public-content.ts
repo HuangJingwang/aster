@@ -20,6 +20,7 @@ export interface PublicContentApiRecord {
   sourceUrl?: string;
   coverAssetId?: string;
   coverImageUrl?: string;
+  coverThumbnailUrl?: string;
   coverAltText?: string;
   categories?: string[];
   tags?: string[];
@@ -149,14 +150,16 @@ export function normalizePublicContentItem(record: PublicContentApiRecord): Site
   };
 }
 
-function normalizeCoverMetadata(record: Pick<PublicContentApiRecord, 'coverAssetId' | 'coverImageUrl' | 'coverAltText'>): Pick<SiteContentItem, 'coverAssetId' | 'coverImageUrl' | 'coverAltText'> {
+function normalizeCoverMetadata(record: Pick<PublicContentApiRecord, 'coverAssetId' | 'coverImageUrl' | 'coverThumbnailUrl' | 'coverAltText'>): Pick<SiteContentItem, 'coverAssetId' | 'coverImageUrl' | 'coverThumbnailUrl' | 'coverAltText'> {
   const coverAssetId = record.coverAssetId?.trim();
   const coverImageUrl = record.coverImageUrl?.trim();
+  const coverThumbnailUrl = record.coverThumbnailUrl?.trim();
   const coverAltText = record.coverAltText?.trim();
 
   return {
     ...(coverAssetId ? { coverAssetId } : {}),
     ...(coverImageUrl ? { coverImageUrl } : {}),
+    ...(coverThumbnailUrl ? { coverThumbnailUrl } : {}),
     ...(coverAltText ? { coverAltText } : {}),
   };
 }
